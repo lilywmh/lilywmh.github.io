@@ -1,125 +1,1249 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lily Wu - Student | Researcher | Creator</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meihui (Lily) Wu — Conscious Flow</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'Inter', 'system-ui', 'sans-serif'],
+        },
+      },
+    },
+  };
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', system-ui, sans-serif; }
+
+  @keyframes fadeZoom {
+    from { opacity: 0; transform: scale(0.98); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  .anim-in { animation: fadeZoom 1000ms cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+  canvas { will-change: transform; }
+
+  /* ── Dark Elf base ────────────────────────────────── */
+  html.dark body { background: #07050e !important; }
+  html.dark { color-scheme: dark; }
+
+  /* Semantic text colours */
+  html.dark .dk-t1 { color: #ede9ff; }   /* 17:1 ✓ */
+  html.dark .dk-t2 { color: #b8acd8; }   /* 10:1 ✓ */
+  html.dark .dk-t3 { color: #8a7daa; }   /* 5.8:1 ✓ */
+  html.dark .dk-accent { color: #a78bfa; }  /* 7.5:1 ✓ */
+  html.dark .dk-accent2 { color: #22d3ee; }
+
+  /* Card surface — obsidian glass with faint violet sheen */
+  html.dark .dk-card {
+    background: rgba(15, 11, 30, 0.82);
+    border: 1px solid rgba(120, 80, 220, 0.22);
+    box-shadow: 0 4px 40px rgba(0,0,0,0.55),
+                inset 0 1px 0 rgba(200,150,255,0.05);
+    position: relative;
+    overflow: hidden;
+  }
+  html.dark .dk-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 10%; right: 10%; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(167,139,250,0.3), transparent);
+    pointer-events: none;
+  }
+  html.dark .dk-card:hover {
+    background: rgba(24, 18, 48, 0.92);
+    border-color: rgba(139, 92, 246, 0.4);
+    box-shadow: 0 8px 60px rgba(0,0,0,0.65),
+                0 0 40px rgba(100, 60, 200, 0.15),
+                inset 0 1px 0 rgba(200,150,255,0.07);
+  }
+
+  /* Contact card */
+  html.dark .dk-contact {
+    background: linear-gradient(135deg, rgba(20,12,45,0.95), rgba(10,6,25,0.98));
+    border: 1px solid rgba(120, 80, 220, 0.25);
+    box-shadow: 0 0 80px rgba(80,40,160,0.12),
+                inset 0 1px 0 rgba(200,150,255,0.05);
+  }
+
+  /* Dividers */
+  html.dark .dk-divider { background: rgba(120, 80, 220, 0.2) !important; }
+
+  /* Tags / pills */
+  html.dark .dk-tag {
+    background: rgba(109, 40, 217, 0.14);
+    border: 1px solid rgba(139, 92, 246, 0.25);
+    color: #b8acd8;
+  }
+  html.dark .dk-pill-accent {
+    background: rgba(109, 40, 217, 0.22);
+    color: #c4b5fd;
+  }
+
+  /* Icon boxes */
+  html.dark .dk-icon-purple  { background: rgba(88,  28, 135, 0.45); }
+  html.dark .dk-icon-emerald { background: rgba( 6,  78,  59, 0.45); }
+  html.dark .dk-icon-rose    { background: rgba(136, 19,  55, 0.45); }
+  html.dark .dk-icon-indigo  { background: rgba( 49, 46, 129, 0.45); }
+
+  /* ── Nav ──────────────────────────────────────────── */
+  @keyframes navPulse {
+    0%,100% {
+      box-shadow: 0 0 0 1px rgba(139,92,246,0.15),
+                  0 8px 32px rgba(0,0,0,0.7);
+    }
+    50% {
+      box-shadow: 0 0 0 1px rgba(167,139,250,0.32),
+                  0 8px 32px rgba(0,0,0,0.7),
+                  0 0 55px rgba(100,60,200,0.13);
+    }
+  }
+  html.dark .dk-nav-scrolled {
+    background: rgba(10, 7, 22, 0.88) !important;
+    border-color: rgba(120, 80, 220, 0.28) !important;
+    animation: navPulse 4s ease-in-out infinite;
+  }
+
+  /* Nav link shimmer */
+  html.dark .dk-nav-link { color: #9880c0; transition: color 0.25s, transform 0.25s; }
+  html.dark .dk-nav-link:hover { color: #c4b5fd; transform: translateY(-1.5px); }
+
+  @keyframes subtitleBreath {
+    0%,100% { opacity: 0.45; }
+    50%      { opacity: 0.75; }
+  }
+  html.dark .dk-nav-subtitle { animation: subtitleBreath 6s ease-in-out infinite; }
+
+  /* Toggle buttons */
+  html.dark .dk-toggle {
+    border: 1px solid rgba(120, 80, 220, 0.32);
+    color: #9880c0;
+    background: rgba(15, 11, 30, 0.6);
+    transition: all 0.25s;
+  }
+  html.dark .dk-toggle:hover {
+    border-color: rgba(167, 139, 250, 0.55);
+    color: #c4b5fd;
+    background: rgba(24, 18, 48, 0.85);
+    box-shadow: 0 0 16px rgba(139, 92, 246, 0.18);
+  }
+
+  /* Resume button */
+  html.dark .dk-resume {
+    background: linear-gradient(135deg, #4f26b5, #1e40af);
+    color: #ede9ff;
+    box-shadow: 0 2px 16px rgba(79, 38, 181, 0.4);
+    transition: all 0.25s;
+  }
+  html.dark .dk-resume:hover {
+    box-shadow: 0 2px 28px rgba(79, 38, 181, 0.6);
+    transform: scale(1.04);
+  }
+
+  /* ── Contact form ─────────────────────────────────── */
+  html.dark .dk-input {
+    background: rgba(20, 14, 40, 0.7);
+    border: 1px solid rgba(120, 80, 220, 0.25);
+    color: #ede9ff;
+    transition: all 0.2s;
+  }
+  html.dark .dk-input::placeholder { color: #5a5070; }
+  html.dark .dk-input:focus {
+    border-color: rgba(167, 139, 250, 0.5);
+    background: rgba(28, 20, 55, 0.85);
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.18);
+    outline: none;
+  }
+  html.dark .dk-send-btn {
+    background: linear-gradient(135deg, #6d28d9, #1d4ed8);
+    color: #ede9ff;
+    box-shadow: 0 4px 22px rgba(109, 40, 217, 0.38);
+    transition: all 0.25s;
+  }
+  html.dark .dk-send-btn:hover {
+    box-shadow: 0 4px 38px rgba(109, 40, 217, 0.58);
+    transform: scale(1.01);
+  }
+  html.dark .dk-social-link {
+    border: 1px solid rgba(120, 80, 220, 0.28);
+    background: rgba(20, 14, 40, 0.55);
+    color: #9880c0;
+    transition: all 0.25s;
+  }
+  html.dark .dk-social-link:hover {
+    border-color: rgba(167, 139, 250, 0.5);
+    background: rgba(55, 35, 110, 0.45);
+    color: #c4b5fd;
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.15);
+  }
+  html.dark .dk-social-icon {
+    background: rgba(88, 28, 135, 0.45);
+    color: #a78bfa;
+  }
+</style>
 </head>
-<body>
-    <!-- Navigation -->
-    <nav class="nav">
-        <div class="nav-container">
-            <a href="#" class="nav-logo">
-                <span class="logo-text">Lily Wu</span>
-            </a>
-            
-            <button class="nav-toggle" aria-label="toggle navigation">
-                <span class="hamburger"></span>
-            </button>
+<body class="min-h-screen bg-[#FBFBFD] text-[#1D1D1F] selection:bg-indigo-100 overflow-x-hidden">
+  <div id="root"></div>
 
-            <div class="nav-links">
-                <a href="#about" class="nav-item">About</a>
-                <a href="#projects" class="nav-item">Projects</a>
-                <a href="#podcast" class="nav-item">Podcast</a>
-                <a href="#experience" class="nav-item">Experience</a>
-                <a href="#contact" class="nav-item">Contact</a>
+  <!-- React + Babel -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <script>
+    window.__TWEAKS__ = /*EDITMODE-BEGIN*/{ "palette": "purple" }/*EDITMODE-END*/;
+  </script>
+
+  <!-- Context + Translations -->
+  <script>
+    window.AppContext = React.createContext({
+      lang: 'en', theme: 'light', setLang: function(){}, setTheme: function(){}
+    });
+
+    window.TRANSLATIONS = {
+      en: {
+        nav: { subtitle: 'UX · Research · Design', link1: 'Projects', link2: 'Experience', link3: 'Beyond', link4: 'Contact' },
+        hero: {
+          badge: "USC '27 · Cognitive Science & Applied Math",
+          line1: 'I care about',
+          line2: '',
+          highlight: ' people.',
+          period: '',
+          desc: "I'm Lily — from Shenzhen, now at USC double majoring in Cognitive Science and Applied Mathematics. I grew up obsessed with what makes a story land and an interaction feel right. That turned into UX research and design. I believe good products should quietly make people's lives better.",
+          cta: 'See My Work',
+        },
+        work: {
+          title: 'Projects',
+          subtitle: 'selected work · 2023–2025',
+          kinBadge: 'UX Research · Health Tech',
+          kinTitle: 'KIN',
+          kinSub: 'Remote Caregiving App',
+          kinDesc: 'An app that helps families stay connected across distance when someone needs care. Led a team of 3 through user research, prototyping, and usability testing — including a tiered alert system with AI-assisted guidance for caregivers.',
+          kinTags: ['Health Tech', 'Remote Caregiving', 'UX Research'],
+          whisperTitle: 'Whisper',
+          whisperSub: 'The Dopaminergic Voice',
+          whisperDesc: 'Building an acoustic analysis pipeline using OpenAI Whisper to identify speech patterns linked to mental health. Led the voice stream analysis. Paper in progress.',
+          whisperTag: 'ML · Acoustic Analysis',
+          neuroTitle: 'Neurofoot',
+          neuroSub: 'Diabetic Foot Health Monitor',
+          neuroDesc: 'A smart slipper that monitors plantar pressure, moisture, and gait in real-time for diabetic patients. Contributed to research, market analysis, and regulatory strategy.',
+          neuroTag: 'Health Hardware · Research',
+          cvsTitle: 'CVS Study',
+          cvsSub: 'Co-viewing & Connection',
+          cvsDesc: 'A solo study investigating whether what people talk about — or how they talk — affects the quality of social connection during co-viewing. Presented at conference.',
+          cvsTag: 'Cognitive Science · Solo Research',
+        },
+        experience: {
+          title: 'Experience & Education',
+          researchTitle: 'Research',
+          labs: ['Social Connection Lab', 'Neural Modeling & Interface Lab', 'Neural Vitality Lab'],
+          labRole: 'Research Assistant · USC',
+          workTitle: 'Work & Involvement',
+          roles: [
+            { role: 'Communication Assistant', org: 'USC Orientation Team' },
+            { role: 'Media Associate', org: 'Neurotech@USC' },
+            { role: 'Programming & Math Tutor', org: 'Joint Educational Project (JEP)' },
+            { role: 'Content Writer & Operations Editor', org: 'Northtek' },
+          ],
+          eduTitle: 'Education',
+          edu: 'University of Southern California',
+          eduSub: 'B.S. Cognitive Science · B.S. Applied Mathematics',
+          eduYear: "Class of '27",
+        },
+        skills: {
+          title: 'Skills',
+          design: ['Figma', 'Canva', 'CapCut'],
+          engineering: ['Python', 'MATLAB', 'C++'],
+          designLabel: 'Design & Media',
+          engLabel: 'Engineering',
+        },
+        beyond: {
+          title: 'Beyond Work',
+          desc: "Outside the lab, I'm chasing good food, new cities, and the occasional Six Flags adrenaline fix — three times last year, personal record. I take my LA coffee spots very seriously.",
+          coffee: 'Current favorite: Stagger Lee\'s matcha latte',
+          item1: 'Food Map — LA & beyond',
+          item2: 'Travel log',
+          mapTitle: 'Explore My Map',
+          mapSub: 'Curated Spots Across Continents',
+          mapBtn: 'Launch Map',
+        },
+        contact: {
+          eyebrow: 'Get in touch',
+          title: 'Say hello.',
+          desc: 'I like good questions and unexpected book recs. Send a note — I usually reply within a few days.',
+          nameLabel: 'Name', namePlaceholder: 'e.g. Jamie',
+          emailLabel: 'Email', emailPlaceholder: 'wumeihui.wmh@outlook.com',
+          messageLabel: 'Message', messagePlaceholder: "Say hi, or share a link you think I'd like...",
+          send: 'Send message',
+          sentTitle: 'Got it.', sentDesc: "I'll write back soon. Enjoy your day.",
+        },
+        footer: { tagline: 'Stay Curious.', copy: 'Meihui (Lily) Wu © 2026' },
+      },
+      zh: {
+        nav: { subtitle: 'UX · 研究 · 设计', link1: '项目', link2: '经历', link3: '生活', link4: '联系我' },
+        hero: {
+          badge: "USC '27 · 认知科学 & 应用数学",
+          line1: '我关心',
+          line2: '',
+          highlight: ' 人。',
+          period: '',
+          desc: '我是 Lily，来自深圳，现就读于 USC，双学位：认知科学与应用数学。从小就迷恋什么样的故事能打动人、什么样的交互让人舒服。这个问题带我走向了 UX 研究和设计。我相信好的产品能悄悄地让人的生活变好一点。',
+          cta: '查看我的项目',
+        },
+        work: {
+          title: '项目',
+          subtitle: '精选作品 · 2023–2025',
+          kinBadge: 'UX 研究 · 健康科技',
+          kinTitle: 'KIN',
+          kinSub: '远程照护 App',
+          kinDesc: '帮助家庭成员跨越距离照护患者的 App。担任 team lead，带领三人团队完成用户研究、原型设计与可用性测试，核心功能包括分级警报系统和 AI 辅助照护建议。',
+          kinTags: ['健康科技', '远程照护', 'UX 研究'],
+          whisperTitle: 'Whisper',
+          whisperSub: '多巴胺之声',
+          whisperDesc: '基于 OpenAI Whisper 搭建声学分析 pipeline，识别与心理健康相关的语音特征。负责语音流分析模块，论文撰写中。',
+          whisperTag: 'ML · 声学分析',
+          neuroTitle: 'Neurofoot',
+          neuroSub: '糖尿病足底健康监测',
+          neuroDesc: '实时监测足底压力、湿度和步态的智能拖鞋，面向糖尿病患者。参与研究、市场调研和法规策略工作。',
+          neuroTag: '健康硬件 · 研究',
+          cvsTitle: 'CVS Study',
+          cvsSub: '共同观看与社交连接',
+          cvsDesc: '独立研究项目，探究共同观看时人们谈话的内容与方式如何影响社交连接质量。在学术会议上发表。',
+          cvsTag: '认知科学 · 独立研究',
+        },
+        experience: {
+          title: '经历与学历',
+          researchTitle: '研究经历',
+          labs: ['社交连接实验室', '神经建模与接口实验室', '神经活力实验室'],
+          labRole: '研究助理 · USC',
+          workTitle: '工作与社团',
+          roles: [
+            { role: '传播助理', org: 'USC 新生定向团队' },
+            { role: '媒体负责人', org: 'Neurotech@USC' },
+            { role: '编程 & 数学辅导', org: 'JEP 教育项目' },
+            { role: '内容写作与运营编辑', org: 'Northtek' },
+          ],
+          eduTitle: '学历',
+          edu: '南加州大学 USC',
+          eduSub: '认知科学 B.S. · 应用数学 B.S.',
+          eduYear: '2027 届',
+        },
+        skills: {
+          title: '技能',
+          design: ['Figma', 'Canva', 'CapCut'],
+          engineering: ['Python', 'MATLAB', 'C++'],
+          designLabel: '设计与媒体',
+          engLabel: '工程',
+        },
+        beyond: {
+          title: '工作之外',
+          desc: '下班后的我在追好吃的、新城市，还有六旗的过山车——去年去了三次，个人记录。我对 LA 的咖啡馆有很高标准。',
+          coffee: '目前最爱：Stagger Lee 的抹茶拿铁',
+          item1: '美食地图 — 洛杉矶及以外',
+          item2: '旅行记录',
+          mapTitle: '探索我的地图',
+          mapSub: '精选地点，横跨多大洲',
+          mapBtn: '打开地图',
+        },
+        contact: {
+          eyebrow: '联系我',
+          title: '打个招呼。',
+          desc: '欢迎好问题和意想不到的书单推荐。发个消息吧——我通常几天内回复。',
+          nameLabel: '你的名字', namePlaceholder: '比如 小林',
+          emailLabel: '邮箱', emailPlaceholder: 'you@somewhere.com',
+          messageLabel: '消息', messagePlaceholder: '打个招呼，或分享一个你觉得我会喜欢的链接…',
+          send: '发送',
+          sentTitle: '收到了。', sentDesc: '我会尽快回复你的。',
+        },
+        footer: { tagline: 'Stay Curious.', copy: 'Meihui (Lily) Wu © 2026' },
+      },
+    };
+  </script>
+
+  <!-- Icons -->
+  <script type="text/babel" data-plugins="transform-react-jsx-source" data-filename="icons.jsx">
+    function Icon({ d, stroke = 'currentColor', size = 24, className = '', ...rest }) {
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size}
+             viewBox="0 0 24 24" fill="none" stroke={stroke}
+             strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+             className={className} {...rest}>{d}</svg>
+      );
+    }
+    const MapPin       = (p) => <Icon {...p} d={<><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></>} />;
+    const Brain        = (p) => <Icon {...p} d={<><path d="M9.5 2a2.5 2.5 0 0 1 2.5 2.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2z"/><path d="M14.5 2a2.5 2.5 0 0 0-2.5 2.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2z"/></>} />;
+    const Layers       = (p) => <Icon {...p} d={<><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></>} />;
+    const Github       = (p) => <Icon {...p} d={<path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>} />;
+    const Linkedin     = (p) => <Icon {...p} d={<><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></>} />;
+    const Mail         = (p) => <Icon {...p} d={<><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></>} />;
+    const Utensils     = (p) => <Icon {...p} d={<><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/></>} />;
+    const ArrowUpRight = (p) => <Icon {...p} d={<><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></>} />;
+    const Sparkles     = (p) => <Icon {...p} d={<><path d="M12 3l1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2z"/><path d="M19 3v4"/><path d="M21 5h-4"/><path d="M19 17v4"/><path d="M21 19h-4"/></>} />;
+    const Send         = (p) => <Icon {...p} d={<><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></>} />;
+
+    Object.assign(window, { MapPin, Brain, Layers, Github, Linkedin, Mail, Utensils, ArrowUpRight, Sparkles, Send });
+  </script>
+
+  <!-- Particle background -->
+  <script type="text/babel" data-plugins="transform-react-jsx-source" data-filename="ParticleField.jsx">
+    function ParticleField() {
+      const canvasRef = React.useRef(null);
+      React.useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let animId;
+
+        const readColors = () => {
+          const r = getComputedStyle(document.documentElement);
+          return ['--p1','--p2','--p3','--p4','--p5'].map(n => r.getPropertyValue(n).trim()).filter(Boolean);
+        };
+        let colors = readColors();
+
+        const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
+
+        class Particle {
+          constructor() { this.reset(true); }
+          reset() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 200 + 90;
+            this.color = colors[Math.floor(Math.random() * colors.length)] || '#E0D4FF';
+            const dk = document.documentElement.classList.contains('dark');
+            this.opacity = dk ? Math.random() * 0.38 + 0.18 : Math.random() * 0.22 + 0.08;
+            this.vx = (Math.random() - 0.5) * 0.25;
+            this.vy = (Math.random() - 0.5) * 0.25;
+          }
+          update() {
+            this.x += this.vx; this.y += this.vy;
+            if (this.x < -240 || this.x > canvas.width + 240 || this.y < -240 || this.y > canvas.height + 240) this.reset();
+          }
+          draw() {
+            const g = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size);
+            g.addColorStop(0, this.color); g.addColorStop(1, 'transparent');
+            ctx.globalAlpha = this.opacity; ctx.fillStyle = g;
+            ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
+          }
+        }
+
+        const particles = Array.from({ length: 20 }, () => new Particle());
+        const animate = () => {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          particles.forEach(p => { p.update(); p.draw(); });
+          animId = requestAnimationFrame(animate);
+        };
+
+        const onPalette = () => { colors = readColors(); particles.forEach(p => { p.color = colors[Math.floor(Math.random() * colors.length)] || p.color; }); };
+        const onTheme   = () => { particles.forEach(p => p.reset()); };
+
+        window.addEventListener('resize', resize);
+        window.addEventListener('lw:palette-change', onPalette);
+        window.addEventListener('lw:theme-change', onTheme);
+        resize(); animate();
+
+        return () => {
+          window.removeEventListener('resize', resize);
+          window.removeEventListener('lw:palette-change', onPalette);
+          window.removeEventListener('lw:theme-change', onTheme);
+          cancelAnimationFrame(animId);
+        };
+      }, []);
+
+      return <canvas ref={canvasRef} className="fixed inset-0 -z-10 pointer-events-none" aria-hidden="true" />;
+    }
+    window.ParticleField = ParticleField;
+  </script>
+
+  <!-- Nav -->
+  <script type="text/babel" data-plugins="transform-react-jsx-source" data-filename="Nav2.jsx">
+    function Nav2() {
+      const { lang, setLang, theme, setTheme } = React.useContext(window.AppContext);
+      const T = window.TRANSLATIONS[lang].nav;
+      const [scrolled, setScrolled] = React.useState(false);
+      const [activeId, setActiveId] = React.useState('');
+      const dk = theme === 'dark';
+
+      React.useEffect(() => {
+        const sectionIds = ['work','experience','beyond','contact'];
+        const fn = () => {
+          setScrolled(window.scrollY > 60);
+          // Scroll-spy: find deepest section whose top is above viewport midpoint
+          const mid = window.scrollY + 160;
+          let found = '';
+          for (const id of sectionIds) {
+            const el = document.getElementById(id);
+            if (el && el.offsetTop <= mid) found = id;
+          }
+          setActiveId(found);
+        };
+        window.addEventListener('scroll', fn, { passive: true });
+        fn();
+        return () => window.removeEventListener('scroll', fn);
+      }, []);
+
+      const links = [
+        { label: T.link1, href: '#work',       id: 'work'       },
+        { label: T.link2, href: '#experience', id: 'experience' },
+        { label: T.link3, href: '#beyond',      id: 'beyond'     },
+        { label: T.link4, href: '#contact',     id: 'contact'    },
+      ];
+
+      return (
+        <nav
+          style={{
+            borderRadius: scrolled ? '28px' : '999px',
+            transition: 'border-radius 600ms cubic-bezier(0.34,1.56,0.64,1), background 500ms, border-color 500ms, box-shadow 500ms, padding 400ms',
+          }}
+          className={`fixed top-4 left-1/2 -translate-x-1/2 w-[94%] max-w-6xl z-40 border
+            ${scrolled
+              ? (dk
+                  ? 'backdrop-blur-2xl dk-nav-scrolled border-purple-900/30 py-3'
+                  : 'backdrop-blur-2xl bg-white/68 border-white/55 shadow-[0_8px_40px_rgba(0,0,0,0.08)] py-3')
+              : 'bg-transparent border-transparent py-5'
+            }`}
+        >
+          <div className="px-8 flex justify-between items-center">
+
+            {/* Wordmark */}
+            <div className="group/wordmark flex flex-col cursor-default select-none">
+              <div className="flex items-baseline overflow-hidden">
+                <span
+                  className={`font-extralight text-base tracking-[0.28em] transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover/wordmark:tracking-[0.05em]
+                    ${dk ? 'text-transparent bg-clip-text bg-gradient-to-r from-[#e0d4ff] via-[#c4b5fd] to-[#a78bfa]' : 'text-slate-500'}`}
+                  style={dk ? {WebkitBackgroundClip:'text',backgroundClip:'text'} : {}}
+                >Lily</span>
+                <span
+                  className={`font-bold text-base tracking-[0.28em] ml-[0.28em] transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover/wordmark:tracking-[0.05em] group-hover/wordmark:ml-[0.05em]
+                    ${dk ? 'text-transparent bg-clip-text bg-gradient-to-r from-[#c4b5fd] to-[#7c3aed]' : 'text-slate-900'}`}
+                  style={dk ? {WebkitBackgroundClip:'text',backgroundClip:'text'} : {}}
+                >Wu</span>
+              </div>
+              <span className={`text-[9px] uppercase tracking-[0.22em] leading-none mt-0.5 transition-all duration-500 group-hover/wordmark:tracking-[0.1em] ${dk ? 'dk-nav-subtitle dk-t3' : 'text-slate-400'}`}>
+                {T.subtitle}
+              </span>
             </div>
-        </div>
-    </nav>
 
-    <!-- Hero Section -->
-    <section id="hero" class="hero">
-        <div class="hero-content">
-            <h1>Lily Wu</h1>
-            <h2>Student | Researcher | Creator</h2>
-            <p class="hero-tagline">Exploring the intersections of neuroscience, technology, and human experience.</p>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="section">
-        <div class="container">
-            <h2>About Me</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <p>Professional bio here...</p>
-                    <ul class="interests">
-                        <li>Neurotech</li>
-                        <li>Cognitive Science</li>
-                        <li>Podcasting</li>
-                        <!-- Add more interests -->
-                    </ul>
-                </div>
-                <div class="about-image">
-                    <!-- Add your image here -->
-                    <img src="assets/images/profile.jpg" alt="Lily Wu" class="profile-img">
-                </div>
+            {/* Links — scroll-spy active pill */}
+            <div className={`hidden sm:flex items-center gap-1 p-1 rounded-full transition-all duration-500
+              ${scrolled ? (dk ? 'bg-violet-950/30' : 'bg-slate-100/60') : 'bg-transparent'}`}>
+              {links.map(({ label, href, id }) => {
+                const active = activeId === id;
+                return (
+                  <a key={id} href={href}
+                    className={`relative px-4 py-1.5 rounded-full text-base font-medium transition-all duration-350
+                      ${active
+                        ? (dk
+                            ? 'bg-violet-800/50 text-violet-100 shadow-[0_0_12px_rgba(139,92,246,0.25)]'
+                            : 'bg-white text-slate-900 shadow-sm')
+                        : (dk
+                            ? 'text-[#9880c0] hover:text-[#c4b5fd] hover:bg-violet-900/20'
+                            : 'text-slate-400 hover:text-slate-700 hover:bg-white/70')
+                      }`}>
+                    {label}
+                  </a>
+                );
+              })}
             </div>
-        </div>
-    </section>
 
-    <!-- Projects Section -->
-    <section id="projects" class="section alt-section">
-        <div class="container">
-            <h2>Projects & Research</h2>
-            <div class="projects-grid">
-                <!-- Project Card 1 -->
-                <div class="project-card">
-                    <h3>Bilingual Code-switching Research</h3>
-                    <p>Description of your research project...</p>
-                    <div class="project-tags">
-                        <span class="tag">Research</span>
-                        <span class="tag">Linguistics</span>
+            {/* Right: controls + resume */}
+            <div className="flex items-center gap-2">
+              {/* Theme */}
+              <button
+                onClick={() => setTheme(dk ? 'light' : 'dark')}
+                className={`flex items-center gap-1.5 px-3.5 py-2 rounded-full border text-sm font-medium transition-all
+                  ${dk ? 'dk-toggle' : 'bg-white/50 border-white/60 text-slate-500 hover:text-slate-800 hover:bg-white/80'}`}
+              >
+                <span className="text-base leading-none">{dk ? '☀' : '☾'}</span>
+                <span className="hidden md:inline">{dk ? 'Light' : 'Dark'}</span>
+              </button>
+
+              {/* Language */}
+              <button
+                onClick={() => setLang(lang === 'en' ? 'zh' : 'en')}
+                className={`flex items-center gap-1.5 px-3.5 py-2 rounded-full border text-sm font-medium transition-all
+                  ${dk ? 'dk-toggle' : 'bg-white/50 border-white/60 text-slate-500 hover:text-slate-800 hover:bg-white/80'}`}
+              >
+                <span className="text-base leading-none">🌐</span>
+                <span className="hidden md:inline">{lang === 'en' ? '中文' : 'English'}</span>
+              </button>
+
+              {/* Resume */}
+              <button className={`px-5 py-2 rounded-full text-sm font-semibold hover:scale-105 active:scale-95 transition-all shadow-sm
+                ${dk ? 'dk-resume' : 'bg-slate-900 text-white hover:bg-slate-700'}`}>
+                Resume
+              </button>
+            </div>
+
+          </div>
+        </nav>
+      );
+    }
+    window.Nav2 = Nav2;
+  </script>
+
+  <!-- Controls: floating lang + theme module -->
+  <script type="text/babel" data-plugins="transform-react-jsx-source" data-filename="Controls2.jsx">
+    function Controls2() {
+      const { lang, setLang, theme, setTheme } = React.useContext(window.AppContext);
+      const dk = theme === 'dark';
+
+      const pill = `flex items-center gap-2 px-4 py-2.5 rounded-full border backdrop-blur-xl
+        text-sm font-medium transition-all duration-250 cursor-pointer select-none`;
+      const pillDk = `bg-[rgba(12,8,26,0.68)] border-purple-900/35 text-[#a890cc]
+        hover:text-[#c4b5fd] hover:border-purple-700/50 hover:bg-[rgba(22,15,44,0.82)]`;
+      const pillLt = `bg-white/68 border-white/60 text-slate-500
+        hover:text-slate-800 hover:bg-white/90 shadow-sm`;
+
+      return (
+        <div className="fixed top-5 right-6 z-40 flex items-center gap-2">
+
+          {/* Theme toggle */}
+          <button
+            onClick={() => setTheme(dk ? 'light' : 'dark')}
+            className={`${pill} ${dk ? pillDk : pillLt}`}
+            aria-label="Toggle theme"
+          >
+            <span className="text-base leading-none">{dk ? '☀' : '☾'}</span>
+            <span>{dk ? 'Light' : 'Dark'}</span>
+          </button>
+
+          {/* Language toggle */}
+          <button
+            onClick={() => setLang(lang === 'en' ? 'zh' : 'en')}
+            className={`${pill} ${dk ? pillDk : pillLt}`}
+            aria-label="Toggle language"
+          >
+            <span className="text-base leading-none">🌐</span>
+            <span>{lang === 'en' ? '中文' : 'English'}</span>
+          </button>
+
+        </div>
+      );
+    }
+    window.Controls2 = Controls2;
+  </script>
+
+  <!-- Hero -->
+  <script type="text/babel" data-plugins="transform-react-jsx-source" data-filename="Hero2.jsx">
+    function Hero2() {
+      const { lang, theme } = React.useContext(window.AppContext);
+      const T = window.TRANSLATIONS[lang].hero;
+      const dk = theme === 'dark';
+
+      return (
+        <section className="min-h-screen flex flex-col justify-center px-6 max-w-[1380px] mx-auto pt-28">
+          <div className={`relative group p-12 md:p-20 rounded-[60px] border backdrop-blur-3xl shadow-xl space-y-10 anim-in
+            ${dk ? 'dk-card' : 'border-white/70 bg-white/40'}`}>
+            <div className="pointer-events-none absolute top-10 right-10 w-28 h-28 rounded-full bg-gradient-to-br from-purple-200/40 to-rose-200/40 blur-2xl group-hover:scale-150 transition-transform duration-1000" />
+
+            <div className={`flex items-center gap-3 text-base font-bold uppercase tracking-[0.3em] ${dk ? 'dk-accent' : 'text-indigo-400'}`}>
+              <Sparkles size={16} className="animate-pulse" />
+              {T.badge}
+            </div>
+
+            <h1 className={`text-5xl md:text-[88px] font-semibold tracking-tighter leading-[1.0] ${dk ? 'dk-t1' : 'text-slate-900'}`}>
+              {T.line1}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-rose-300 to-emerald-300 italic font-light">
+                {T.highlight}
+              </span>{T.period}
+              {T.line2 && <><br/>{T.line2}</>}
+            </h1>
+
+            <p className={`text-xl md:text-2xl font-normal max-w-2xl leading-relaxed ${dk ? 'dk-t2' : 'text-slate-500/80'}`}>
+              {T.desc}
+            </p>
+
+            <div className="pt-4 flex items-center gap-6">
+              <a href="#work" className="group/cta flex items-center gap-4">
+                <span className={`px-8 py-4 rounded-full text-base font-medium transition-all group-hover/cta:shadow-[0_0_30px_rgba(79,70,229,0.3)]
+                  ${dk ? 'dk-send-btn' : 'bg-slate-900 text-white'}`}>
+                  {T.cta}
+                </span>
+                <div className={`w-14 h-14 rounded-full border flex items-center justify-center group-hover/cta:border-transparent group-hover/cta:rotate-45 transition-all duration-500 backdrop-blur-md
+                  ${dk ? 'border-purple-900/50 bg-purple-950/30 group-hover/cta:bg-purple-900/40' : 'border-slate-200 bg-white/40 group-hover/cta:bg-white'}`}>
+                  <ArrowUpRight size={22} className={`${dk ? 'dk-t3' : 'text-slate-400'} group-hover/cta:text-indigo-500`} />
+                </div>
+              </a>
+            </div>
+          </div>
+        </section>
+      );
+    }
+    window.Hero2 = Hero2;
+  </script>
+
+  <!-- Work -->
+  <script type="text/babel" data-plugins="transform-react-jsx-source" data-filename="Work2.jsx">
+    function Work2() {
+      const { lang, theme } = React.useContext(window.AppContext);
+      const T = window.TRANSLATIONS[lang].work;
+      const dk = theme === 'dark';
+
+      const smallCards = [
+        {
+          icon: <Brain size={26} className="text-purple-300" />,
+          iconBg: dk ? 'dk-icon-purple' : 'bg-purple-50',
+          title: T.whisperTitle,
+          sub: T.whisperSub,
+          desc: T.whisperDesc,
+          tag: T.whisperTag,
+        },
+        {
+          icon: <Layers size={26} className="text-emerald-400" />,
+          iconBg: dk ? 'dk-icon-emerald' : 'bg-emerald-50',
+          title: T.neuroTitle,
+          sub: T.neuroSub,
+          desc: T.neuroDesc,
+          tag: T.neuroTag,
+        },
+        {
+          icon: <Sparkles size={26} className="text-rose-300" />,
+          iconBg: dk ? 'dk-icon-rose' : 'bg-rose-50',
+          title: T.cvsTitle,
+          sub: T.cvsSub,
+          desc: T.cvsDesc,
+          tag: T.cvsTag,
+        },
+      ];
+
+      return (
+        <section id="work" className="max-w-[1380px] mx-auto px-6 py-48 space-y-24">
+          <div className="flex items-end justify-between px-2">
+            <div className="space-y-1">
+              <h2 className={`text-4xl font-semibold tracking-tight ${dk ? 'dk-t1' : 'text-slate-900'}`}>{T.title}</h2>
+              <p className={`text-sm uppercase tracking-[0.2em] font-medium ${dk ? 'dk-t3' : 'text-slate-400'}`}>{T.subtitle}</p>
+            </div>
+            <div className={`h-px flex-grow mx-10 hidden md:block ${dk ? 'dk-divider' : 'bg-slate-200/70'}`} />
+          </div>
+
+          <div className="space-y-12">
+            {/* Flagship — KIN */}
+            <article className={`group relative rounded-[50px] border backdrop-blur-xl p-12 md:p-16 transition-all duration-700 flex flex-col md:flex-row gap-12
+              ${dk ? 'dk-card' : 'border-white/80 bg-white/30 hover:bg-white/55 hover:shadow-2xl'}`}>
+              <div className="pointer-events-none absolute top-0 right-0 w-72 h-72 bg-indigo-100/40 blur-[90px] -z-10 group-hover:scale-150 transition-transform duration-1000" />
+
+              <div className={`w-full md:w-3/5 aspect-video rounded-[40px] overflow-hidden border relative shadow-inner flex-shrink-0
+                ${dk ? 'bg-purple-950/40 border-purple-900/40' : 'bg-slate-50/50 border-white/60'}`}>
+                <div className="absolute inset-0 bg-gradient-to-br from-indigo-100/50 via-transparent to-rose-100/50" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className={`text-sm font-bold uppercase tracking-[0.3em] flex items-center gap-2 ${dk ? 'dk-t3' : 'text-slate-400'}`}>
+                    <span className={`w-1.5 h-1.5 rounded-full animate-ping ${dk ? 'bg-purple-500' : 'bg-slate-400'}`} />
+                    High-Fi Prototype
+                  </span>
+                </div>
+              </div>
+
+              <div className="w-full md:w-2/5 flex flex-col justify-center space-y-7">
+                <div className="space-y-2">
+                  <div className={`inline-block px-3 py-1 rounded-full text-sm font-bold uppercase tracking-widest
+                    ${dk ? 'dk-pill-accent' : 'bg-indigo-50 text-indigo-500'}`}>
+                    {T.kinBadge}
+                  </div>
+                  <h3 className={`text-4xl font-semibold tracking-tight leading-none ${dk ? 'dk-t1' : 'text-slate-900'}`}>{T.kinTitle}</h3>
+                  <p className={`text-base font-medium ${dk ? 'dk-t3' : 'text-slate-400'}`}>{T.kinSub}</p>
+                </div>
+                <p className={`leading-relaxed font-light text-xl ${dk ? 'dk-t2' : 'text-slate-500'}`}>{T.kinDesc}</p>
+                <div className="flex flex-wrap gap-2">
+                  {T.kinTags.map(tag => (
+                    <span key={tag} className={`text-sm px-4 py-2 rounded-full font-medium backdrop-blur-md
+                      ${dk ? 'dk-tag' : 'bg-white/60 border border-white/80 text-slate-500'}`}>
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </article>
+
+            {/* Three smaller cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {smallCards.map((card, i) => (
+                <article key={i} className={`group rounded-[40px] border backdrop-blur-xl p-10 transition-all duration-700 shadow-sm flex flex-col justify-between min-h-[340px] cursor-pointer
+                  ${dk ? 'dk-card' : 'border-white/80 bg-white/30 hover:bg-white/55 hover:-translate-y-2 hover:shadow-xl'}`}>
+                  <div className={`w-14 h-14 rounded-3xl flex items-center justify-center group-hover:scale-110 transition-transform ${card.iconBg}`}>
+                    {card.icon}
+                  </div>
+                  <div className="space-y-3 mt-8">
+                    <div>
+                      <h3 className={`text-2xl font-semibold ${dk ? 'dk-t1' : 'text-slate-900'}`}>{card.title}</h3>
+                      <p className={`text-sm font-medium mt-0.5 ${dk ? 'dk-t3' : 'text-slate-400'}`}>{card.sub}</p>
                     </div>
+                    <p className={`text-lg leading-relaxed font-light ${dk ? 'dk-t2' : 'text-slate-500'}`}>{card.desc}</p>
+                    <div className={`w-full h-px ${dk ? 'dk-divider' : 'bg-slate-200/70'}`} />
+                    <span className={`text-sm font-bold uppercase tracking-widest ${dk ? 'dk-t3' : 'text-slate-400'}`}>{card.tag}</span>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+    window.Work2 = Work2;
+  </script>
+
+  <!-- Experience & Education -->
+  <script type="text/babel" data-plugins="transform-react-jsx-source" data-filename="Experience2.jsx">
+    function Experience2() {
+      const { lang, theme } = React.useContext(window.AppContext);
+      const T = window.TRANSLATIONS[lang].experience;
+      const dk = theme === 'dark';
+
+      return (
+        <section id="experience" className="max-w-[1380px] mx-auto px-6 py-48 space-y-24">
+          <div className="flex items-end justify-between px-2">
+            <div className="space-y-1">
+              <h2 className={`text-4xl font-semibold tracking-tight ${dk ? 'dk-t1' : 'text-slate-900'}`}>{T.title}</h2>
+            </div>
+            <div className={`h-px flex-grow mx-10 hidden md:block ${dk ? 'dk-divider' : 'bg-slate-200/70'}`} />
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Research Labs */}
+            <div className={`rounded-[40px] border backdrop-blur-xl p-10 space-y-6
+              ${dk ? 'dk-card' : 'border-white/80 bg-white/30'}`}>
+              <div className={`text-sm font-bold uppercase tracking-[0.3em] ${dk ? 'dk-accent' : 'text-indigo-400'}`}>
+                {T.researchTitle}
+              </div>
+              <div className="space-y-4">
+                {T.labs.map((lab, i) => (
+                  <div key={i} className="flex items-start gap-3">
+                    <div className={`mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 ${dk ? 'bg-violet-400' : 'bg-indigo-400'}`} />
+                    <div>
+                      <p className={`text-lg font-semibold leading-snug ${dk ? 'dk-t1' : 'text-slate-800'}`}>{lab}</p>
+                      <p className={`text-sm mt-0.5 ${dk ? 'dk-t3' : 'text-slate-400'}`}>{T.labRole}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Work & Involvement */}
+            <div className={`rounded-[40px] border backdrop-blur-xl p-10 space-y-6
+              ${dk ? 'dk-card' : 'border-white/80 bg-white/30'}`}>
+              <div className={`text-sm font-bold uppercase tracking-[0.3em] ${dk ? 'dk-accent' : 'text-indigo-400'}`}>
+                {T.workTitle}
+              </div>
+              <div className="space-y-4">
+                {T.roles.map((item, i) => (
+                  <div key={i} className="flex items-start gap-3">
+                    <div className={`mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 ${dk ? 'bg-violet-400' : 'bg-indigo-400'}`} />
+                    <div>
+                      <p className={`text-lg font-semibold leading-snug ${dk ? 'dk-t1' : 'text-slate-800'}`}>{item.role}</p>
+                      <p className={`text-sm mt-0.5 ${dk ? 'dk-t3' : 'text-slate-400'}`}>{item.org}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Education */}
+            <div className={`rounded-[40px] border backdrop-blur-xl p-10 space-y-6 flex flex-col justify-between
+              ${dk ? 'dk-card' : 'border-white/80 bg-white/30'}`}>
+              <div className={`text-sm font-bold uppercase tracking-[0.3em] ${dk ? 'dk-accent' : 'text-indigo-400'}`}>
+                {T.eduTitle}
+              </div>
+              <div className="space-y-3 flex-grow flex flex-col justify-center">
+                <div className={`text-4xl font-light italic ${dk ? 'dk-t3' : 'text-slate-300'}`}>USC</div>
+                <p className={`text-lg font-semibold tracking-tight ${dk ? 'dk-t1' : 'text-slate-900'}`}>{T.edu}</p>
+                <p className={`text-base font-light leading-relaxed ${dk ? 'dk-t2' : 'text-slate-500'}`}>{T.eduSub}</p>
+                <div className={`inline-block mt-2 px-3 py-1 rounded-full text-sm font-bold uppercase tracking-widest w-fit
+                  ${dk ? 'dk-pill-accent' : 'bg-indigo-50 text-indigo-500'}`}>
+                  {T.eduYear}
                 </div>
-                <!-- Add more project cards -->
+              </div>
             </div>
-        </div>
-    </section>
+          </div>
+        </section>
+      );
+    }
+    window.Experience2 = Experience2;
+  </script>
 
-    <!-- Podcast Section -->
-    <section id="podcast" class="section">
-        <div class="container">
-            <h2>Podcast</h2>
-            <div class="podcast-content">
-                <!-- Podcast player/content here -->
+  <!-- Skills -->
+  <script type="text/babel" data-plugins="transform-react-jsx-source" data-filename="Skills2.jsx">
+    function Skills2() {
+      const { lang, theme } = React.useContext(window.AppContext);
+      const T = window.TRANSLATIONS[lang].skills;
+      const dk = theme === 'dark';
+
+      const groups = [
+        { label: T.designLabel, items: T.design, accent: dk ? 'dk-icon-indigo' : 'bg-indigo-50 text-indigo-700' },
+        { label: T.engLabel, items: T.engineering, accent: dk ? 'dk-icon-emerald' : 'bg-emerald-50 text-emerald-700' },
+      ];
+
+      return (
+        <section className="max-w-[1380px] mx-auto px-6 pb-48">
+          <div className={`rounded-[50px] border backdrop-blur-xl p-12 md:p-16 space-y-10
+            ${dk ? 'dk-card' : 'border-white/80 bg-white/30'}`}>
+            <h2 className={`text-4xl font-semibold tracking-tight ${dk ? 'dk-t1' : 'text-slate-900'}`}>{T.title}</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+              {groups.map(group => (
+                <div key={group.label} className="space-y-4">
+                  <p className={`text-sm font-bold uppercase tracking-[0.3em] ${dk ? 'dk-t3' : 'text-slate-400'}`}>{group.label}</p>
+                  <div className="flex flex-wrap gap-3">
+                    {group.items.map(skill => (
+                      <span key={skill} className={`px-5 py-2.5 rounded-full text-base font-medium border backdrop-blur-md transition-all
+                        ${dk ? 'dk-tag hover:border-violet-500/50' : 'bg-white/70 border-white/80 text-slate-700 hover:bg-white hover:shadow-sm'}`}>
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
-        </div>
-    </section>
+          </div>
+        </section>
+      );
+    }
+    window.Skills2 = Skills2;
+  </script>
 
-    <!-- Experience Section -->
-    <section id="experience" class="section alt-section">
-        <div class="container">
-            <h2>Experience</h2>
-            <div class="experience-content">
-                <!-- Experience items here -->
-                <a href="assets/resume.pdf" class="button">Download Resume</a>
+  <!-- Beyond Work -->
+  <script type="text/babel" data-plugins="transform-react-jsx-source" data-filename="Beyond2.jsx">
+    function Beyond2() {
+      const { lang, theme } = React.useContext(window.AppContext);
+      const T = window.TRANSLATIONS[lang].beyond;
+      const dk = theme === 'dark';
+
+      const items = [
+        { key: 'item1', iconBg: dk ? 'dk-icon-rose' : 'bg-rose-100/60', icon: <MapPin size={18} className="text-rose-400" /> },
+        { key: 'item2', iconBg: dk ? 'dk-icon-indigo' : 'bg-indigo-100/60', icon: <Utensils size={18} className="text-indigo-400" /> },
+      ];
+
+      return (
+        <section id="beyond" className="max-w-[1380px] mx-auto px-6 py-48">
+          <div className={`rounded-[70px] border backdrop-blur-3xl p-14 md:p-24 shadow-2xl relative overflow-hidden
+            ${dk ? 'dk-card' : 'border-white/80 bg-white/25'}`}>
+            <div className={`pointer-events-none absolute -bottom-20 -left-20 w-96 h-96 blur-[110px] rounded-full
+              ${dk ? 'bg-purple-900/30' : 'bg-rose-100/40'}`} />
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-20">
+              <div className="lg:col-span-5 space-y-12">
+                <div className="space-y-4">
+                  <h2 className={`text-5xl font-semibold tracking-tighter ${dk ? 'dk-t1' : 'text-slate-900'}`}>
+                    {T.title}
+                  </h2>
+                  <p className={`leading-relaxed font-light text-xl ${dk ? 'dk-t2' : 'text-slate-500'}`}>{T.desc}</p>
+                  <p className={`text-base font-medium italic ${dk ? 'dk-accent' : 'text-indigo-400'}`}>☕ {T.coffee}</p>
+                </div>
+
+                <div className="space-y-5">
+                  {items.map(item => (
+                    <div key={item.key}
+                      className={`flex items-center justify-between p-6 rounded-[30px] border cursor-pointer group shadow-sm transition-all
+                        ${dk ? 'dk-social-link' : 'bg-white/55 border-white/80 hover:bg-white/85 hover:shadow-md'}`}>
+                      <div className="flex items-center gap-5">
+                        <div className={`w-12 h-12 rounded-2xl ${item.iconBg} flex items-center justify-center transition-all group-hover:scale-110`}>
+                          {item.icon}
+                        </div>
+                        <span className={`text-base font-semibold ${dk ? 'dk-t2' : 'text-slate-700'}`}>{T[item.key]}</span>
+                      </div>
+                      <ArrowUpRight size={16} className="opacity-0 group-hover:opacity-50 transition-all" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="lg:col-span-7 flex flex-col justify-center">
+                <div className={`aspect-square rounded-[60px] border shadow-2xl overflow-hidden relative group
+                  ${dk ? 'dk-card border-purple-900/40' : 'bg-white/40 border-white/60'}`}>
+                  <div className={`absolute inset-0 flex flex-col items-center justify-center space-y-6
+                    ${dk ? 'bg-gradient-to-br from-purple-950/40 to-slate-950/60' : 'bg-gradient-to-br from-slate-50/50 to-white/50'}`}>
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-indigo-200 blur-3xl opacity-0 group-hover:opacity-40 transition-opacity duration-1000" />
+                      <div className={`w-24 h-24 rounded-full flex items-center justify-center shadow-xl border group-hover:scale-110 transition-all duration-700 relative z-10
+                        ${dk ? 'bg-purple-950/60 border-purple-800/50' : 'bg-white border-white'}`}>
+                        <MapPin size={38} className={dk ? 'text-violet-400' : 'text-rose-400'} />
+                      </div>
+                    </div>
+                    <div className="text-center space-y-1">
+                      <p className={`text-base font-bold uppercase tracking-[0.3em] ${dk ? 'dk-t1' : 'text-slate-800'}`}>{T.mapTitle}</p>
+                      <p className={`text-sm uppercase tracking-widest font-medium italic ${dk ? 'dk-t3' : 'text-slate-400'}`}>{T.mapSub}</p>
+                    </div>
+                    <button className={`mt-2 px-10 py-4 rounded-full text-sm font-bold uppercase tracking-widest shadow-2xl transition-all active:scale-95
+                      ${dk ? 'dk-send-btn' : 'bg-slate-900 text-white hover:bg-indigo-600'}`}>
+                      {T.mapBtn}
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
-        </div>
-    </section>
+          </div>
+        </section>
+      );
+    }
+    window.Beyond2 = Beyond2;
+  </script>
 
-    <!-- Contact Section -->
-    <section id="contact" class="section">
-        <div class="container">
-            <h2>Get in Touch</h2>
-            <div class="social-links">
-                <a href="mailto:your.email@example.com" class="social-link">Email</a>
-                <a href="https://linkedin.com/in/yourusername" class="social-link">LinkedIn</a>
-                <a href="https://github.com/lilywmh" class="social-link">GitHub</a>
-                <!-- Add more social links -->
+  <!-- Contact -->
+  <script type="text/babel" data-plugins="transform-react-jsx-source" data-filename="Contact2.jsx">
+    function Contact2() {
+      const { lang, theme } = React.useContext(window.AppContext);
+      const T = window.TRANSLATIONS[lang].contact;
+      const dk = theme === 'dark';
+      const [sent, setSent] = React.useState(false);
+      const [form, setForm] = React.useState({ name: '', email: '', msg: '' });
+
+      const socials = [
+        { Icon: Mail,     label: 'Email',    href: 'mailto:wumeihui.lily@gmail.com' },
+        { Icon: Github,   label: 'GitHub',   href: 'https://github.com/lilywmh' },
+        { Icon: Linkedin, label: 'LinkedIn', href: '#' },
+      ];
+
+      const inputCls = dk
+        ? 'dk-input w-full px-4 py-3 rounded-2xl text-base'
+        : 'w-full px-4 py-3 rounded-2xl border border-slate-200/80 bg-white/60 text-slate-800 placeholder-slate-400 text-base outline-none transition-all focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100 focus:bg-white';
+
+      return (
+        <section id="contact" className="max-w-[1380px] mx-auto px-6 py-48">
+          <div className={`rounded-[70px] border p-14 md:p-20 relative overflow-hidden
+            ${dk ? 'dk-contact' : 'border-white/80 bg-white/25 backdrop-blur-3xl shadow-2xl'}`}>
+            {/* Decorative glow */}
+            <div className={`pointer-events-none absolute -top-24 -right-24 w-96 h-96 blur-[120px] rounded-full
+              ${dk ? 'bg-violet-900/40' : 'bg-indigo-100/50'}`} />
+            <div className={`pointer-events-none absolute -bottom-16 -left-16 w-72 h-72 blur-[100px] rounded-full
+              ${dk ? 'bg-blue-900/25' : 'bg-purple-100/40'}`} />
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 relative">
+              {/* Left */}
+              <div className="space-y-10">
+                <div className="space-y-4">
+                  <p className={`text-sm font-bold uppercase tracking-[0.3em] ${dk ? 'dk-accent' : 'text-indigo-400'}`}>
+                    {T.eyebrow}
+                  </p>
+                  <h2 className={`text-5xl md:text-6xl font-semibold tracking-tight leading-none ${dk ? 'dk-t1' : 'text-slate-900'}`}>
+                    {T.title}
+                  </h2>
+                  <p className={`text-xl leading-relaxed font-light max-w-sm ${dk ? 'dk-t2' : 'text-slate-500'}`}>
+                    {T.desc}
+                  </p>
+                </div>
+
+                <div className="space-y-3">
+                  {socials.map(({ Icon, label, href }) => (
+                    <a key={label} href={href}
+                      className={`flex items-center gap-4 p-4 rounded-2xl transition-all group
+                        ${dk ? 'dk-social-link' : 'border border-slate-200/60 bg-white/50 hover:bg-white/80 hover:border-slate-300 hover:shadow-sm'}`}>
+                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0
+                        ${dk ? 'dk-social-icon' : 'bg-indigo-50 text-indigo-500'}`}>
+                        <Icon size={18} />
+                      </div>
+                      <span className={`text-base font-medium transition-colors ${dk ? 'dk-t2 group-hover:text-violet-300' : 'text-slate-700 group-hover:text-indigo-600'}`}>
+                        {label}
+                      </span>
+                      <ArrowUpRight size={14} className="ml-auto opacity-0 group-hover:opacity-50 transition-all" />
+                    </a>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right — Form */}
+              <div>
+                {sent ? (
+                  <div className="h-full flex flex-col items-center justify-center gap-5 text-center py-16">
+                    <div className={`w-20 h-20 rounded-full flex items-center justify-center text-3xl
+                      ${dk ? 'dk-icon-purple text-violet-300' : 'bg-indigo-50 text-indigo-500'}`}>
+                      ✓
+                    </div>
+                    <h3 className={`text-3xl font-semibold ${dk ? 'dk-t1' : 'text-slate-900'}`}>{T.sentTitle}</h3>
+                    <p className={`${dk ? 'dk-t2' : 'text-slate-500'}`}>{T.sentDesc}</p>
+                  </div>
+                ) : (
+                  <form onSubmit={e => { e.preventDefault(); setSent(true); }} className="space-y-5">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-1.5">
+                        <label className={`block text-sm font-semibold uppercase tracking-wider ${dk ? 'dk-t3' : 'text-slate-500'}`}>{T.nameLabel}</label>
+                        <input type="text" placeholder={T.namePlaceholder} value={form.name}
+                          onChange={e => setForm({...form, name: e.target.value})}
+                          className={inputCls} />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className={`block text-sm font-semibold uppercase tracking-wider ${dk ? 'dk-t3' : 'text-slate-500'}`}>{T.emailLabel}</label>
+                        <input type="email" placeholder={T.emailPlaceholder} value={form.email}
+                          onChange={e => setForm({...form, email: e.target.value})}
+                          className={inputCls} />
+                      </div>
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className={`block text-sm font-semibold uppercase tracking-wider ${dk ? 'dk-t3' : 'text-slate-500'}`}>{T.messageLabel}</label>
+                      <textarea rows={5} placeholder={T.messagePlaceholder} value={form.msg}
+                        onChange={e => setForm({...form, msg: e.target.value})}
+                        className={`${inputCls} resize-none`} />
+                    </div>
+                    <button type="submit"
+                      className={`w-full py-4 rounded-2xl text-base font-semibold tracking-wide flex items-center justify-center gap-2 active:scale-[0.99] transition-all
+                        ${dk ? 'dk-send-btn' : 'bg-slate-900 text-white hover:bg-indigo-700 hover:shadow-lg'}`}>
+                      <Send size={16} />
+                      {T.send}
+                    </button>
+                  </form>
+                )}
+              </div>
             </div>
-        </div>
-    </section>
+          </div>
+        </section>
+      );
+    }
+    window.Contact2 = Contact2;
+  </script>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2024 Lily Wu. All rights reserved.</p>
-        </div>
-    </footer>
+  <!-- Footer -->
+  <script type="text/babel" data-plugins="transform-react-jsx-source" data-filename="Footer2.jsx">
+    function Footer2() {
+      const { lang, theme } = React.useContext(window.AppContext);
+      const T = window.TRANSLATIONS[lang].footer;
+      const dk = theme === 'dark';
+      const socials = [Linkedin, Github, Mail];
 
-    <script src="assets/js/main.js"></script>
+      return (
+        <footer className={`py-24 border-t backdrop-blur-2xl
+          ${dk ? 'border-purple-900/30 bg-black/30' : 'border-white/80 bg-white/20'}`}>
+          <div className="max-w-[1380px] mx-auto px-6 flex flex-col md:flex-row justify-between items-end gap-10">
+            <div className="space-y-4">
+              <h3 className={`text-4xl font-extralight italic tracking-tighter ${dk ? 'dk-t1' : 'text-slate-900'}`}>
+                Stay <span className="font-semibold not-italic">Curious.</span>
+              </h3>
+              <p className={`text-sm uppercase tracking-[0.4em] font-medium leading-none ${dk ? 'dk-t3' : 'text-slate-400'}`}>
+                {T.copy}
+              </p>
+            </div>
+            <div className="flex items-center gap-4">
+              {socials.map((I, i) => (
+                <a key={i} href="#"
+                  className={`w-14 h-14 rounded-2xl border flex items-center justify-center transition-all
+                    ${dk ? 'dk-social-link' : 'border-white/80 bg-white/40 text-slate-400 hover:text-indigo-600 hover:bg-white hover:shadow-lg'}`}>
+                  <I size={22} />
+                </a>
+              ))}
+            </div>
+          </div>
+        </footer>
+      );
+    }
+    window.Footer2 = Footer2;
+  </script>
+
+  <!-- App shell -->
+  <script type="text/babel" data-plugins="transform-react-jsx-source" data-filename="app.jsx">
+    const PALETTES = {
+      'monet':  { label: 'Monet (default)', swatches: ['#E0D4FF','#C8DCBE','#FFD2D2'], bodyBg: '#FBFBFD', vars: { '--p1':'#E0D4FF','--p2':'#C8DCBE','--p3':'#B4DCF0','--p4':'#FFD2D2','--p5':'#FDE68A' } },
+      'mint':   { label: 'Mint Breeze',     swatches: ['#CDEFDA','#D7F0E8','#B6E2C6'], bodyBg: '#F4FAF6', vars: { '--p1':'#CDEFDA','--p2':'#D7F0E8','--p3':'#B6E2C6','--p4':'#E8F5ED','--p5':'#C7EFDD' } },
+      'blue':   { label: 'Cool Blue',       swatches: ['#C7DBFB','#D9E8FA','#E8EEF8'], bodyBg: '#F4F7FC', vars: { '--p1':'#C7DBFB','--p2':'#D9E8FA','--p3':'#B4DCF0','--p4':'#E8EEF8','--p5':'#CDE1F5' } },
+      'purple': { label: 'Soft Purple',     swatches: ['#E0D4FF','#EADCFB','#D8C8F5'], bodyBg: '#FAF7FD', vars: { '--p1':'#E0D4FF','--p2':'#EADCFB','--p3':'#D8C8F5','--p4':'#F0E7FC','--p5':'#CAB8F0' } },
+    };
+
+    function applyPalette(key, isDark) {
+      const p = PALETTES[key] || PALETTES['monet'];
+      const root = document.documentElement;
+      Object.entries(p.vars).forEach(([k, v]) => root.style.setProperty(k, v));
+      if (!isDark) document.body.style.background = p.bodyBg;
+      window.dispatchEvent(new CustomEvent('lw:palette-change'));
+    }
+
+    function TweaksPanel({ palette, setPalette, visible }) {
+      const { theme } = React.useContext(window.AppContext);
+      const dk = theme === 'dark';
+      if (!visible) return null;
+      return (
+        <div className={`fixed right-5 bottom-5 z-[9999] w-[260px] rounded-[24px] border backdrop-blur-2xl shadow-2xl p-4
+          ${dk ? 'dk-card border-purple-900/40' : 'border-white/80 bg-white/85'}`}>
+          <div className="flex items-center justify-between mb-3">
+            <div className={`text-sm font-semibold ${dk ? 'dk-t1' : 'text-slate-900'}`}>Tweaks</div>
+            <div className={`text-[10px] uppercase tracking-[0.2em] ${dk ? 'dk-t3' : 'text-slate-400'}`}>Palette</div>
+          </div>
+          <div className="grid gap-2">
+            {Object.entries(PALETTES).map(([key, p]) => {
+              const sel = key === palette;
+              return (
+                <button key={key} onClick={() => setPalette(key)}
+                  className={`flex items-center gap-3 px-3 py-2 rounded-xl border transition-all text-left
+                    ${sel ? (dk ? 'bg-violet-950/60 border-violet-700' : 'bg-indigo-50 border-indigo-300')
+                          : (dk ? 'bg-purple-950/30 border-purple-900/40 hover:bg-purple-900/40' : 'bg-white/70 border-slate-200 hover:bg-white')}`}>
+                  <div className="flex">
+                    {p.swatches.map((c, i) => (
+                      <span key={i} className="w-4 h-4 border border-black/10" style={{
+                        background: c,
+                        borderTopLeftRadius: i===0?4:0, borderBottomLeftRadius: i===0?4:0,
+                        borderTopRightRadius: i===p.swatches.length-1?4:0, borderBottomRightRadius: i===p.swatches.length-1?4:0,
+                        borderLeft: i===0?'1px solid rgba(0,0,0,0.08)':'none',
+                      }} />
+                    ))}
+                  </div>
+                  <span className={`text-[13px] ${sel ? (dk?'font-semibold text-violet-300':'font-semibold text-indigo-700') : (dk?'font-medium dk-t2':'font-medium text-slate-700')}`}>
+                    {p.label}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      );
+    }
+
+    function App() {
+      const initial = (window.__TWEAKS__ && window.__TWEAKS__.palette) || 'monet';
+      const [palette, setPaletteState] = React.useState(PALETTES[initial] ? initial : 'monet');
+      const [tweaksOpen, setTweaksOpen] = React.useState(false);
+      const [lang, setLang] = React.useState('en');
+      const [theme, setTheme] = React.useState('light');
+      const dk = theme === 'dark';
+
+      React.useEffect(() => { applyPalette(palette, dk); }, [palette]);
+
+      React.useEffect(() => {
+        const html = document.documentElement;
+        if (dk) {
+          html.classList.add('dark');
+        } else {
+          html.classList.remove('dark');
+          applyPalette(palette, false);
+        }
+        window.dispatchEvent(new CustomEvent('lw:theme-change'));
+      }, [theme]);
+
+      React.useEffect(() => {
+        const fn = (e) => {
+          const d = e.data || {};
+          if (d.type === '__activate_edit_mode')   setTweaksOpen(true);
+          if (d.type === '__deactivate_edit_mode') setTweaksOpen(false);
+        };
+        window.addEventListener('message', fn);
+        window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+        return () => window.removeEventListener('message', fn);
+      }, []);
+
+      const setPalette = (key) => {
+        setPaletteState(key);
+        window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { palette: key } }, '*');
+      };
+
+      const ctx = React.useMemo(() => ({ lang, theme, setLang, setTheme }), [lang, theme]);
+
+      return (
+        <window.AppContext.Provider value={ctx}>
+          <ParticleField />
+          <Nav2 />
+          <main>
+            <Hero2 />
+            <Work2 />
+            <Experience2 />
+            <Skills2 />
+            <Beyond2 />
+            <Contact2 />
+          </main>
+          <Footer2 />
+          <TweaksPanel palette={palette} setPalette={setPalette} visible={tweaksOpen} />
+        </window.AppContext.Provider>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
 </body>
-</html> 
-
+</html>
