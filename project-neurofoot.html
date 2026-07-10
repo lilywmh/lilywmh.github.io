@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NeuroFoot — Case Study | Meihui (Lily) Wu</title>
+<meta name="description" content="NeuroFoot: a smart plantar-pressure monitoring sandal for diabetic neuropathy. Medical-device case study by Lily Wu, Team Cardinal, USC BME 555a.">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { darkMode: 'class', theme: { extend: { fontFamily: { sans: ['SF Pro Display','-apple-system','BlinkMacSystemFont','Inter','system-ui','sans-serif'] } } } };
+</script>
+<style>
+  html { scroll-behavior: smooth; scroll-padding-top: 120px; }
+  body { font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Inter', system-ui, sans-serif; }
+  html.dark body { background: #07050e !important; }
+  html.dark { color-scheme: dark; }
+  html.dark .dk-t1 { color: #eafff5; }
+  html.dark .dk-t2 { color: #b7d8c8; }
+  html.dark .dk-t3 { color: #A6B9B2; }
+  html.dark .dk-accent { color: #34d399; }
+  html.dark .dk-card { background: rgba(3, 18, 15, 0.82); border: 1px solid rgba(45, 212, 191, 0.18); box-shadow: 0 4px 40px rgba(0,0,0,0.55), inset 0 1px 0 rgba(167,243,208,0.05); }
+  html.dark .dk-card:hover { border-color: rgba(52, 211, 153, 0.34); }
+  html.dark .dk-divider { background: rgba(45, 212, 191, 0.16) !important; }
+  html.dark .dk-tag { background: rgba(6, 95, 70, 0.2); border: 1px solid rgba(52, 211, 153, 0.24); color: #b7d8c8; }
+  html.dark .dk-pill-accent { background: rgba(6, 95, 70, 0.28); color: #a7f3d0; }
+  html.dark .dk-nav { background: rgba(10, 7, 22, 0.82) !important; border-color: rgba(45, 212, 191, 0.2) !important; }
+  html.dark .dk-toggle { border: 1px solid rgba(45, 212, 191, 0.24); color: #8fbea8; background: rgba(15, 11, 30, 0.6); }
+  html.dark .dk-toggle:hover { border-color: rgba(52,211,153,0.48); color: #a7f3d0; background: rgba(5,46,34,0.82); }
+  html.dark .dk-stat { background: rgba(6, 95, 70, 0.18); border: 1px solid rgba(52,211,153,0.2); }
+  html.dark .dk-hi { background: rgba(6,95,70,0.22); border: 1px solid rgba(52,211,153,0.28); }
+  html.dark .dk-soft { background: rgba(3,31,24,0.5); }
+  html.dark thead.dk-thead { background: rgba(6,95,70,0.24); }
+  html.dark .dk-flow { background: rgba(3,31,24,0.5); border: 1px solid rgba(45,212,191,0.2); }
+
+  .lt-card { background: rgba(255,255,255,0.55); border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 4px 30px rgba(13,66,48,0.055); }
+  .lt-stat { background: rgba(220,245,234,0.62); border: 1px solid rgba(187,220,205,0.82); }
+  .lt-hi { background: rgba(220,245,234,0.72); border: 1px solid rgba(154,205,181,0.82); }
+  .lt-soft { background: rgba(248,246,253,0.8); }
+  .lt-flow { background: rgba(246,252,249,0.9); border: 1px solid rgba(187,220,205,0.82); }
+
+  body.case-wide {
+    background:
+      radial-gradient(circle at 82% 10%, rgba(16,185,129,0.08), transparent 30%),
+      linear-gradient(135deg, #fbfdfb 0%, #f5faf6 48%, #eef7f1 100%) !important;
+  }
+  body.case-wide::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+      linear-gradient(rgba(6,95,70,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(6,95,70,0.035) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: linear-gradient(to bottom, black, transparent 72%);
+  }
+  body.case-wide > :not(.fixed) {
+    position: relative;
+    z-index: 1;
+  }
+  html.dark body.case-wide {
+    background:
+      radial-gradient(circle at 80% 12%, rgba(16,185,129,0.15), transparent 32%),
+      linear-gradient(135deg, #020617 0%, #04110d 48%, #06130f 100%) !important;
+  }
+  html.dark body.case-wide::before {
+    background-image:
+      linear-gradient(rgba(52,211,153,0.055) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(52,211,153,0.055) 1px, transparent 1px);
+  }
+  html.dark .dk-t1 { color: #eafff5; }
+  html.dark .dk-t2 { color: #b7d8c8; }
+  html.dark .dk-t3 { color: #A6B9B2; }
+  html.dark .dk-accent { color: #34d399; }
+  html.dark .dk-card {
+    background: rgba(3, 18, 15, 0.78);
+    border: 1px solid rgba(45, 212, 191, 0.18);
+    box-shadow: 0 4px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(167,243,208,0.05);
+  }
+  html.dark .dk-card:hover { border-color: rgba(52,211,153,0.34); }
+  html.dark .dk-divider { background: rgba(45,212,191,0.16) !important; }
+  html.dark .dk-tag,
+  html.dark .dk-pill-accent {
+    background: rgba(6,95,70,0.24);
+    border-color: rgba(52,211,153,0.24);
+    color: #a7f3d0;
+  }
+  html.dark .dk-nav {
+    background: rgba(2, 12, 10, 0.84) !important;
+    border-color: rgba(45,212,191,0.2) !important;
+  }
+  html.dark .dk-toggle {
+    border-color: rgba(45,212,191,0.24);
+    color: #8fbea8;
+    background: rgba(3,18,15,0.64);
+  }
+  html.dark .dk-toggle:hover {
+    border-color: rgba(52,211,153,0.48);
+    color: #bbf7d0;
+    background: rgba(5,46,34,0.82);
+  }
+  .case-wide .lt-card {
+    border-color: rgba(187,220,205,0.72);
+    box-shadow: 0 4px 30px rgba(13,66,48,0.055);
+  }
+  .dk-toc-link.active { color: #059669; }
+  .dk-toc-link.active .dk-toc-bar { background: #10b981; }
+  html.dark .dk-toc-link.active { color: #6ee7b7; }
+  html.dark .dk-toc-link.active .dk-toc-bar { background: #34d399; }
+  #readbar { background: linear-gradient(90deg, #0f172a, #059669, #6ee7b7) !important; }
+
+  @keyframes neuroGridDrift {
+    from { background-position: 0 0, 0 0; }
+    to { background-position: 44px 44px, 44px 44px; }
+  }
+  @keyframes neuroGlowPulse {
+    0%, 100% { opacity: 0.72; }
+    50% { opacity: 1; }
+  }
+
+  .neuro-hero-card {
+    position: relative;
+    background:
+      radial-gradient(circle at 86% 78%, rgba(16,185,129,0.18), transparent 34%),
+      radial-gradient(circle at 76% 12%, rgba(6,95,70,0.12), transparent 30%),
+      linear-gradient(135deg, rgba(250,253,251,0.96) 0%, rgba(233,246,239,0.9) 48%, rgba(209,232,222,0.86) 100%);
+    border: none;
+    box-shadow:
+      0 6px 16px rgba(13,66,48,0.08),
+      0 18px 40px rgba(13,66,48,0.12),
+      0 40px 90px rgba(13,66,48,0.18),
+      inset 0 1px 0 rgba(255,255,255,0.85);
+    transition:
+      transform .45s cubic-bezier(.2,.7,.2,1),
+      box-shadow .45s cubic-bezier(.2,.7,.2,1);
+    will-change: transform;
+}
+  
+  .neuro-hero-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(16,185,129,0.42);
+    box-shadow: 0 34px 105px rgba(13,66,48,0.2), 0 0 0 1px rgba(16,185,129,0.08), inset 0 1px 0 rgba(255,255,255,0.82);
+  }
+  .neuro-hero-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(250,253,251,0.98) 0%, rgba(250,253,251,0.86) 48%, rgba(250,253,251,0.24) 74%, transparent 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .neuro-pcb-bg {
+    position: absolute;
+    right: clamp(-28rem, -25vw, -13rem);
+    bottom: clamp(-34rem, -27vw, -18rem);
+    width: min(96vw, 78rem);
+    transform: rotate(5deg);
+    pointer-events: none;
+    z-index: 0;
+    transition: transform .65s cubic-bezier(.2,.7,.2,1), opacity .65s cubic-bezier(.2,.7,.2,1);
+  }
+  .neuro-pcb-bg::before {
+    content: '';
+    position: absolute;
+    inset: -12%;
+    border-radius: 999px;
+    background: radial-gradient(circle, rgba(16,185,129,0.18), rgba(6,95,70,0.11) 42%, transparent 70%);
+    filter: blur(16px);
+  }
+  .neuro-pcb-bg::after {
+    content: '';
+    position: absolute;
+    inset: 8% -18%;
+    background-image:
+      linear-gradient(rgba(14,165,233,0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(14,165,233,0.08) 1px, transparent 1px);
+    background-size: 24px 24px;
+    mask-image: radial-gradient(ellipse at center, black, transparent 68%);
+  }
+  .neuro-pcb-bg img {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-height: 70rem;
+    object-fit: contain;
+    opacity: 0.34;
+    filter: drop-shadow(0 24px 44px rgba(13,66,48,0.16));
+    transition: opacity .65s cubic-bezier(.2,.7,.2,1), filter .65s cubic-bezier(.2,.7,.2,1);
+  }
+  .neuro-hero-card:hover .neuro-pcb-bg {
+    transform: translate(-1.2rem, -1.1rem) rotate(3.5deg);
+  }
+  .neuro-hero-card:hover .neuro-pcb-bg img {
+    opacity: 0.42;
+    filter: drop-shadow(0 30px 54px rgba(13,66,48,0.2));
+  }
+  .neuro-hero-card .lt-card {
+    transition: transform .35s ease, background .35s ease, border-color .35s ease, box-shadow .35s ease;
+  }
+  .neuro-hero-card .lt-card:hover {
+    transform: translateY(-3px);
+  }
+  .neuro-hero-content {
+    position: relative;
+    z-index: 2;
+  }
+  .neuro-hero-card .dk-t1,
+  .neuro-hero-card h1 {
+    color: #0f172a !important;
+  }
+  .neuro-hero-card .dk-t2 {
+    color: #475569 !important;
+  }
+  .neuro-hero-card .dk-t3 {
+    color: #64748b !important;
+  }
+  .neuro-hero-card .lt-card {
+    background: rgba(255,255,255,0.58);
+    border-color: rgba(255,255,255,0.72);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.7), 0 14px 38px rgba(13,66,48,0.08);
+    backdrop-filter: blur(16px);
+  }
+  @media (min-width: 1024px) {
+    .neuro-hero-content { max-width: 64%; }
+  }
+  .neuro-resource-primary {
+    background: #059669;
+    color: #ffffff;
+    border: 1px solid rgba(5,150,105,0.9);
+    box-shadow: 0 14px 34px rgba(5,150,105,0.22);
+  }
+  .neuro-resource-primary:hover { background: #047857; color: #ffffff; }
+  .neuro-resource-secondary {
+    background: #0f766e;
+    color: #ffffff;
+    border: 1px solid rgba(15,118,110,0.9);
+    box-shadow: 0 14px 34px rgba(15,118,110,0.22);
+  }
+  .neuro-resource-secondary:hover { background: #115e59; color: #ffffff; }
+
+  html.dark .neuro-hero-card {
+    background:
+      radial-gradient(circle at 78% 18%, rgba(52,211,153,0.34), transparent 30%),
+      radial-gradient(circle at 88% 82%, rgba(16,185,129,0.30), transparent 36%),
+      linear-gradient(135deg, #020617 0%, #06130f 42%, #064e3b 100%);
+    border: none;
+
+    box-shadow:
+      0 12px 28px rgba(0, 0, 0, 0.103),
+      0 36px 80px rgba(0, 0, 0, 0.103),
+      0 64px 140px rgba(2, 6, 23, 0.264),
+      inset 0 1px 0 rgba(255,255,255,0.10);
+      
+    transition:
+      transform .45s cubic-bezier(.2,.7,.2,1),
+      box-shadow .45s cubic-bezier(.2,.7,.2,1);
+
+    will-change: transform;
+  }
+ 
+  html.dark .neuro-hero-card:hover {
+    transform: translateY(-6px);
+
+    box-shadow:
+    0 8px 10px rgba(47, 80, 57, 0.28),
+    0 24px 30px rgba(16, 51, 29, 0.38),
+    0 30px 80px rgba(39, 103, 62, 0.52),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+  }
+  html.dark .neuro-hero-card::before {
+    background:
+      linear-gradient(90deg, rgba(2,6,23,0.9) 0%, rgba(2,18,16,0.74) 45%, rgba(6,78,59,0.14) 76%, transparent 100%);
+  }
+  html.dark .neuro-pcb-bg img {
+    opacity: 0.52;
+    filter: drop-shadow(0 24px 44px rgba(0,0,0,0.34));
+  }
+  html.dark .neuro-hero-card:hover .neuro-pcb-bg img {
+    opacity: 0.66;
+    filter: drop-shadow(0 32px 58px rgba(0,0,0,0.42));
+  }
+  html.dark .neuro-hero-card .dk-t1,
+  html.dark .neuro-hero-card h1 {
+    color: #f8fafc !important;
+  }
+  html.dark .neuro-hero-card .dk-t2 {
+    color: #cbd5e1 !important;
+  }
+  html.dark .neuro-hero-card .dk-t3 {
+    color: #94a3b8 !important;
+  }
+  html.dark .neuro-hero-card .lt-card {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.16);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 14px 38px rgba(0,0,0,0.16);
+  }
+  html.dark .neuro-resource-primary {
+    background: #10b981;
+    border-color: rgba(110,231,183,0.5);
+    color: #062018;
+  }
+  html.dark .neuro-resource-secondary {
+    background: #14b8a6;
+    border-color: rgba(94,234,212,0.52);
+    color: #042f2e;
+  }
+
+  .dk-toc-link { transition: color .25s; }
+  .dk-toc-bar { transition: all .25s; }
+  .dk-toc-link.active { color: #059669; }
+  .dk-toc-link.active .dk-toc-bar { width: 22px; background: #10b981; }
+  html.dark .dk-toc-link.active { color: #a7f3d0; }
+  html.dark .dk-toc-link.active .dk-toc-bar { background: #34d399; }
+
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
+  .reveal.in { opacity: 1; transform: none; }
+  #readbar { transform-origin: 0 50%; }
+  .stream-num { font-variant-numeric: tabular-nums; }
+
+  body.case-wide::before {
+    animation: neuroGridDrift 24s linear infinite;
+  }
+  .dk-card {
+    transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease, background .3s ease;
+  }
+  .dk-card:hover {
+    transform: translateY(-2px);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    body.case-wide::before,
+    .neuro-hero-card,
+    .neuro-pcb-bg,
+    .neuro-pcb-bg img,
+    .dk-card,
+    .reveal {
+      animation: none !important;
+      transition: none !important;
+      transform: none !important;
+    }
+  }
+
+  /* Wider editorial case-study rhythm */
+  .case-wide .text-\[11px\] { font-size: 0.6875rem; line-height: 1.35; }
+  .case-wide .text-xs { font-size: 0.75rem; line-height: 1.45; }
+  .case-wide .text-sm { font-size: 0.875rem; line-height: 1.65; }
+  .case-wide .text-base { font-size: 1rem; line-height: 1.7; }
+  .case-wide .text-lg { font-size: 1.125rem; line-height: 1.75; }
+  .case-wide .text-xl { font-size: 1.25rem; line-height: 1.45; }
+  .case-wide .text-2xl { font-size: 1.5rem; line-height: 1.22; }
+  .case-wide header h1 { font-size: 3.25rem; line-height: 1.06; letter-spacing: -0.045em; }
+  .case-wide main .text-lg { font-size: 1.125rem; line-height: 1.75; }
+  .case-wide main .text-sm { font-size: 0.875rem; line-height: 1.65; }
+  .case-wide main h2 { font-size: 2.75rem; line-height: 1.08; letter-spacing: -0.04em; }
+  .case-shell { width: min(80vw, 92rem) !important; max-width: 92rem; }
+  #toc .dk-toc-link { font-size: 0.9375rem; line-height: 1.6; }
+  #toc p { font-size: 0.75rem; }
+  @media (max-width: 1279px) {
+    .case-shell { width: min(calc(100% - 3rem), 72rem) !important; }
+    .case-wide header h1 { font-size: 2.75rem; }
+    .case-wide main h2 { font-size: 2.25rem; }
+  }
+  @media (max-width: 767px) {
+    .case-shell { width: calc(100% - 1.5rem) !important; }
+    .case-wide header h1 { font-size: 2.25rem; }
+    .case-wide main h2 { font-size: 1.875rem; letter-spacing: -0.035em; }
+  }
+</style>
+</head>
+<body class="case-wide min-h-screen bg-[#FBFBFD] text-[#1D1D1F] selection:bg-emerald-100 overflow-x-hidden">
+
+<div class="fixed top-0 left-0 right-0 h-[3px] z-[60] bg-transparent">
+  <div id="readbar" class="h-full w-full bg-gradient-to-r from-slate-900 via-emerald-500 to-teal-300 scale-x-0"></div>
+</div>
+
+<nav class="fixed top-4 left-1/2 -translate-x-1/2 w-[94%] case-shell z-50 border rounded-full backdrop-blur-2xl py-3 px-6 flex items-center justify-between dk-nav bg-white/70 border-white/60 shadow-[0_8px_40px_rgba(0,0,0,0.06)]">
+  <a href="index.html#work" class="flex items-center gap-2 text-sm font-medium dk-t2 text-slate-500 hover:text-emerald-600 transition-colors group">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:-translate-x-0.5 transition-transform"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    <span class="hidden sm:inline">All projects</span>
+  </a>
+  <div class="flex items-baseline gap-2 select-none">
+    <span class="font-extralight tracking-[0.28em] text-sm dk-t3 text-slate-500">CASE&nbsp;STUDY</span>
+    <span class="font-bold tracking-[0.2em] text-sm dk-t1 text-slate-900">NeuroFoot</span>
+  </div>
+  <button id="themeBtn" class="flex items-center gap-1.5 px-3.5 py-2 rounded-full border text-sm font-medium dk-toggle bg-white/50 border-white/60 text-slate-500 hover:text-slate-800 hover:bg-white/80 transition-all">
+    <span id="themeIcon">☾</span><span id="themeLabel" class="hidden md:inline">Dark</span>
+  </button>
+</nav>
+
+<!-- Hero -->
+<header class="case-shell mx-auto px-6 pt-36 md:pt-44 pb-14">
+  <div class="reveal in rounded-[40px] md:rounded-[56px] p-7 md:p-12 lg:p-14 dk-card lt-card neuro-hero-card overflow-hidden">
+    <div class="neuro-pcb-bg hidden md:block" aria-hidden="true">
+      <img src="assets/neurofoot-pcb-layout-cutout.png" alt="" class="translate-y-[-2px]">
+    </div>
+    <div class="neuro-hero-content">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-[0.25em] dk-pill-accent bg-emerald-50 text-emerald-600 mb-6">
+        Medical Device · Regulatory &amp; Risk
+      </div>
+      <h1 class="text-5xl md:text-7xl font-semibold tracking-tighter leading-[1.05] dk-t1 text-slate-900 mb-6">
+        NeuroFoot
+      </h1>
+      <p class="text-xl md:text-3xl font-light leading-snug max-w-3xl dk-t2 text-slate-500 italic">
+        Smart plantar-pressure monitoring for diabetic neuropathy — catching silent damage before the patient can feel it.
+      </p>
+      <div class="flex flex-wrap gap-x-6 gap-y-2 mt-6 text-sm dk-t3 text-slate-400">
+        <span>Team Cardinal · USC Viterbi (BME 555a)</span>
+        <span>·</span><span>Behdinan · Rathenberg · <span class="dk-t1 text-slate-700 font-medium">Wu</span> · Anene</span>
+        <span>·</span><span>Spring 2026</span>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12">
+        <div class="rounded-3xl p-5 dk-card lt-card">
+          <p class="text-[11px] font-bold uppercase tracking-[0.2em] dk-t3 text-slate-400 mb-1.5">My Role</p>
+          <p class="text-sm font-semibold dk-t1 text-slate-800 leading-snug">Clinical need, intended-use &amp; risk analysis (FMEA)</p>
+        </div>
+        <div class="rounded-3xl p-5 dk-card lt-card">
+          <p class="text-[11px] font-bold uppercase tracking-[0.2em] dk-t3 text-slate-400 mb-1.5">Team</p>
+          <p class="text-sm font-semibold dk-t1 text-slate-800 leading-snug">Team Cardinal · 4 engineers</p>
+        </div>
+        <div class="rounded-3xl p-5 dk-card lt-card">
+          <p class="text-[11px] font-bold uppercase tracking-[0.2em] dk-t3 text-slate-400 mb-1.5">Class</p>
+          <p class="text-sm font-semibold dk-t1 text-slate-800 leading-snug">Class II · 510(k) · 21 CFR 890.5575</p>
+        </div>
+        <div class="rounded-3xl p-5 dk-card lt-card">
+          <p class="text-[11px] font-bold uppercase tracking-[0.2em] dk-t3 text-slate-400 mb-1.5">Stack</p>
+          <p class="text-sm font-semibold dk-t1 text-slate-800 leading-snug">Arduino Nano 33 BLE · SwiftUI · ISO 14971</p>
+        </div>
+      </div>
+
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="assets/neuro-foot-slides.pdf" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold neuro-resource-primary transition-all">
+          Slides
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+        </a>
+        <a href="assets/neurofoot-%20Report.pdf" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold neuro-resource-secondary transition-all">
+          Report
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="case-shell mx-auto px-6 pb-32 flex gap-16">
+
+  <aside class="hidden lg:block w-56 flex-shrink-0">
+    <nav id="toc" class="sticky top-32 space-y-1">
+      <p class="text-[11px] font-bold uppercase tracking-[0.25em] dk-t3 text-slate-400 mb-4">On this page</p>
+      <a href="#overview"    class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>Overview</a>
+      <a href="#need"        class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>Clinical Need</a>
+      <a href="#stakeholders"class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>Users &amp; Use Cases</a>
+      <a href="#device"      class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>The Device</a>
+      <a href="#regulatory"  class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>Regulatory Strategy</a>
+      <a href="#risk"        class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>Risk Analysis</a>
+      <a href="#verification"class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>Verification</a>
+      <a href="#reflection"  class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>Reflection &amp; Handoff</a>
+    </nav>
+  </aside>
+
+  <main class="flex-1 min-w-0 space-y-24">
+
+    <!-- OVERVIEW -->
+    <section id="overview" class="reveal scroll-mt-32">
+      <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900 mb-6">Overview</h2>
+      <div class="space-y-5 text-lg leading-relaxed font-light dk-t2 text-slate-600">
+        <p>NeuroFoot is a wearable monitoring system — a 16-zone pressure-sensing insole embedded in a sandal — for adults with diabetic peripheral neuropathy. These patients lose protective sensation in their feet, so dangerous pressure can concentrate under the metatarsal heads for hours without any pain to warn them. Tissue breaks down silently, and the first sign is often an ulcer. NeuroFoot watches the pressure they can no longer feel and alerts them before that happens.</p>
+        <p>As part of a four-person team at USC (BME 555a), I owned the <span class="font-medium dk-accent text-emerald-600">clinical framing and safety case</span>: defining the clinical need and intended use, positioning the device for regulatory clearance, and leading the risk analysis (FMEA) that drove the design controls. This page follows that arc — from the patient problem to a verified prototype ready for handoff.</p>
+      </div>
+    </section>
+
+    <!-- CLINICAL NEED -->
+    <section id="need" class="reveal scroll-mt-32">
+      <p class="text-xs font-bold uppercase tracking-[0.25em] dk-accent text-emerald-500 mb-2">Clinical Need</p>
+      <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900 mb-6">Damage you can't feel is damage you can't stop</h2>
+      <div class="rounded-[28px] p-8 dk-card lt-card mb-6">
+        <div class="grid sm:grid-cols-3 gap-6">
+          <div>
+            <div class="w-10 h-10 rounded-2xl bg-rose-100 dark:bg-rose-500/20 flex items-center justify-center mb-3 text-lg">🚶</div>
+            <p class="text-sm font-semibold dk-t1 text-slate-800 mb-1">Unaware patient</p>
+            <p class="text-sm dk-t2 text-slate-500 font-light leading-relaxed">With loss of protective sensation, a patient walks for hours with pressure concentrated under the metatarsal heads. No feedback, no pain — tissue damage develops silently.</p>
+          </div>
+          <div>
+            <div class="w-10 h-10 rounded-2xl bg-amber-100 dark:bg-amber-500/20 flex items-center justify-center mb-3 text-lg">📲</div>
+            <p class="text-sm font-semibold dk-t1 text-slate-800 mb-1">Real-time alert</p>
+            <p class="text-sm dk-t2 text-slate-500 font-light leading-relaxed">NeuroFoot detects when pressure exceeds a threshold and sends a WARN alert to the patient's phone — a cue to offload and, if needed, notify their clinician.</p>
+          </div>
+          <div>
+            <div class="w-10 h-10 rounded-2xl bg-emerald-100 dark:bg-emerald-500/20 flex items-center justify-center mb-3 text-lg">🩺</div>
+            <p class="text-sm font-semibold dk-t1 text-slate-800 mb-1">Clinical review</p>
+            <p class="text-sm dk-t2 text-slate-500 font-light leading-relaxed">At follow-up, the clinician reviews weeks of pressure-trend data, identifies high-risk zones, and adjusts the care plan accordingly.</p>
+          </div>
+        </div>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="rounded-[24px] p-6 dk-hi lt-hi">
+          <p class="text-xs font-bold uppercase tracking-[0.2em] dk-accent text-emerald-500 mb-2">Indication for use</p>
+          <p class="text-sm dk-t2 text-slate-600 font-light leading-relaxed">Adults (18+) with diabetic peripheral neuropathy at risk of plantar ulceration (IWGDF risk 2–3). Monitors plantar pressure across 16 zones, plus temperature and humidity, during daily walking. Prescription use only, under clinician supervision.</p>
+        </div>
+        <div class="rounded-[24px] p-6 dk-hi lt-hi">
+          <p class="text-xs font-bold uppercase tracking-[0.2em] dk-accent text-emerald-500 mb-2">Intended use — and its limits</p>
+          <p class="text-sm dk-t2 text-slate-600 font-light leading-relaxed">A non-invasive monitoring and threshold-alerting system. It detects <span class="font-medium dk-t1 text-slate-800">threshold exceedance, not clinical conditions</span>, and generates warning signals only. It does not diagnose, treat, or cure — an adjunct to standard diabetic foot care, with all clinical decisions made by the physician.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- STAKEHOLDERS -->
+    <section id="stakeholders" class="reveal scroll-mt-32">
+      <p class="text-xs font-bold uppercase tracking-[0.25em] dk-accent text-emerald-500 mb-2">Users &amp; Use Cases</p>
+      <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900 mb-6">Four stakeholders, ranked by risk</h2>
+      <p class="text-lg leading-relaxed font-light dk-t2 text-slate-600 mb-8">Because the primary user bears direct risk of harm, stakeholder priority follows ISO 14971 — the person who can't compensate for a device failure comes first.</p>
+      <div class="grid sm:grid-cols-2 gap-5">
+        <div class="rounded-[24px] p-6 dk-card lt-card">
+          <div class="flex items-center justify-between mb-2"><span class="text-sm font-semibold dk-t1 text-slate-900">Neuropathic patient</span><span class="text-[11px] px-2.5 py-1 rounded-full bg-rose-100 text-rose-600 dark:bg-rose-500/20 dark:text-rose-300 font-bold uppercase tracking-wider">Highest</span></div>
+          <p class="text-sm dk-t2 text-slate-500 font-light leading-relaxed">Primary alert recipient; daily wear and charging. Direct risk of harm — top priority per ISO 14971.</p>
+        </div>
+        <div class="rounded-[24px] p-6 dk-card lt-card">
+          <div class="flex items-center justify-between mb-2"><span class="text-sm font-semibold dk-t1 text-slate-900">Caregiver</span><span class="text-[11px] px-2.5 py-1 rounded-full dk-tag bg-slate-100 text-slate-500 font-bold uppercase tracking-wider">Secondary</span></div>
+          <p class="text-sm dk-t2 text-slate-500 font-light leading-relaxed">Secondary alert recipient; assists with offloading. ADA identifies caregivers as essential in high-risk populations.</p>
+        </div>
+        <div class="rounded-[24px] p-6 dk-card lt-card">
+          <div class="flex items-center justify-between mb-2"><span class="text-sm font-semibold dk-t1 text-slate-900">Clinician</span><span class="text-[11px] px-2.5 py-1 rounded-full dk-tag bg-slate-100 text-slate-500 font-bold uppercase tracking-wider">Reviewer</span></div>
+          <p class="text-sm dk-t2 text-slate-500 font-light leading-relaxed">Reviews longitudinal data; modifies the care plan. IWGDF 2023 recommends periodic pressure monitoring.</p>
+        </div>
+        <div class="rounded-[24px] p-6 dk-card lt-card">
+          <div class="flex items-center justify-between mb-2"><span class="text-sm font-semibold dk-t1 text-slate-900">FDA CDRH</span><span class="text-[11px] px-2.5 py-1 rounded-full dk-tag bg-slate-100 text-slate-500 font-bold uppercase tracking-wider">Regulator</span></div>
+          <p class="text-sm dk-t2 text-slate-500 font-light leading-relaxed">Regulatory reviewer for premarket submission. Defines constraints: 21 CFR 890.5575, Class II.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEVICE -->
+    <section id="device" class="reveal scroll-mt-32">
+      <p class="text-xs font-bold uppercase tracking-[0.25em] dk-accent text-emerald-500 mb-2">The Device</p>
+      <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900 mb-6">What we built</h2>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div class="rounded-3xl p-6 dk-stat lt-stat text-center">
+          <p class="text-3xl md:text-4xl font-bold dk-accent text-emerald-600">16</p>
+          <p class="text-xs dk-t3 text-slate-500 mt-1.5 leading-snug">Pressure zones · toes to heel · 50 Hz</p>
+        </div>
+        <div class="rounded-3xl p-6 dk-stat lt-stat text-center">
+          <p class="text-3xl md:text-4xl font-bold dk-accent text-emerald-600">&lt;1s</p>
+          <p class="text-xs dk-t3 text-slate-500 mt-1.5 leading-snug">Alert latency over BLE 5.0</p>
+        </div>
+        <div class="rounded-3xl p-6 dk-stat lt-stat text-center">
+          <p class="text-3xl md:text-4xl font-bold dk-accent text-emerald-600">3</p>
+          <p class="text-xs dk-t3 text-slate-500 mt-1.5 leading-snug">Alert tiers · OK / WARN / CRITICAL</p>
+        </div>
+        <div class="rounded-3xl p-6 dk-stat lt-stat text-center">
+          <p class="text-3xl md:text-4xl font-bold dk-accent text-emerald-600">iOS</p>
+          <p class="text-xs dk-t3 text-slate-500 mt-1.5 leading-snug">SwiftUI companion app + heatmap</p>
+        </div>
+      </div>
+
+      <!-- Signal chain -->
+      <div class="rounded-[28px] p-8 dk-card lt-card mb-6">
+        <p class="text-xs font-bold uppercase tracking-[0.25em] dk-t3 text-slate-400 mb-6">Signal chain</p>
+        <div class="flex flex-col sm:flex-row items-stretch gap-3 text-center">
+          <div class="flex-1 rounded-2xl p-4 dk-flow lt-flow"><p class="text-sm font-semibold dk-t1 text-slate-800">FSR insole</p><p class="text-xs dk-t3 text-slate-400">16 zones</p></div>
+          <div class="flex items-center justify-center dk-t3 text-slate-300 rotate-90 sm:rotate-0">→</div>
+          <div class="flex-1 rounded-2xl p-4 dk-flow lt-flow"><p class="text-sm font-semibold dk-t1 text-slate-800">CD74HC4067</p><p class="text-xs dk-t3 text-slate-400">16→1 mux · 10kΩ ×16</p></div>
+          <div class="flex items-center justify-center dk-t3 text-slate-300 rotate-90 sm:rotate-0">→</div>
+          <div class="flex-1 rounded-2xl p-4 dk-flow lt-flow"><p class="text-sm font-semibold dk-t1 text-slate-800">Arduino Nano 33</p><p class="text-xs dk-t3 text-slate-400">nRF52840 · ADC · BMI270 · HS300x</p></div>
+          <div class="flex items-center justify-center dk-t3 text-slate-300 rotate-90 sm:rotate-0">→</div>
+          <div class="flex-1 rounded-2xl p-4 dk-flow lt-flow"><p class="text-sm font-semibold dk-t1 text-slate-800">iOS app</p><p class="text-xs dk-t3 text-slate-400">BLE 5.0 · heatmap · alerts</p></div>
+        </div>
+      </div>
+
+      <div class="rounded-[28px] p-6 md:p-8 dk-card lt-card mb-6">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
+          <div>
+            <p class="text-xs font-bold uppercase tracking-[0.25em] dk-t3 text-slate-400 mb-2">Manufacturing process flow</p>
+            <h3 class="text-2xl font-semibold tracking-tight dk-t1 text-slate-900">Assembly, test, rework, and release gates</h3>
+          </div>
+          <p class="text-sm dk-t2 text-slate-500 font-light leading-relaxed max-w-md">A stage-gated flow defined when the embedded PCB could still be reworked, and when failures had to be scrapped for safety.</p>
+        </div>
+        <div class="rounded-[24px] overflow-hidden bg-white border border-slate-200/70 shadow-[0_16px_50px_rgba(15,23,42,0.08)]">
+          <img src="assets/neurofoot-manufacturing-flow.png" alt="Smart insole assembly and test manufacturing process flow" class="w-full h-auto">
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-3">Firmware decision logic</p>
+          <p class="text-sm dk-t2 text-slate-600 font-light leading-relaxed mb-4">Reads 16 FSR channels at 50 Hz and grades each zone against ADC thresholds, logging how long each zone spends in each state before transmitting over BLE.</p>
+          <div class="flex gap-2 flex-wrap">
+            <span class="text-xs px-3 py-1.5 rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300 font-medium">OK &lt; 600</span>
+            <span class="text-xs px-3 py-1.5 rounded-full bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-300 font-medium">WARN 600–849</span>
+            <span class="text-xs px-3 py-1.5 rounded-full bg-rose-100 text-rose-700 dark:bg-rose-500/20 dark:text-rose-300 font-medium">CRITICAL ≥ 850</span>
+          </div>
+        </div>
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-3">Companion app</p>
+          <ul class="space-y-2 text-sm dk-t2 text-slate-600 font-light leading-relaxed list-none">
+            <li class="flex gap-2"><span class="dk-accent text-emerald-500">›</span>Real-time 16-zone pressure heatmap &amp; per-zone bar charts</li>
+            <li class="flex gap-2"><span class="dk-accent text-emerald-500">›</span>Gait metrics (steps, cadence, stance) from the BMI270 IMU</li>
+            <li class="flex gap-2"><span class="dk-accent text-emerald-500">›</span>Ambient temp &amp; humidity for skin-maceration context</li>
+            <li class="flex gap-2"><span class="dk-accent text-emerald-500">›</span>WARN/CRITICAL banners + haptics, connection &amp; battery status</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- REGULATORY -->
+    <section id="regulatory" class="reveal scroll-mt-32">
+      <p class="text-xs font-bold uppercase tracking-[0.25em] dk-accent text-emerald-500 mb-2">Regulatory Strategy</p>
+      <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900 mb-6">A 510(k) path through a 2006 predicate</h2>
+      <p class="text-lg leading-relaxed font-light dk-t2 text-slate-600 mb-8">To reach market as a Class II device, NeuroFoot claims substantial equivalence to a legally marketed predicate — <span class="font-medium dk-t1 text-slate-800">SmartStep (K060150)</span>. The differences are in form factor and connectivity, not intended use, which keeps the submission firmly in 510(k) territory.</p>
+      <div class="rounded-[28px] overflow-hidden dk-card lt-card mb-6">
+        <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead class="dk-thead bg-emerald-50/70">
+            <tr class="text-left">
+              <th class="p-4 font-semibold dk-t1 text-slate-700">Feature</th>
+              <th class="p-4 font-medium dk-t2 text-slate-500">SmartStep (predicate)</th>
+              <th class="p-4 font-medium dk-t2 text-slate-500">NeuroFoot</th>
+              <th class="p-4 font-medium dk-t2 text-slate-500">Equivalence</th>
+            </tr>
+          </thead>
+          <tbody class="dk-t2 text-slate-600">
+            <tr class="border-t border-slate-100 dark:border-emerald-900/25"><td class="p-4 font-medium">Sensor</td><td class="p-4">Resistive insole</td><td class="p-4">16-zone FSR via mux</td><td class="p-4 text-emerald-600 dark:text-emerald-400">Same modality</td></tr>
+            <tr class="border-t border-slate-100 dark:border-emerald-900/25"><td class="p-4 font-medium">Pressure</td><td class="p-4">Single threshold</td><td class="p-4">16-zone, 50 Hz + PTI</td><td class="p-4 text-emerald-600 dark:text-emerald-400">Enhanced resolution</td></tr>
+            <tr class="border-t border-slate-100 dark:border-emerald-900/25"><td class="p-4 font-medium">Alerts</td><td class="p-4">Audible/visual alarm</td><td class="p-4">OK/WARN/CRITICAL + haptic</td><td class="p-4 text-emerald-600 dark:text-emerald-400">Same core function</td></tr>
+            <tr class="border-t border-slate-100 dark:border-emerald-900/25"><td class="p-4 font-medium">Wireless</td><td class="p-4">Control unit → PC</td><td class="p-4">BLE 5.0 → iOS</td><td class="p-4 text-emerald-600 dark:text-emerald-400">Both wireless</td></tr>
+            <tr class="border-t border-slate-100 dark:border-emerald-900/25"><td class="p-4 font-medium">Form factor</td><td class="p-4">Insole + belt unit</td><td class="p-4">Sandal + embedded MCU</td><td class="p-4 text-emerald-600 dark:text-emerald-400">Both wearable</td></tr>
+            <tr class="border-t border-slate-100 dark:border-emerald-900/25"><td class="p-4 font-medium">Safety std</td><td class="p-4">IEC 60601-1, ISO 14971</td><td class="p-4">Same + IEC 62304</td><td class="p-4 text-emerald-600 dark:text-emerald-400">Same core standards</td></tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+      <div class="rounded-[24px] p-6 dk-hi lt-hi">
+        <p class="text-sm dk-t2 text-slate-600 font-light leading-relaxed"><span class="font-medium dk-t1 text-slate-800">Clinical guideline alignment:</span> IWGDF 2023 (pressure offloading for neuropathic patients) · ADA 2024 (comprehensive foot exams + early intervention) · APMA (wearable pressure-offloading technologies).</p>
+      </div>
+    </section>
+
+    <!-- RISK -->
+    <section id="risk" class="reveal scroll-mt-32">
+      <p class="text-xs font-bold uppercase tracking-[0.25em] dk-accent text-emerald-500 mb-2">Risk Analysis · my focus</p>
+      <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900 mb-6">FMEA — scoring what can't be felt</h2>
+      <p class="text-lg leading-relaxed font-light dk-t2 text-slate-600 mb-8">For a device whose users can't sense failure, risk scoring has to be unforgiving. I built the severity, occurrence, and detection scales around the intended-use population — anchoring the top of each scale on the case where the patient believes the device works but it doesn't. Each failure mode's <span class="font-medium dk-t1 text-slate-800">RPN = S × O × D</span>.</p>
+
+      <div class="grid sm:grid-cols-3 gap-4 mb-8">
+        <div class="rounded-[24px] p-6 dk-card lt-card">
+          <p class="text-sm font-semibold dk-t1 text-slate-900 mb-1">Severity (S)</p>
+          <p class="text-xs dk-t2 text-slate-500 font-light leading-relaxed">Worst-case consequence if the failure reaches the patient undetected. 9–10 = direct injury or silent failure while the patient trusts the device.</p>
+        </div>
+        <div class="rounded-[24px] p-6 dk-card lt-card">
+          <p class="text-sm font-semibold dk-t1 text-slate-900 mb-1">Occurrence (O)</p>
+          <p class="text-xs dk-t2 text-slate-500 font-light leading-relaxed">Probability over device lifetime, estimated from datasheets, literature, and prototype observations at PDR stage.</p>
+        </div>
+        <div class="rounded-[24px] p-6 dk-card lt-card">
+          <p class="text-sm font-semibold dk-t1 text-slate-900 mb-1">Detection (D)</p>
+          <p class="text-xs dk-t2 text-slate-500 font-light leading-relaxed">Ability of design controls to catch the failure first. Higher = harder to detect; 9–10 = the device gives no indication at all.</p>
+        </div>
+      </div>
+
+      <div class="rounded-[28px] overflow-hidden dk-card lt-card mb-6">
+        <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead class="dk-thead bg-emerald-50/70">
+            <tr class="text-left">
+              <th class="p-3 pl-4 font-semibold dk-t1 text-slate-700">Failure mode</th>
+              <th class="p-3 font-medium dk-t2 text-slate-500 text-center">S</th>
+              <th class="p-3 font-medium dk-t2 text-slate-500 text-center">O</th>
+              <th class="p-3 font-medium dk-t2 text-slate-500 text-center">D</th>
+              <th class="p-3 font-medium dk-t2 text-slate-500 text-center">RPN</th>
+              <th class="p-3 pr-4 font-medium dk-t2 text-slate-500">Risk</th>
+            </tr>
+          </thead>
+          <tbody class="dk-t2 text-slate-600">
+            <tr class="border-t border-slate-100 dark:border-emerald-900/25"><td class="p-3 pl-4 font-medium">FSR adhesive delamination</td><td class="p-3 text-center">9</td><td class="p-3 text-center">5</td><td class="p-3 text-center">7</td><td class="p-3 text-center font-semibold dk-t1 text-slate-900">315</td><td class="p-3 pr-4"><span class="text-[11px] px-2 py-0.5 rounded-full bg-rose-100 text-rose-600 dark:bg-rose-500/20 dark:text-rose-300 font-bold">HIGH</span></td></tr>
+            <tr class="border-t border-slate-100 dark:border-emerald-900/25"><td class="p-3 pl-4 font-medium">Moisture ingress / short</td><td class="p-3 text-center">7</td><td class="p-3 text-center">5</td><td class="p-3 text-center">7</td><td class="p-3 text-center font-semibold dk-t1 text-slate-900">245</td><td class="p-3 pr-4"><span class="text-[11px] px-2 py-0.5 rounded-full bg-rose-100 text-rose-600 dark:bg-rose-500/20 dark:text-rose-300 font-bold">HIGH</span></td></tr>
+            <tr class="border-t border-slate-100 dark:border-emerald-900/25"><td class="p-3 pl-4 font-medium">Battery depletion / user</td><td class="p-3 text-center">7</td><td class="p-3 text-center">5</td><td class="p-3 text-center">5</td><td class="p-3 text-center font-semibold dk-t1 text-slate-900">175</td><td class="p-3 pr-4"><span class="text-[11px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-600 dark:bg-amber-500/20 dark:text-amber-300 font-bold">MEDIUM</span></td></tr>
+            <tr class="border-t border-slate-100 dark:border-emerald-900/25"><td class="p-3 pl-4 font-medium">BLE disconnection</td><td class="p-3 text-center">7</td><td class="p-3 text-center">4</td><td class="p-3 text-center">6</td><td class="p-3 text-center font-semibold dk-t1 text-slate-900">168</td><td class="p-3 pr-4"><span class="text-[11px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-600 dark:bg-amber-500/20 dark:text-amber-300 font-bold">MEDIUM</span></td></tr>
+            <tr class="border-t border-slate-100 dark:border-emerald-900/25"><td class="p-3 pl-4 font-medium">60 Hz EMI false alerts</td><td class="p-3 text-center">5</td><td class="p-3 text-center">4</td><td class="p-3 text-center">6</td><td class="p-3 text-center font-semibold dk-t1 text-slate-900">120</td><td class="p-3 pr-4"><span class="text-[11px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-600 dark:bg-amber-500/20 dark:text-amber-300 font-bold">MEDIUM</span></td></tr>
+            <tr class="border-t border-slate-100 dark:border-emerald-900/25"><td class="p-3 pl-4 font-medium">HS300x cold-boot zero read</td><td class="p-3 text-center">2</td><td class="p-3 text-center">4</td><td class="p-3 text-center">3</td><td class="p-3 text-center font-semibold dk-t1 text-slate-900">24</td><td class="p-3 pr-4"><span class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-300 font-bold">LOW</span></td></tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+      <p class="text-sm dk-t3 text-slate-400 mb-8">Per ISO 14971, the two RPN ≥ 200 modes (FSR delamination, moisture ingress) required mandatory design controls before design verification.</p>
+
+      <div class="rounded-[28px] p-8 dk-hi lt-hi">
+        <p class="text-base font-semibold dk-t1 text-slate-900 mb-5">Mitigations closed the high-risk items</p>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="rounded-2xl p-4 dk-soft lt-soft flex items-center justify-between gap-3"><div><p class="text-sm font-medium dk-t1 text-slate-800">FSR delamination</p><p class="text-xs dk-t3 text-slate-400">Medical adhesive + recessed channel + self-test</p></div><span class="text-sm font-bold whitespace-nowrap"><span class="text-rose-500">315</span> <span class="dk-t3 text-slate-400">→</span> <span class="text-emerald-500">54</span></span></div>
+          <div class="rounded-2xl p-4 dk-soft lt-soft flex items-center justify-between gap-3"><div><p class="text-sm font-medium dk-t1 text-slate-800">Moisture ingress</p><p class="text-xs dk-t3 text-slate-400">Conformal coating + IP44 + sealed FPC</p></div><span class="text-sm font-bold whitespace-nowrap"><span class="text-rose-500">245</span> <span class="dk-t3 text-slate-400">→</span> <span class="text-emerald-500">42</span></span></div>
+          <div class="rounded-2xl p-4 dk-soft lt-soft flex items-center justify-between gap-3"><div><p class="text-sm font-medium dk-t1 text-slate-800">Battery depletion</p><p class="text-xs dk-t3 text-slate-400">Low-batt alarm + caregiver push + wireless charge</p></div><span class="text-sm font-bold whitespace-nowrap"><span class="text-rose-500">175</span> <span class="dk-t3 text-slate-400">→</span> <span class="text-emerald-500">42</span></span></div>
+          <div class="rounded-2xl p-4 dk-soft lt-soft flex items-center justify-between gap-3"><div><p class="text-sm font-medium dk-t1 text-slate-800">BLE disconnection</p><p class="text-xs dk-t3 text-slate-400">Onboard buzzer + auto-reconnect + LED</p></div><span class="text-sm font-bold whitespace-nowrap"><span class="text-rose-500">168</span> <span class="dk-t3 text-slate-400">→</span> <span class="text-emerald-500">24</span></span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VERIFICATION -->
+    <section id="verification" class="reveal scroll-mt-32">
+      <p class="text-xs font-bold uppercase tracking-[0.25em] dk-accent text-emerald-500 mb-2">Verification</p>
+      <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900 mb-6">9 of 10 components passed acceptance testing</h2>
+      <p class="text-lg leading-relaxed font-light dk-t2 text-slate-600 mb-8">Integration was verified in two stages — breadboard validation of all 16 channels and BLE characteristics, then a sandal-assembly walk test. Pressure channels, IMU axes, environmental sensors, the BLE link, and alert thresholds were all confirmed operational; graded alerts fired in under 200 ms. The one rejection: the BMM150 magnetometer, whose I²C bus is inaccessible on the Nano 33 Rev2 — excluded from the design.</p>
+
+      <div class="grid md:grid-cols-3 gap-5 mb-8">
+        <figure class="rounded-[28px] p-3 dk-card lt-card">
+          <img src="assets/neurofoot-breadboard-test.png" alt="Breadboard validation setup for NeuroFoot sensors" class="w-full aspect-[4/3] object-cover rounded-[22px]">
+          <figcaption class="px-2 pt-3 pb-1">
+            <p class="text-sm font-semibold dk-t1 text-slate-900">Breadboard validation</p>
+            <p class="text-xs dk-t3 text-slate-500 mt-1">Channel wiring and sensor readout before assembly.</p>
+          </figcaption>
+        </figure>
+        <figure class="rounded-[28px] p-3 dk-card lt-card">
+          <img src="assets/neurofoot-phone-insole-test.png" alt="Phone app displaying pressure readings beside the insole PCB" class="w-full aspect-[4/3] object-cover rounded-[22px]">
+          <figcaption class="px-2 pt-3 pb-1">
+            <p class="text-sm font-semibold dk-t1 text-slate-900">BLE app check</p>
+            <p class="text-xs dk-t3 text-slate-500 mt-1">Phone display confirmed live pressure values.</p>
+          </figcaption>
+        </figure>
+        <figure class="rounded-[28px] p-3 dk-card lt-card">
+          <img src="assets/neurofoot-sandal-assembly-test.png" alt="NeuroFoot PCB mounted in a sandal during prototype testing" class="w-full aspect-[4/3] object-cover rounded-[22px]">
+          <figcaption class="px-2 pt-3 pb-1">
+            <p class="text-sm font-semibold dk-t1 text-slate-900">Sandal assembly test</p>
+            <p class="text-xs dk-t3 text-slate-500 mt-1">Integrated insole and app checked during prototype handling.</p>
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="rounded-3xl p-6 dk-stat lt-stat text-center">
+          <p class="text-3xl font-bold dk-accent text-emerald-600">9/10</p>
+          <p class="text-xs dk-t3 text-slate-500 mt-1.5 leading-snug">Components passed acceptance</p>
+        </div>
+        <div class="rounded-3xl p-6 dk-stat lt-stat text-center">
+          <p class="text-3xl font-bold dk-accent text-emerald-600">&lt;200ms</p>
+          <p class="text-xs dk-t3 text-slate-500 mt-1.5 leading-snug">Graded alert latency</p>
+        </div>
+        <div class="rounded-3xl p-6 dk-stat lt-stat text-center">
+          <p class="text-3xl font-bold dk-accent text-emerald-600">2-min</p>
+          <p class="text-xs dk-t3 text-slate-500 mt-1.5 leading-snug">Walk test · no BLE dropouts</p>
+        </div>
+        <div class="rounded-3xl p-6 dk-stat lt-stat text-center">
+          <p class="text-3xl font-bold dk-accent text-emerald-600">±0.5°C</p>
+          <p class="text-xs dk-t3 text-slate-500 mt-1.5 leading-snug">Temp accuracy · ±5% RH humidity</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- REFLECTION -->
+    <section id="reflection" class="reveal scroll-mt-32">
+      <p class="text-xs font-bold uppercase tracking-[0.25em] dk-accent text-emerald-500 mb-2">Reflection &amp; Handoff</p>
+      <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900 mb-6">What I took from it, and what's next</h2>
+      <div class="rounded-[32px] p-8 md:p-10 dk-card lt-card mb-6">
+        <p class="text-lg leading-relaxed font-light dk-t2 text-slate-700">The clearest lesson was that <span class="font-medium dk-t1 text-slate-900">safety framing shapes engineering</span>. Anchoring the FMEA scales on a patient who can't feel failure is what turned two abstract risks into mandatory design controls — the recessed adhesive channel and the sealed enclosure exist because the risk math demanded them. Writing the intended-use statement with equal care about what the device <span class="italic">doesn't</span> do kept the whole team honest about the 510(k) claim.</p>
+      </div>
+      <div class="rounded-[28px] p-8 dk-hi lt-hi">
+        <p class="text-sm font-bold uppercase tracking-[0.2em] dk-accent text-emerald-500 mb-3">Fall 2026 handoff</p>
+        <p class="text-sm leading-relaxed font-light dk-t2 text-slate-700">The verified prototype passes to the next team with a documented path: implement the FMEA mitigations, translate the breadboard design to an Altium PCB (no 100 kΩ pull-downs, no <span class="font-mono text-xs">Wire.begin()</span>, no BMM150), run dynamic force calibration and IEC 60601-1-2 EMC testing, conduct human walking trials, and file the 510(k) against the K060150 predicate.</p>
+      </div>
+    </section>
+
+    <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-slate-200/70 dark:border-emerald-900/30">
+      <a href="project-kin.html" class="text-sm font-medium dk-t2 text-slate-500 hover:text-emerald-600 transition-colors flex items-center gap-2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Previous: KIN
+      </a>
+      <a href="index.html#work" class="text-sm font-medium dk-t2 text-slate-500 hover:text-emerald-600 transition-colors flex items-center gap-2">
+        Back to all projects
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+
+  </main>
+</div>
+
+<footer class="border-t border-slate-200/70 dark:border-emerald-900/30 py-12 text-center">
+  <p class="text-sm dk-t3 text-slate-400">Meihui (Lily) Wu © 2026 · <span class="italic">Stay Curious.</span></p>
+</footer>
+
+<script>
+  (function(){
+    var saved = localStorage.getItem('theme');
+    var prefers = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (saved === 'dark' || (!saved && prefers)) document.documentElement.classList.add('dark');
+    syncThemeBtn();
+  })();
+  function syncThemeBtn(){
+    var dk = document.documentElement.classList.contains('dark');
+    document.getElementById('themeIcon').textContent = dk ? '☀' : '☾';
+    document.getElementById('themeLabel').textContent = dk ? 'Light' : 'Dark';
+  }
+  document.getElementById('themeBtn').addEventListener('click', function(){
+    document.documentElement.classList.toggle('dark');
+    localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark':'light');
+    syncThemeBtn();
+  });
+  window.addEventListener('scroll', function(){
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    var p = h > 0 ? window.scrollY / h : 0;
+    document.getElementById('readbar').style.transform = 'scaleX(' + p + ')';
+  }, {passive:true});
+  var revs = document.querySelectorAll('.reveal');
+  var ro = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); ro.unobserve(e.target); } }); }, {threshold: 0.1});
+  revs.forEach(function(el){ ro.observe(el); });
+  var links = Array.from(document.querySelectorAll('.dk-toc-link'));
+  var sections = links.map(function(l){ return document.querySelector(l.getAttribute('href')); });
+  function spy(){ var y = window.scrollY + 160; var idx = 0; sections.forEach(function(s, i){ if(s && s.offsetTop <= y) idx = i; }); links.forEach(function(l,i){ l.classList.toggle('active', i === idx); }); }
+  window.addEventListener('scroll', spy, {passive:true}); spy();
+</script>
+</body>
+</html>

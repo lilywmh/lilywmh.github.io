@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quotee — Case Study | Meihui (Lily) Wu</title>
+<meta name="description" content="Quotee: a calm iOS reading companion. Snap a page, highlight the lines you love, and watch your own quote shelf grow — all on-device. Case study by Lily Wu.">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { darkMode: 'class', theme: { extend: { fontFamily: { sans: ['SF Pro Display','-apple-system','BlinkMacSystemFont','Inter','system-ui','sans-serif'] } } } };
+</script>
+<style>
+  html { scroll-behavior: smooth; scroll-padding-top: 120px; }
+  body { font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Inter', system-ui, sans-serif; }
+
+  /* ── Dark Elf base (inherited from index) ────────────── */
+  html.dark body { background: #07050e !important; }
+  html.dark { color-scheme: dark; }
+  html.dark .dk-t1 { color: #ede9ff; }
+  html.dark .dk-t2 { color: #b8acd8; }
+  html.dark .dk-t3 { color: #8a7daa; }
+  html.dark .dk-accent { color: #e3b877; }
+  html.dark .dk-card {
+    background: rgba(15, 11, 30, 0.82);
+    border: 1px solid rgba(120, 80, 220, 0.22);
+    box-shadow: 0 4px 40px rgba(0,0,0,0.55), inset 0 1px 0 rgba(200,150,255,0.05);
+  }
+  html.dark .dk-card:hover { border-color: rgba(139, 92, 246, 0.4); }
+  html.dark .dk-divider { background: rgba(120, 80, 220, 0.2) !important; }
+  html.dark .dk-tag { background: rgba(109, 40, 217, 0.14); border: 1px solid rgba(139, 92, 246, 0.25); color: #b8acd8; }
+  html.dark .dk-pill-accent { background: rgba(180, 130, 60, 0.18); color: #ecc48d; }
+  html.dark .dk-nav { background: rgba(10, 7, 22, 0.82) !important; border-color: rgba(120, 80, 220, 0.28) !important; }
+  html.dark .dk-toggle { border: 1px solid rgba(120, 80, 220, 0.32); color: #9880c0; background: rgba(15, 11, 30, 0.6); }
+  html.dark .dk-toggle:hover { border-color: rgba(167,139,250,0.55); color: #c4b5fd; background: rgba(24,18,48,0.85); }
+  html.dark .dk-stat { background: rgba(88, 28, 135, 0.16); border: 1px solid rgba(139,92,246,0.22); }
+  html.dark .dk-toc-link.active { color: #ecc48d; }
+  html.dark .dk-toc-link.active .dk-toc-bar { background: #e3b877; }
+  html.dark .dk-phone { background: linear-gradient(160deg, rgba(30,20,60,0.9), rgba(12,9,26,0.95)); border-color: rgba(139,92,246,0.3); }
+
+  /* Light tokens */
+  .lt-card { background: rgba(255,255,255,0.62); border: 1px solid rgba(255,255,255,0.85); box-shadow: 0 4px 30px rgba(140,100,40,0.06); }
+  .lt-stat { background: rgba(248,240,224,0.65); border: 1px solid rgba(236,220,190,0.9); }
+  .lt-phone { background: linear-gradient(160deg,#ffffff,#faf4e9); border-color: #ecdfc9; }
+
+  /* TOC scroll-spy */
+  .dk-toc-link { transition: color .25s; }
+  .dk-toc-bar { transition: all .25s; }
+  .dk-toc-link.active { color: #a16207; }
+  .dk-toc-link.active .dk-toc-bar { width: 22px; background: #ca8a04; }
+  #toc .dk-toc-link { font-size: 0.9375rem; line-height: 1.6; }
+  #toc p { font-size: 0.75rem; }
+
+  /* fade-in on scroll */
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* progress bar */
+  #readbar { transform-origin: 0 50%; }
+
+  /* Wider editorial case-study rhythm */
+  .case-wide .text-\[11px\] { font-size: 0.6875rem; line-height: 1.35; }
+  .case-wide .text-xs { font-size: 0.75rem; line-height: 1.45; }
+  .case-wide .text-sm { font-size: 0.875rem; line-height: 1.65; }
+  .case-wide .text-base { font-size: 1rem; line-height: 1.7; }
+  .case-wide .text-lg { font-size: 1.125rem; line-height: 1.75; }
+  .case-wide .text-xl { font-size: 1.25rem; line-height: 1.45; }
+  .case-wide .text-2xl { font-size: 1.5rem; line-height: 1.22; }
+  .case-wide header h1 { font-size: 3.25rem; line-height: 1.06; letter-spacing: -0.045em; }
+  .case-wide main .text-lg { font-size: 1.125rem; line-height: 1.75; }
+  .case-wide main .text-sm { font-size: 0.875rem; line-height: 1.65; }
+  .case-wide main h2 { font-size: 2.75rem; line-height: 1.08; letter-spacing: -0.04em; }
+  .case-shell { width: min(80vw, 92rem) !important; max-width: 92rem; }
+  @media (max-width: 1279px) {
+    .case-shell { width: min(calc(100% - 3rem), 72rem) !important; }
+    .case-wide header h1 { font-size: 2.75rem; }
+    .case-wide main h2 { font-size: 2.25rem; }
+  }
+  @media (max-width: 767px) {
+    .case-shell { width: calc(100% - 1.5rem) !important; }
+    .case-wide header h1 { font-size: 2.25rem; }
+    .case-wide main h2 { font-size: 1.875rem; letter-spacing: -0.035em; }
+  }
+  .case-hero-card {
+    background:
+      radial-gradient(circle at 78% 25%, rgba(255,252,244,0.95), transparent 32%),
+      linear-gradient(135deg, rgba(253,250,242,0.95), rgba(248,238,220,0.88));
+  }
+  .qt-hero-meta {
+    background: rgba(255,255,255,0.72);
+    border: 1px solid rgba(255,255,255,0.92);
+    box-shadow: 0 16px 48px rgba(130,95,35,0.08);
+  }
+  html.dark .case-hero-card {
+    background:
+      radial-gradient(circle at 76% 22%, rgba(190,140,60,0.16), transparent 34%),
+      linear-gradient(135deg, rgba(20,15,32,0.94), rgba(10,7,22,0.92));
+  }
+  html.dark .qt-hero-meta {
+    background: rgba(16,12,30,0.66);
+    border-color: rgba(190,140,60,0.22);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.24);
+  }
+
+  /* ── Quotee phone-screen mockups (warm paper palette, theme-independent) ── */
+  .qp-frame {
+    width: 268px; border-radius: 42px; padding: 12px;
+    border: 1px solid; flex-shrink: 0;
+  }
+  .qp-screen {
+    background: #faf6ef; color: #2b2622; border-radius: 32px; overflow: hidden;
+    font-family: -apple-system, 'PingFang SC', 'Helvetica Neue', sans-serif;
+    font-size: 12px; line-height: 1.45; height: 520px; display: flex; flex-direction: column;
+    box-shadow: inset 0 0 0 1px rgba(60,45,20,0.06);
+  }
+  .qp-statusbar { display: flex; justify-content: space-between; padding: 12px 20px 4px; font-size: 10px; font-weight: 600; color: #7a6f63; }
+  .qp-title { font-family: Georgia, 'Songti SC', serif; font-size: 17px; font-weight: 700; padding: 8px 18px 2px; }
+  .qp-sub { font-size: 10px; color: #a89c8e; padding: 0 18px 10px; }
+  .qp-body { flex: 1; padding: 4px 16px 12px; overflow: hidden; }
+  .qp-tabbar { display: flex; justify-content: space-around; padding: 9px 8px 14px; border-top: 1px solid #e8e0d2; font-size: 9px; color: #a89c8e; }
+  .qp-tab { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .qp-tab.on { color: #8a6f4d; font-weight: 600; }
+  .qp-tab svg { width: 17px; height: 17px; }
+  /* shelf */
+  .qp-shelfrow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 6px 2px 2px; }
+  .qp-book { border-radius: 6px 10px 10px 6px; height: 96px; padding: 9px 8px; display: flex; flex-direction: column; justify-content: space-between; color: #fff; box-shadow: 0 3px 8px rgba(60,45,20,0.18); position: relative; }
+  .qp-book::before { content: ''; position: absolute; left: 5px; top: 0; bottom: 0; width: 1.5px; background: rgba(255,255,255,0.28); }
+  .qp-book b { font-family: Georgia, serif; font-size: 9.5px; font-weight: 700; line-height: 1.25; display: block; }
+  .qp-book span { font-size: 8px; opacity: .82; }
+  .qp-plank { height: 5px; border-radius: 3px; background: linear-gradient(#e6d9c2,#d8c8ab); margin: -2px 0 10px; box-shadow: 0 2px 4px rgba(60,45,20,0.12); }
+  /* capture */
+  .qp-photo { background: #f3eee3; border: 1px solid #e8e0d2; border-radius: 12px; padding: 12px 12px; font-family: Georgia, serif; font-size: 10.5px; line-height: 1.75; color: #5c5348; }
+  .qp-line { border-radius: 4px; padding: 0 3px; }
+  .qp-line.hl { background: #f5d98f; color: #3a3020; box-shadow: 0 0 0 1px #eccb72; }
+  .qp-hint { text-align: center; font-size: 9.5px; color: #a89c8e; margin: 10px 0 8px; }
+  .qp-btn { display: block; width: 100%; text-align: center; background: #8a6f4d; color: #fff; border-radius: 12px; padding: 9px 0; font-weight: 600; font-size: 12px; }
+  /* reflect chat */
+  .qp-bubble { max-width: 82%; border-radius: 15px; padding: 8px 11px; margin-bottom: 8px; font-size: 11px; }
+  .qp-bubble.ai { background: #fff; border: 1px solid #e8e0d2; border-bottom-left-radius: 5px; }
+  .qp-bubble.me { background: #8a6f4d; color: #fff; margin-left: auto; border-bottom-right-radius: 5px; }
+  .qp-quotecard { background: #fdf9f0; border-left: 3px solid #c2a476; border-radius: 8px; padding: 7px 9px; font-family: Georgia, serif; font-style: italic; font-size: 10px; color: #5c5348; margin: 6px 0; }
+  .qp-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+  .qp-chip { background: #f3ecdf; color: #8a6f4d; border-radius: 999px; padding: 4px 9px; font-size: 9.5px; font-weight: 600; }
+  .qp-input { display: flex; gap: 8px; align-items: center; background: #fff; border: 1px solid #e8e0d2; border-radius: 999px; padding: 7px 7px 7px 13px; color: #a89c8e; font-size: 10.5px; margin-top: 10px; }
+  .qp-send { width: 24px; height: 24px; border-radius: 999px; background: #8a6f4d; color: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .qp-caption { text-align: center; font-size: 0.8125rem; margin-top: 14px; }
+
+  /* flow strip */
+  .qt-flowstep { flex: 1; min-width: 150px; }
+</style>
+</head>
+<body class="case-wide min-h-screen bg-[#FBFBFD] text-[#1D1D1F] selection:bg-amber-100 overflow-x-hidden">
+
+<!-- reading progress -->
+<div class="fixed top-0 left-0 right-0 h-[3px] z-[60] bg-transparent">
+  <div id="readbar" class="h-full w-full bg-gradient-to-r from-amber-400 via-orange-300 to-rose-300 scale-x-0"></div>
+</div>
+
+<!-- Top nav -->
+<nav class="fixed top-4 left-1/2 -translate-x-1/2 w-[94%] case-shell z-50 border rounded-full backdrop-blur-2xl py-3 px-6 flex items-center justify-between dk-nav bg-white/70 border-white/60 shadow-[0_8px_40px_rgba(0,0,0,0.06)]">
+  <a href="index.html#work" class="flex items-center gap-2 text-sm font-medium dk-t2 text-slate-500 hover:text-amber-600 transition-colors group">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:-translate-x-0.5 transition-transform"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    <span class="hidden sm:inline">All projects</span>
+  </a>
+  <div class="flex items-baseline gap-2 select-none">
+    <span class="font-extralight tracking-[0.28em] text-sm dk-t3 text-slate-500">CASE&nbsp;STUDY</span>
+    <span class="font-bold tracking-[0.2em] text-sm dk-t1 text-slate-900">QUOTEE</span>
+  </div>
+  <button id="themeBtn" class="flex items-center gap-1.5 px-3.5 py-2 rounded-full border text-sm font-medium dk-toggle bg-white/50 border-white/60 text-slate-500 hover:text-slate-800 hover:bg-white/80 transition-all">
+    <span id="themeIcon">☾</span><span id="themeLabel" class="hidden md:inline">Dark</span>
+  </button>
+</nav>
+
+<!-- Hero -->
+<header class="case-shell mx-auto px-6 pt-36 md:pt-44 pb-20">
+  <div class="reveal in rounded-[40px] md:rounded-[56px] p-7 md:p-12 lg:p-16 dk-card lt-card case-hero-card overflow-hidden">
+    <div class="grid lg:grid-cols-[1fr_0.72fr] gap-10 lg:gap-16 items-center">
+      <div class="relative z-10">
+        <h1 class="font-semibold dk-t1 text-slate-900 mb-4">Quotee</h1>
+        <p class="text-xl md:text-2xl font-light dk-t2 text-slate-600 mb-8 max-w-xl">Save quotes. Reflect later. A calm iOS reading companion that never interrupts the page you're on.</p>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-[0.25em] bg-amber-600/10 text-amber-700 dk-pill-accent mb-8">
+          Product Design · iOS Development
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-3 md:gap-4 max-w-3xl">
+          <div class="rounded-3xl p-5 qt-hero-meta">
+            <p class="text-[11px] font-bold uppercase tracking-[0.2em] dk-t3 text-slate-400 mb-1.5">My Role</p>
+            <p class="text-base font-semibold dk-t1 text-slate-800 leading-snug">Solo · Design & Development</p>
+          </div>
+          <div class="rounded-3xl p-5 qt-hero-meta">
+            <p class="text-[11px] font-bold uppercase tracking-[0.2em] dk-t3 text-slate-400 mb-1.5">Platform</p>
+            <p class="text-base font-semibold dk-t1 text-slate-800 leading-snug">iOS · iPhone</p>
+          </div>
+          <div class="rounded-3xl p-5 qt-hero-meta">
+            <p class="text-[11px] font-bold uppercase tracking-[0.2em] dk-t3 text-slate-400 mb-1.5">Timeline</p>
+            <p class="text-base font-semibold dk-t1 text-slate-800 leading-snug">2026</p>
+          </div>
+          <div class="rounded-3xl p-5 qt-hero-meta">
+            <p class="text-[11px] font-bold uppercase tracking-[0.2em] dk-t3 text-slate-400 mb-1.5">Stack</p>
+            <p class="text-base font-semibold dk-t1 text-slate-800 leading-snug">SwiftUI · SwiftData · Vision</p>
+          </div>
+        </div>
+
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="quotee-demo.html" target="_blank" rel="noopener"
+             class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold dk-toggle bg-white/60 border border-white/70 text-slate-600 hover:text-amber-600 transition-all">
+            Try the web prototype
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Hero phone: the shelf -->
+      <div class="relative flex justify-center lg:justify-end">
+        <div class="qp-frame dk-phone lt-phone border shadow-[0_28px_60px_rgba(130,95,35,0.18)] rotate-2">
+          <div class="qp-screen">
+            <div class="qp-statusbar"><span>9:41</span><span>⌁ ▮</span></div>
+            <div class="qp-title">Notebook</div>
+            <div class="qp-sub">6 books · 42 quotes saved</div>
+            <div class="qp-body">
+              <div class="qp-shelfrow">
+                <div class="qp-book" style="background:linear-gradient(150deg,#7d5a3c,#5e422b)"><b>The Little Prince</b><span>9 quotes</span></div>
+                <div class="qp-book" style="background:linear-gradient(150deg,#4a6741,#33492d)"><b>Walden</b><span>7 quotes</span></div>
+                <div class="qp-book" style="background:linear-gradient(150deg,#5d5a7a,#413f57)"><b>围城</b><span>8 quotes</span></div>
+              </div>
+              <div class="qp-plank"></div>
+              <div class="qp-shelfrow">
+                <div class="qp-book" style="background:linear-gradient(150deg,#8a4f4f,#623636)"><b>Meditations</b><span>11 quotes</span></div>
+                <div class="qp-book" style="background:linear-gradient(150deg,#3f6470,#2c4750)"><b>Bird by Bird</b><span>4 quotes</span></div>
+                <div class="qp-book" style="background:linear-gradient(150deg,#a0763b,#7a5827)"><b>活着</b><span>3 quotes</span></div>
+              </div>
+              <div class="qp-plank"></div>
+            </div>
+            <div class="qp-tabbar">
+              <div class="qp-tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8"/></svg>Clippings</div>
+              <div class="qp-tab on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>Notebook</div>
+              <div class="qp-tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z"/></svg>Reflect</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Body: TOC + content -->
+<div class="case-shell mx-auto px-6 pb-32 flex gap-10">
+
+  <!-- Sticky TOC -->
+  <aside class="hidden lg:block w-56 flex-shrink-0">
+    <nav id="toc" class="sticky top-32 space-y-1">
+      <p class="text-[20px] font-bold uppercase tracking-[0.25em] dk-t3 text-slate-400 mb-4">On this page</p>
+      <a href="#overview"    class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>Overview</a>
+      <a href="#problem"     class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>The Problem</a>
+      <a href="#principles"  class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>Design Principles</a>
+      <a href="#flow"        class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>The Flow</a>
+      <a href="#details"     class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>Craft & Details</a>
+      <a href="#tech"        class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>Under the Hood</a>
+      <a href="#privacy"     class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>Privacy</a>
+      <a href="#reflection"  class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>Reflection</a>
+    </nav>
+  </aside>
+
+  <!-- Content -->
+  <main class="flex-1 min-w-0 space-y-24">
+
+    <!-- OVERVIEW -->
+    <section id="overview" class="reveal scroll-mt-32">
+      <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900 mb-6">Overview</h2>
+      <div class="space-y-5 text-lg leading-relaxed font-light dk-t2 text-slate-600">
+        <p>Quotee is a native iOS app for people who read on paper and want to keep the lines that move them. Snap the page, tap the sentences you want — like running a highlighter over them — and keep reading. The quote rests safely in Clippings until you're ready to file it onto your own bookshelf, and a chat-style Reflect space helps you notice the ideas you keep returning to.</p>
+        <p>I designed and built the entire product solo: interaction design, visual identity, and a full SwiftUI implementation with on-device text recognition in <span class="font-medium dk-accent text-amber-700">English and Chinese</span>. It began as an interactive web prototype to test the core flow, then became a complete native app running on real iPhones. No servers, no accounts, no tracking — everything stays on the device.</p>
+      </div>
+    </section>
+
+    <!-- PROBLEM -->
+    <section id="problem" class="reveal scroll-mt-32">
+      <p class="text-xs font-bold uppercase tracking-[0.25em] dk-accent text-amber-600 mb-2">The Problem</p>
+      <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900 mb-6">Saving a quote shouldn't cost you the chapter</h2>
+      <p class="text-lg leading-relaxed font-light dk-t2 text-slate-600 mb-8">Every reader knows the moment: a sentence stops you, and you want to keep it. But the tools for keeping it all break the reading. Typing it out takes minutes. Photo rolls become graveyards of unsearchable page shots. Note apps demand a title, a folder, a decision — right now, mid-chapter. So most quotes are lost, and the few that survive are never looked at again.</p>
+      <div class="grid sm:grid-cols-3 gap-4">
+        <div class="rounded-[28px] p-7 dk-stat lt-stat">
+          <p class="text-2xl font-semibold dk-t1 text-slate-900 mb-1.5">Friction</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Typing a passage or filling in metadata mid-read breaks the very flow that made the quote matter.</p>
+        </div>
+        <div class="rounded-[28px] p-7 dk-stat lt-stat">
+          <p class="text-2xl font-semibold dk-t1 text-slate-900 mb-1.5">Noise</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">A photo of a page captures forty lines when you wanted two — and OCR dumps them all into your notes.</p>
+        </div>
+        <div class="rounded-[28px] p-7 dk-stat lt-stat">
+          <p class="text-2xl font-semibold dk-t1 text-slate-900 mb-1.5">Amnesia</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Saved quotes go somewhere and stay there. Nothing invites you back to sit with what you collected.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRINCIPLES -->
+    <section id="principles" class="reveal scroll-mt-32">
+      <p class="text-xs font-bold uppercase tracking-[0.25em] dk-accent text-amber-600 mb-2">Design Principles</p>
+      <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900 mb-6">Calm, on purpose</h2>
+      <p class="text-lg leading-relaxed font-light dk-t2 text-slate-600 mb-8">Reading apps love streaks, badges, and daily goals. Quotee refuses all of it. The product is shaped by three commitments that showed up in every design decision, from the capture flow to the deliberately quiet calendar.</p>
+      <div class="grid md:grid-cols-3 gap-4">
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-2">1 · Capture first, organize later</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Saving takes seconds and asks for nothing. New quotes rest in <span class="font-medium dk-accent text-amber-700">Clippings</span> — a guilt-free inbox — until you feel like adding the book, a thought, or a theme. Or never. That's fine too.</p>
+        </div>
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-2">2 · No streaks, no scores</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">The calendar shows when you saved quotes as a quiet monthly view — a look-back, not a scoreboard. Nothing counts days, nothing nags. The reward is the shelf itself, growing.</p>
+        </div>
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-2">3 · Private by default</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">No account required, no analytics, no cloud. Text is read from photos on-device. The only data that ever leaves the phone is a quote you explicitly ask the optional AI to reflect on — with your own key.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FLOW -->
+    <section id="flow" class="reveal scroll-mt-32">
+      <p class="text-xs font-bold uppercase tracking-[0.25em] dk-accent text-amber-600 mb-2">The Flow</p>
+      <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900 mb-6">Save → Clippings → Notebook → Reflect</h2>
+      <p class="text-lg leading-relaxed font-light dk-t2 text-slate-600 mb-10">Four spaces, one gentle gradient from capture to meaning. Each step is optional after the first — the app meets you wherever your energy is.</p>
+
+      <div class="flex flex-wrap gap-4 mb-14">
+        <div class="qt-flowstep rounded-[28px] p-6 dk-stat lt-stat">
+          <p class="text-[11px] font-bold uppercase tracking-[0.2em] dk-t3 text-slate-400 mb-1.5">01 · Save</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Snap the page. On-device OCR reads it in under a second.</p>
+        </div>
+        <div class="qt-flowstep rounded-[28px] p-6 dk-stat lt-stat">
+          <p class="text-[11px] font-bold uppercase tracking-[0.2em] dk-t3 text-slate-400 mb-1.5">02 · Clippings</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Quotes wait in a pressure-free inbox until you're ready.</p>
+        </div>
+        <div class="qt-flowstep rounded-[28px] p-6 dk-stat lt-stat">
+          <p class="text-[11px] font-bold uppercase tracking-[0.2em] dk-t3 text-slate-400 mb-1.5">03 · Notebook</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">File quotes into books on a shelf that's yours to style.</p>
+        </div>
+        <div class="qt-flowstep rounded-[28px] p-6 dk-stat lt-stat">
+          <p class="text-[11px] font-bold uppercase tracking-[0.2em] dk-t3 text-slate-400 mb-1.5">04 · Reflect</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">A conversation with your own collection — what keeps coming back?</p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap justify-center gap-10 lg:gap-14">
+        <!-- Capture mockup -->
+        <div class="text-center">
+          <div class="qp-frame dk-phone lt-phone border shadow-[0_22px_50px_rgba(130,95,35,0.14)] mx-auto">
+            <div class="qp-screen">
+              <div class="qp-statusbar"><span>9:41</span><span>⌁ ▮</span></div>
+              <div class="qp-title">Pick your lines</div>
+              <div class="qp-sub">Tap the sentences that belong to the quote</div>
+              <div class="qp-body">
+                <div class="qp-photo">
+                  <span class="qp-line">…and so the days passed, one after another,</span><br>
+                  <span class="qp-line">until the season turned without warning.</span><br>
+                  <span class="qp-line hl">It is only with the heart that one can</span><br>
+                  <span class="qp-line hl">see rightly; what is essential is</span><br>
+                  <span class="qp-line hl">invisible to the eye.</span><br>
+                  <span class="qp-line">He repeated it, so as to remember, and</span><br>
+                  <span class="qp-line">looked once more at the sleeping fox.</span>
+                </div>
+                <p class="qp-hint">3 lines selected</p>
+                <span class="qp-btn">Save to Clippings</span>
+              </div>
+              <div class="qp-tabbar">
+                <div class="qp-tab on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8"/></svg>Clippings</div>
+                <div class="qp-tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>Notebook</div>
+                <div class="qp-tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z"/></svg>Reflect</div>
+              </div>
+            </div>
+          </div>
+          <p class="qp-caption dk-t3 text-slate-400">Highlight-style capture: tap only the lines you want</p>
+        </div>
+
+        <!-- Reflect mockup -->
+        <div class="text-center">
+          <div class="qp-frame dk-phone lt-phone border shadow-[0_22px_50px_rgba(130,95,35,0.14)] mx-auto">
+            <div class="qp-screen">
+              <div class="qp-statusbar"><span>9:41</span><span>⌁ ▮</span></div>
+              <div class="qp-title">Reflect</div>
+              <div class="qp-sub">A quiet conversation with your quotes</div>
+              <div class="qp-body">
+                <div class="qp-bubble ai">You've saved 11 quotes from <i>Meditations</i> this month. One theme keeps surfacing — attention.
+                  <div class="qp-quotecard">"Confine yourself to the present."</div>
+                </div>
+                <div class="qp-bubble me">Why do I keep coming back to that one?</div>
+                <div class="qp-bubble ai">Maybe because it's the shortest — and the hardest. You also saved this in March:
+                  <div class="qp-quotecard">"The impediment to action advances action."</div>
+                </div>
+                <div class="qp-chips">
+                  <span class="qp-chip">Show me a random quote</span>
+                  <span class="qp-chip">What did I read in spring?</span>
+                </div>
+                <div class="qp-input">Ask about your quotes…
+                  <span class="qp-send"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></span>
+                </div>
+              </div>
+              <div class="qp-tabbar">
+                <div class="qp-tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8"/></svg>Clippings</div>
+                <div class="qp-tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>Notebook</div>
+                <div class="qp-tab on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z"/></svg>Reflect</div>
+              </div>
+            </div>
+          </div>
+          <p class="qp-caption dk-t3 text-slate-400">Reflect: chat bubbles, suggestion chips, optional AI</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- DETAILS -->
+    <section id="details" class="reveal scroll-mt-32">
+      <p class="text-xs font-bold uppercase tracking-[0.25em] dk-accent text-amber-600 mb-2">Craft & Details</p>
+      <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900 mb-6">The small things that make it feel like yours</h2>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-2">Highlight-style capture</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">After a photo is read, you tap the lines that belong to the quote — like running a highlighter across the page — instead of getting the whole page dumped into a text box. The gesture readers already know, made digital.</p>
+        </div>
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-2">Custom book covers</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Long-press a book on the shelf for theme styles — Classic, Notebook, Diary — color choices, or a photo of the real cover. The shelf becomes a portrait of your reading life, in the spirit of Apple Books.</p>
+        </div>
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-2">Bilingual by design</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Text recognition handles English and Chinese natively — because my own bookshelf does too. Serif rendering, spacing, and line grouping were tuned for both scripts.</p>
+        </div>
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-2">A calendar without streaks</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">A quiet monthly view marks the days you saved quotes. No chains to break, no numbers to keep up. Deliberately: the absence of streaks is a feature, not an omission.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TECH -->
+    <section id="tech" class="reveal scroll-mt-32">
+      <p class="text-xs font-bold uppercase tracking-[0.25em] dk-accent text-amber-600 mb-2">Under the Hood</p>
+      <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900 mb-6">A fully native build</h2>
+      <p class="text-lg leading-relaxed font-light dk-t2 text-slate-600 mb-8">Quotee started life as a self-contained interactive web prototype — the fastest way to feel the flow in hand — then was rebuilt natively for iPhone. The production app is pure SwiftUI with no third-party dependencies.</p>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="rounded-[28px] p-7 dk-stat lt-stat">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-1.5">SwiftUI + SwiftData</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Declarative UI with local persistence — the whole library lives on-device.</p>
+        </div>
+        <div class="rounded-[28px] p-7 dk-stat lt-stat">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-1.5">Vision OCR</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Apple's Vision framework reads pages on-device in English and Chinese — no photo ever uploaded.</p>
+        </div>
+        <div class="rounded-[28px] p-7 dk-stat lt-stat">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-1.5">Optional Claude</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Reflect works fully offline; users can optionally connect Claude with their own API key, stored in the iPhone Keychain.</p>
+        </div>
+        <div class="rounded-[28px] p-7 dk-stat lt-stat">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-1.5">System-native look</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Standard components throughout, so the app inherits the current system design language in light and dark mode.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRIVACY -->
+    <section id="privacy" class="reveal scroll-mt-32">
+      <p class="text-xs font-bold uppercase tracking-[0.25em] dk-accent text-amber-600 mb-2">Privacy</p>
+      <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900 mb-6">Nothing leaves the phone unless you ask it to</h2>
+      <div class="rounded-[28px] p-8 md:p-10 dk-card lt-card">
+        <p class="text-lg leading-relaxed font-light dk-t2 text-slate-600 mb-5">Quotee ships with no servers, no accounts, and no analytics. Photos are processed on-device and discarded; only the text you highlight is kept. AI reflections are off by default — turning them on means quotes are sent to Anthropic <span class="font-medium dk-accent text-amber-700">only</span> when you explicitly ask a question in Reflect, using a key you provide, stored in the Keychain.</p>
+        <p class="text-sm leading-relaxed font-light dk-t3 text-slate-500">The app also includes a "Privacy, in Plain Words" page — the full policy rewritten so a reader, not a lawyer, can understand it. Writing that page turned out to be a design exercise of its own.</p>
+      </div>
+    </section>
+
+    <!-- REFLECTION -->
+    <section id="reflection" class="reveal scroll-mt-32">
+      <p class="text-xs font-bold uppercase tracking-[0.25em] dk-accent text-amber-600 mb-2">Reflection</p>
+      <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900 mb-6">What building it alone taught me</h2>
+      <div class="grid md:grid-cols-3 gap-4">
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-2">1 · Prototype in the cheapest medium first</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">A single-file web prototype let me live with the Save → Clippings → Notebook flow for weeks before writing any Swift. The flow that survived is almost unchanged; everything else got cut.</p>
+        </div>
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-2">2 · Restraint is a feature you build</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">The hardest decisions were subtractions: no streaks, no social feed, no cloud sync in v1. Each removal made the product calmer — and calm was the whole point.</p>
+        </div>
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-2">3 · Next: the App Store</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Version 1.1 runs on-device today. The path ahead is TestFlight with real readers, then App Store review — with the privacy nutrition label Quotee was designed to earn: "Data Not Collected."</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- next -->
+    <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-slate-200/70 dark:border-violet-900/30">
+      <a href="index.html#work" class="text-sm font-medium dk-t2 text-slate-500 hover:text-amber-600 transition-colors flex items-center gap-2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Back to all projects
+      </a>
+      <a href="project-kin.html" class="text-sm font-medium dk-t2 text-slate-500 hover:text-amber-600 transition-colors flex items-center gap-2">
+        Next: KIN
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+
+  </main>
+</div>
+
+<footer class="border-t border-slate-200/70 dark:border-violet-900/30 py-12 text-center">
+  <p class="text-sm dk-t3 text-slate-400">Meihui (Lily) Wu © 2026 · <span class="italic">Stay Curious.</span></p>
+</footer>
+
+<script>
+  // Theme
+  (function(){
+    var saved = localStorage.getItem('theme');
+    var prefers = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (saved === 'dark' || (!saved && prefers)) document.documentElement.classList.add('dark');
+    syncThemeBtn();
+  })();
+  function syncThemeBtn(){
+    var dk = document.documentElement.classList.contains('dark');
+    document.getElementById('themeIcon').textContent = dk ? '☀' : '☾';
+    document.getElementById('themeLabel').textContent = dk ? 'Light' : 'Dark';
+  }
+  document.getElementById('themeBtn').addEventListener('click', function(){
+    document.documentElement.classList.toggle('dark');
+    localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark':'light');
+    syncThemeBtn();
+  });
+
+  // Reading progress
+  window.addEventListener('scroll', function(){
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    var p = h > 0 ? window.scrollY / h : 0;
+    document.getElementById('readbar').style.transform = 'scaleX(' + p + ')';
+  }, {passive:true});
+
+  // Reveal on scroll
+  var revs = document.querySelectorAll('.reveal');
+  var ro = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); ro.unobserve(e.target); } });
+  }, {threshold: 0.12});
+  revs.forEach(function(el){ ro.observe(el); });
+
+  // TOC scroll-spy
+  var links = Array.from(document.querySelectorAll('.dk-toc-link'));
+  var sections = links.map(function(l){ return document.querySelector(l.getAttribute('href')); });
+  function spy(){
+    var y = window.scrollY + 160;
+    var idx = 0;
+    sections.forEach(function(s, i){ if(s && s.offsetTop <= y) idx = i; });
+    links.forEach(function(l,i){ l.classList.toggle('active', i === idx); });
+  }
+  window.addEventListener('scroll', spy, {passive:true});
+  spy();
+</script>
+</body>
+</html>

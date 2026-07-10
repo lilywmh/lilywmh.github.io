@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#faf6ef">
+<title>Quote Notebook</title>
+<style>
+:root{
+  --bg:#faf6ef; --card:#ffffff; --ink:#2b2622; --ink2:#7a6f63; --ink3:#a89c8e;
+  --accent:#8a6f4d; --accent-soft:#f0e7d8; --line:#e8e0d2; --good:#5d7a5d;
+  --chip:#f3ecdf; --danger:#a05252; --shadow:0 1px 3px rgba(60,45,20,.08);
+  --serif:"Georgia","Songti SC",serif; --sans:-apple-system,"PingFang SC","Helvetica Neue",sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root{ --bg:#1c1916; --card:#26221e; --ink:#ece5da; --ink2:#a89c8e; --ink3:#7a6f63;
+    --accent:#c2a476; --accent-soft:#383025; --line:#38322b; --good:#8fae8f;
+    --chip:#332d26; --danger:#c98080; --shadow:0 1px 3px rgba(0,0,0,.3); }
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5;
+  padding-bottom:env(safe-area-inset-bottom)}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+input,textarea,select{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);
+  border-radius:10px;padding:10px 12px;width:100%}
+textarea{resize:vertical;min-height:90px}
+input:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:0;border-color:transparent}
+h1{font-family:var(--serif);font-size:1.5rem;font-weight:600}
+h2{font-size:1.05rem;font-weight:600}
+.muted{color:var(--ink2);font-size:.9rem}
+.tiny{color:var(--ink3);font-size:.8rem}
+
+#app{max-width:560px;margin:0 auto;min-height:100%;display:flex;flex-direction:column}
+header{padding:calc(14px + env(safe-area-inset-top)) 20px 10px;display:flex;align-items:center;justify-content:space-between}
+header .gear{padding:8px;border-radius:10px;color:var(--ink2)}
+main{flex:1;padding:4px 20px 96px}
+.view{display:none;animation:fade .18s ease}
+.view.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+/* tab bar */
+nav{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);
+  padding-bottom:env(safe-area-inset-bottom);z-index:20}
+nav .row{max-width:560px;margin:0 auto;display:flex}
+nav button{flex:1;padding:9px 0 7px;display:flex;flex-direction:column;align-items:center;gap:2px;
+  color:var(--ink3);font-size:.68rem}
+nav button.on{color:var(--accent)}
+nav svg{width:23px;height:23px}
+
+/* buttons */
+.btn{display:block;width:100%;text-align:center;padding:14px;border-radius:14px;font-weight:600;
+  background:var(--accent);color:#fff;box-shadow:var(--shadow)}
+.btn.soft{background:var(--accent-soft);color:var(--accent)}
+.btn.ghost{background:none;color:var(--ink2);box-shadow:none;font-weight:500}
+.btn.danger{background:none;color:var(--danger);box-shadow:none}
+.btn+.btn{margin-top:10px}
+.btn:disabled{opacity:.5}
+
+/* cards */
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;
+  box-shadow:var(--shadow);margin-bottom:12px}
+.quote-preview{font-family:var(--serif);font-size:1.02rem;line-height:1.55;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.card .thumb{width:44px;height:44px;object-fit:cover;border-radius:8px;flex-shrink:0}
+.card-top{display:flex;gap:12px;align-items:flex-start}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chip{background:var(--chip);color:var(--ink2);border-radius:999px;padding:3px 11px;font-size:.78rem}
+.chip.theme{color:var(--accent)}
+.chip.action{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.chip.suggest{background:none;border:1px dashed var(--ink3);color:var(--ink2)}
+
+/* save screen */
+.big-action{display:flex;align-items:center;gap:14px;width:100%;background:var(--card);
+  border:1px solid var(--line);border-radius:16px;padding:18px 16px;margin-bottom:12px;
+  box-shadow:var(--shadow);text-align:left;font-weight:600}
+.big-action svg{width:26px;height:26px;color:var(--accent);flex-shrink:0}
+.big-action .sub{font-weight:400;font-size:.82rem;color:var(--ink2)}
+
+.field{margin-bottom:14px}
+.field label{display:block;font-size:.85rem;color:var(--ink2);margin-bottom:5px}
+
+.photo-preview{width:100%;max-height:230px;object-fit:contain;border-radius:12px;background:var(--chip);margin-bottom:12px}
+.quote-edit{font-family:var(--serif);font-size:1.05rem;min-height:130px}
+
+.empty{text-align:center;padding:48px 20px;color:var(--ink2)}
+.empty .art{font-size:2rem;margin-bottom:10px}
+
+.center{text-align:center}
+.checkmark{width:64px;height:64px;border-radius:50%;background:var(--accent-soft);color:var(--good);
+  display:flex;align-items:center;justify-content:center;margin:40px auto 20px;font-size:2rem}
+
+.group-title{font-family:var(--serif);font-size:1.05rem;margin:20px 0 10px;color:var(--ink)}
+.searchbar{margin-bottom:14px}
+
+/* reflect */
+.prompt-chip{display:inline-block;background:var(--card);border:1px solid var(--line);border-radius:999px;
+  padding:8px 14px;margin:0 6px 8px 0;font-size:.88rem;color:var(--accent);box-shadow:var(--shadow)}
+.reflect-answer{margin-top:16px}
+.reflect-quote{border-left:3px solid var(--accent);padding:2px 0 2px 12px;margin:12px 0;
+  font-family:var(--serif);font-size:.98rem}
+.reflect-quote .src{font-family:var(--sans);font-size:.78rem;color:var(--ink2);margin-top:4px}
+
+/* overlay / onboarding */
+.overlay{position:fixed;inset:0;background:var(--bg);z-index:50;display:flex;flex-direction:column;
+  justify-content:center;padding:32px;text-align:center}
+.overlay h1{font-size:1.7rem;margin-bottom:14px}
+.overlay p{color:var(--ink2);margin-bottom:8px}
+.dots{margin:26px 0}
+.dots span{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--line);margin:0 4px}
+.dots span.on{background:var(--accent)}
+
+.progress{height:4px;background:var(--chip);border-radius:2px;overflow:hidden;margin:14px 0}
+.progress i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+
+.backlink{color:var(--accent);font-weight:600;padding:6px 0;display:inline-block;margin-bottom:8px}
+details{margin-bottom:12px}
+summary{color:var(--accent);font-weight:600;cursor:pointer;padding:6px 0}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:90px;background:var(--ink);color:var(--bg);
+  padding:10px 18px;border-radius:999px;font-size:.88rem;opacity:0;transition:opacity .25s;z-index:60;pointer-events:none}
+.toast.show{opacity:1}
+.hidden{display:none !important}
+</style>
+</head>
+<body>
+<div id="app">
+<header>
+  <h1 id="headerTitle">Save</h1>
+  <button class="gear" aria-label="Settings" onclick="showView('settings')">
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h0a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h0a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v0a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+  </button>
+</header>
+<main>
+
+<!-- SAVE -->
+<section class="view" id="v-save">
+  <p class="muted" style="margin-bottom:18px">Found something worth saving?</p>
+  <label class="big-action">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+    <span>Take a photo<br><span class="sub">Snap the page — we'll read the text for you</span></span>
+    <input type="file" accept="image/*" capture="environment" class="hidden" onchange="onPhotoChosen(this)">
+  </label>
+  <label class="big-action">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+    <span>Upload a photo or screenshot<br><span class="sub">From your photo library</span></span>
+    <input type="file" accept="image/*" class="hidden" onchange="onPhotoChosen(this)">
+  </label>
+  <button class="big-action" onclick="startPaste()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
+    <span>Paste or type text<br><span class="sub">From an article, message, or memory</span></span>
+  </button>
+  <div class="field" style="margin-top:22px">
+    <label for="currentBook">Reading a book right now? <span class="tiny">(optional — we'll attach it for you)</span></label>
+    <input id="currentBook" placeholder="Book title" oninput="localStorage.setItem('qn_book',this.value)">
+  </div>
+</section>
+
+<!-- PASTE -->
+<section class="view" id="v-paste">
+  <button class="backlink" onclick="showView('save')">‹ Back</button>
+  <div class="field">
+    <label for="pasteText">The quote</label>
+    <textarea id="pasteText" class="quote-edit" placeholder="Paste or type the words you want to keep…"></textarea>
+  </div>
+  <div class="field">
+    <label for="pasteBook">Book or source <span class="tiny">(optional — add it later if you like)</span></label>
+    <input id="pasteBook" placeholder="Where is this from?">
+  </div>
+  <button class="btn" onclick="savePaste()">Save to Clippings</button>
+</section>
+
+<!-- TEXT CHECK -->
+<section class="view" id="v-check">
+  <button class="backlink" onclick="showView('save')">‹ Back</button>
+  <img id="checkPhoto" class="photo-preview" alt="Original photo">
+  <div id="checkLoading">
+    <p class="muted">Reading the text from your photo… the first time can take a little while.</p>
+    <div class="progress"><i id="checkBar"></i></div>
+  </div>
+  <div id="checkResult" class="hidden">
+    <p class="muted" id="checkMsg" style="margin-bottom:8px">Here's what we found. Give it a quick look, or save now and check later.</p>
+    <div class="field"><textarea id="checkText" class="quote-edit"></textarea></div>
+    <div class="field">
+      <label for="checkBook">Book or source <span class="tiny">(optional)</span></label>
+      <input id="checkBook" placeholder="Where is this from?">
+    </div>
+    <button class="btn" onclick="saveFromCheck()">Save to Clippings</button>
+    <button class="btn ghost" onclick="retryExtract()">Read the photo again</button>
+  </div>
+</section>
+
+<!-- SAVED -->
+<section class="view" id="v-saved">
+  <div class="center">
+    <div class="checkmark">✓</div>
+    <h2 style="font-family:var(--serif);font-size:1.3rem">Saved.</h2>
+    <p class="muted" style="margin:10px 0 34px">You can keep reading. We'll keep this safe in Clippings — add details whenever you're ready.</p>
+    <button class="btn" onclick="showView('save')">Keep reading</button>
+    <button class="btn ghost" onclick="showView('clippings')">Review later in Clippings</button>
+  </div>
+</section>
+
+<!-- CLIPPINGS -->
+<section class="view" id="v-clippings"><div id="clippingsList"></div></section>
+
+<!-- NOTEBOOK -->
+<section class="view" id="v-notebook">
+  <div class="searchbar"><input id="searchBox" placeholder="Search quotes, books, themes, thoughts…" oninput="renderNotebook()"></div>
+  <div id="notebookList"></div>
+</section>
+
+<!-- REFLECT -->
+<section class="view" id="v-reflect">
+  <p class="muted" style="margin-bottom:14px">Sit with what you've saved. Pick a question, or ask your own.</p>
+  <div id="reflectPrompts">
+    <button class="prompt-chip" onclick="reflectThemes()">What themes keep coming back?</button>
+    <button class="prompt-chip" onclick="reflectBooks()">What have I saved from a book?</button>
+    <button class="prompt-chip" onclick="reflectMonth()">Look back on this month</button>
+  </div>
+  <div class="searchbar" style="margin-top:10px">
+    <input id="reflectQ" placeholder="Ask about your notebook… e.g. quotes about loneliness"
+      onkeydown="if(event.key==='Enter'){reflectSearch(this.value)}">
+  </div>
+  <div id="reflectAnswer" class="reflect-answer"></div>
+</section>
+
+<!-- DETAIL / EDIT -->
+<section class="view" id="v-detail">
+  <button class="backlink" id="detailBack">‹ Back</button>
+  <div id="detailBody"></div>
+</section>
+
+<!-- SETTINGS -->
+<section class="view" id="v-settings">
+  <button class="backlink" onclick="showView(lastMain)">‹ Back</button>
+  <div class="card">
+    <h2>Your words stay with you</h2>
+    <p class="muted" style="margin-top:6px">Everything lives on this device. Text is read from photos right here on your phone — nothing is sent anywhere, and there's no account.</p>
+  </div>
+  <div class="card">
+    <button class="btn soft" onclick="exportData()">Export my quotes</button>
+    <p class="tiny" style="margin-top:8px">Downloads a file with all your quotes, thoughts, and photos — yours to keep or move elsewhere.</p>
+  </div>
+  <div class="card">
+    <details>
+      <summary>Privacy, in plain words</summary>
+      <p class="muted" style="margin-top:8px">This app collects nothing. Your quotes, photos, and thoughts are stored only in this browser on this device. If you delete the app's data or clear the browser's storage, they're gone — so export a copy now and then. No analytics, no tracking, no third parties.</p>
+    </details>
+    <details>
+      <summary>Support</summary>
+      <p class="muted" style="margin-top:8px">Questions or ideas? Write to <a href="mailto:wumeihui.wmh@outlook.com" style="color:var(--accent)">wumeihui.wmh@outlook.com</a>.</p>
+    </details>
+  </div>
+  <button class="btn danger" onclick="deleteAll()">Delete everything</button>
+  <p class="tiny center" style="margin-top:18px">Quote Notebook · version 0.1.0</p>
+</section>
+
+</main>
+<nav aria-label="Main">
+  <div class="row">
+    <button data-v="save" onclick="showView('save')" aria-label="Save">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>Save</button>
+    <button data-v="clippings" onclick="showView('clippings')" aria-label="Clippings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 6L9 17l-5-5" opacity="0"/><path d="M6 3h9l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M15 3v5h5"/></svg>Clippings</button>
+    <button data-v="notebook" onclick="showView('notebook')" aria-label="Notebook">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg>Notebook</button>
+    <button data-v="reflect" onclick="showView('reflect')" aria-label="Reflect">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3a6.36 6.36 0 0 0-5 10.5c.8 1 1.3 1.7 1.3 2.5h7.4c0-.8.5-1.5 1.3-2.5A6.36 6.36 0 0 0 12 3z"/><path d="M9.5 19h5M10.5 21.5h3"/></svg>Reflect</button>
+  </div>
+</nav>
+</div>
+
+<div id="onboard" class="overlay hidden"></div>
+<div id="toast" class="toast"></div>
+
+<script>
+"use strict";
+/* ---------- storage ---------- */
+const DB_NAME="quoteNotebook";
+function openDB(){return new Promise((res,rej)=>{
+  const r=indexedDB.open(DB_NAME,1);
+  r.onupgradeneeded=e=>{e.target.result.createObjectStore("items",{keyPath:"id"});};
+  r.onsuccess=e=>res(e.target.result); r.onerror=()=>rej(r.error);
+});}
+async function dbAll(){const d=await openDB();return new Promise((res,rej)=>{
+  const q=d.transaction("items").objectStore("items").getAll();
+  q.onsuccess=()=>res(q.result||[]); q.onerror=()=>rej(q.error);});}
+async function dbPut(it){const d=await openDB();return new Promise((res,rej)=>{
+  const t=d.transaction("items","readwrite");t.objectStore("items").put(it);
+  t.oncomplete=res;t.onerror=()=>rej(t.error);});}
+async function dbDel(id){const d=await openDB();return new Promise((res,rej)=>{
+  const t=d.transaction("items","readwrite");t.objectStore("items").delete(id);
+  t.oncomplete=res;t.onerror=()=>rej(t.error);});}
+async function dbClear(){const d=await openDB();return new Promise((res,rej)=>{
+  const t=d.transaction("items","readwrite");t.objectStore("items").clear();
+  t.oncomplete=res;t.onerror=()=>rej(t.error);});}
+
+/* ---------- state ---------- */
+let items=[];            // all saved quotes
+let currentView="save";
+let lastMain="save";     // last main tab (for back from settings/detail)
+let detailId=null;       // item open in editor
+let pendingPhoto=null;   // dataURL awaiting save
+const MAIN_TITLES={save:"Save",clippings:"Clippings",notebook:"Notebook",reflect:"Reflect",
+  paste:"Save",check:"Save",saved:"Save",settings:"Settings",detail:"Quote"};
+
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const esc=s=>(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");
+  clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove("show"),2200);}
+
+function newItem(over){return Object.assign({
+  id:uid(),createdAt:Date.now(),updatedAt:Date.now(),
+  quote:"",photo:null,book:"",author:"",pageRef:"",thoughts:"",
+  themes:[],inNotebook:false,needsCheck:false},over);}
+async function saveItem(it){it.updatedAt=Date.now();await dbPut(it);
+  const i=items.findIndex(x=>x.id===it.id); if(i>=0)items[i]=it; else items.unshift(it);}
+
+/* ---------- navigation ---------- */
+function showView(name){
+  document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
+  document.getElementById("v-"+name).classList.add("active");
+  currentView=name;
+  if(["save","clippings","notebook","reflect"].includes(name))lastMain=name;
+  document.getElementById("headerTitle").textContent=MAIN_TITLES[name]||"";
+  document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.v===lastMain&&["save","clippings","notebook","reflect"].includes(name)));
+  if(name==="clippings")renderClippings();
+  if(name==="notebook")renderNotebook();
+  if(name==="save"){const b=document.getElementById("currentBook");b.value=localStorage.getItem("qn_book")||"";}
+  window.scrollTo(0,0);
+}
+
+/* ---------- save: paste ---------- */
+function startPaste(){
+  document.getElementById("pasteText").value="";
+  document.getElementById("pasteBook").value=localStorage.getItem("qn_book")||"";
+  showView("paste");
+}
+async function savePaste(){
+  const q=document.getElementById("pasteText").value.trim();
+  if(!q){toast("Add a few words first");return;}
+  const it=newItem({quote:q,book:document.getElementById("pasteBook").value.trim()});
+  await saveItem(it); showView("saved");
+}
+
+/* ---------- save: photo + text reading ---------- */
+function downscale(file){return new Promise(res=>{
+  const img=new Image();
+  img.onload=()=>{
+    const max=1600,r=Math.min(1,max/Math.max(img.width,img.height));
+    const c=document.createElement("canvas");
+    c.width=Math.round(img.width*r);c.height=Math.round(img.height*r);
+    c.getContext("2d").drawImage(img,0,0,c.width,c.height);
+    res(c.toDataURL("image/jpeg",0.85));
+  };
+  img.onerror=()=>res(null);
+  img.src=URL.createObjectURL(file);
+});}
+async function onPhotoChosen(input){
+  const f=input.files&&input.files[0]; input.value="";
+  if(!f)return;
+  pendingPhoto=await downscale(f);
+  if(!pendingPhoto){toast("We couldn't open that image");return;}
+  document.getElementById("checkPhoto").src=pendingPhoto;
+  document.getElementById("checkBook").value=localStorage.getItem("qn_book")||"";
+  document.getElementById("checkText").value="";
+  showView("check");
+  extractNow();
+}
+function setProgress(p){document.getElementById("checkBar").style.width=Math.round(p*100)+"%";}
+function ensureTesseract(){
+  if(window.Tesseract)return Promise.resolve();
+  return new Promise((res,rej)=>{
+    const s=document.createElement("script");
+    s.src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js";
+    s.onload=res;s.onerror=()=>rej(new Error("offline"));
+    document.head.appendChild(s);
+  });
+}
+async function extractNow(){
+  document.getElementById("checkLoading").classList.remove("hidden");
+  document.getElementById("checkResult").classList.add("hidden");
+  setProgress(0.05);
+  let text="",failed=false;
+  try{
+    await ensureTesseract();
+    const worker=await Tesseract.createWorker("eng+chi_sim",1,{
+      logger:m=>{if(m.status==="recognizing text")setProgress(m.progress);}});
+    const r=await worker.recognize(pendingPhoto);
+    await worker.terminate();
+    text=(r.data.text||"").replace(/\n{2,}/g,"\n").trim();
+  }catch(e){failed=true;}
+  document.getElementById("checkLoading").classList.add("hidden");
+  document.getElementById("checkResult").classList.remove("hidden");
+  const msg=document.getElementById("checkMsg");
+  if(failed){
+    msg.textContent="We couldn't read the photo this time (it may need an internet connection on the first try). You can type the quote yourself, or just save the photo and try again later.";
+  }else if(!text){
+    msg.textContent="We couldn't find clear text in this photo. You can type it in, or save the photo and come back to it.";
+  }else{
+    msg.textContent="Here's what we found. Give it a quick look, or save now and check later.";
+  }
+  document.getElementById("checkText").value=text;
+}
+function retryExtract(){extractNow();}
+async function saveFromCheck(){
+  const it=newItem({
+    quote:document.getElementById("checkText").value.trim(),
+    photo:pendingPhoto,
+    book:document.getElementById("checkBook").value.trim(),
+    needsCheck:true});
+  await saveItem(it); pendingPhoto=null; showView("saved");
+}
+
+/* ---------- clippings ---------- */
+function cardHTML(it,context){
+  const labels=[];
+  if(!it.book)labels.push('<span class="chip">Book not added yet</span>');
+  if(it.needsCheck)labels.push('<span class="chip">Text may need a quick look</span>');
+  it.themes.forEach(t=>labels.push('<span class="chip theme">'+esc(t)+'</span>'));
+  const quote=it.quote?esc(it.quote):'<span class="muted">A photo, saved for later — tap to add the words.</span>';
+  const thumb=it.photo?'<img class="thumb" src="'+it.photo+'" alt="">':"";
+  const addBtn=(context==="clippings")?'<span class="chip action" data-add="'+it.id+'">Add to Notebook</span>':"";
+  return '<div class="card" data-open="'+it.id+'">'
+    +'<div class="card-top"><div style="flex:1"><div class="quote-preview">'+quote+'</div>'
+    +(it.book?'<div class="tiny" style="margin-top:6px">'+esc(it.book)+(it.author?" · "+esc(it.author):"")+'</div>':"")
+    +'</div>'+thumb+'</div>'
+    +(labels.length||addBtn?'<div class="chips">'+labels.join("")+addBtn+'</div>':"")
+    +'</div>';
+}
+function bindCards(root){
+  root.querySelectorAll("[data-add]").forEach(el=>el.onclick=async ev=>{
+    ev.stopPropagation();
+    const it=items.find(x=>x.id===el.dataset.add);
+    it.inNotebook=true;await saveItem(it);
+    toast("Added to your notebook");renderClippings();
+  });
+  root.querySelectorAll("[data-open]").forEach(el=>el.onclick=()=>openDetail(el.dataset.open));
+}
+function renderClippings(){
+  const list=items.filter(i=>!i.inNotebook).sort((a,b)=>b.createdAt-a.createdAt);
+  const el=document.getElementById("clippingsList");
+  if(!list.length){
+    el.innerHTML='<div class="empty"><div class="art">✂️</div><p>Nothing here yet — and that\'s fine.</p>'
+      +'<p class="tiny" style="margin-top:6px">When you save a quote, it rests here until you\'re ready to make it a notebook entry. No pressure to organize.</p></div>';
+    return;
+  }
+  el.innerHTML='<p class="muted" style="margin-bottom:12px">Saved reading moments, resting here safely. Add details whenever you like.</p>'
+    +list.map(i=>cardHTML(i,"clippings")).join("");
+  bindCards(el);
+}
+
+/* ---------- notebook ---------- */
+function renderNotebook(){
+  const q=(document.getElementById("searchBox").value||"").toLowerCase().trim();
+  let list=items.filter(i=>i.inNotebook);
+  if(q)list=list.filter(i=>[i.quote,i.book,i.author,i.thoughts,i.themes.join(" ")].join(" ").toLowerCase().includes(q));
+  const el=document.getElementById("notebookList");
+  if(!items.some(i=>i.inNotebook)){
+    el.innerHTML='<div class="empty"><div class="art">📖</div><p>Your notebook is waiting.</p>'
+      +'<p class="tiny" style="margin-top:6px">Move a clipping here when it feels worth keeping close — add the book, your thoughts, a theme or two.</p></div>';
+    return;
+  }
+  if(!list.length){el.innerHTML='<div class="empty"><p>No entries match that search.</p></div>';return;}
+  const groups={};
+  list.sort((a,b)=>b.createdAt-a.createdAt).forEach(i=>{
+    const k=i.book||"Book not added yet";(groups[k]=groups[k]||[]).push(i);});
+  el.innerHTML=Object.keys(groups).sort().map(k=>
+    '<div class="group-title">'+esc(k)+'</div>'+groups[k].map(i=>cardHTML(i,"notebook")).join("")).join("");
+  bindCards(el);
+}
+
+/* ---------- detail editor ---------- */
+function openDetail(id){
+  detailId=id;const it=items.find(x=>x.id===id);if(!it)return;
+  const back=lastMain;
+  document.getElementById("detailBack").onclick=()=>showView(back);
+  const b=document.getElementById("detailBody");
+  b.innerHTML=
+    (it.photo?'<details'+(it.quote?"":" open")+'><summary>Original photo</summary><img class="photo-preview" src="'+it.photo+'" alt="Original photo"></details>':"")
+    +'<div class="field"><label>The quote</label><textarea id="d-quote" class="quote-edit">'+esc(it.quote)+'</textarea></div>'
+    +(it.needsCheck?'<button class="btn soft" id="d-ok" style="margin-bottom:14px">Looks good ✓</button>':"")
+    +'<div class="field"><label>Book or source</label><input id="d-book" value="'+esc(it.book)+'" placeholder="Book not added yet"></div>'
+    +'<div class="field"><label>Author</label><input id="d-author" value="'+esc(it.author)+'" placeholder="Optional"></div>'
+    +'<div class="field"><label>Page or link</label><input id="d-page" value="'+esc(it.pageRef)+'" placeholder="Optional"></div>'
+    +'<div class="field"><label>My Thoughts</label><textarea id="d-thoughts" placeholder="What did this stir in you? (yours alone — no AI here)">'+esc(it.thoughts)+'</textarea></div>'
+    +'<div class="field"><label>Themes</label><div class="chips" id="d-themes"></div>'
+    +'<div style="display:flex;gap:8px;margin-top:10px"><input id="d-newtheme" placeholder="Add a theme" style="flex:1">'
+    +'<button class="btn soft" id="d-suggest" style="width:auto;padding:10px 14px;margin:0">Suggest</button></div>'
+    +'<div class="tiny" id="d-suggestNote" style="margin-top:6px"></div></div>'
+    +(it.inNotebook
+      ?'<p class="muted center" style="margin:8px 0">In your notebook ✓</p><button class="btn ghost" id="d-toClip">Move back to Clippings</button>'
+      :'<button class="btn" id="d-toNb">Add to Notebook</button>')
+    +'<button class="btn danger" id="d-del">Delete this quote</button>';
+  const bind=(fid,key)=>{document.getElementById(fid).onchange=async e=>{it[key]=e.target.value.trim();
+    if(fid==="d-quote"&&it.needsCheck){it.needsCheck=false;}await saveItem(it);};};
+  bind("d-quote","quote");bind("d-book","book");bind("d-author","author");
+  bind("d-page","pageRef");bind("d-thoughts","thoughts");
+  const okBtn=document.getElementById("d-ok");
+  if(okBtn)okBtn.onclick=async()=>{it.needsCheck=false;await saveItem(it);toast("Marked as checked");openDetail(id);};
+  renderThemeChips(it);
+  document.getElementById("d-newtheme").onkeydown=async e=>{
+    if(e.key==="Enter"&&e.target.value.trim()){
+      const t=e.target.value.trim().toLowerCase();
+      if(!it.themes.includes(t))it.themes.push(t);
+      e.target.value="";await saveItem(it);renderThemeChips(it);}};
+  document.getElementById("d-suggest").onclick=async()=>{
+    const sugg=suggestThemes(it.quote+" "+it.thoughts).filter(t=>!it.themes.includes(t));
+    const note=document.getElementById("d-suggestNote");
+    if(!sugg.length){note.textContent="Nothing jumped out — themes are yours to name.";return;}
+    note.innerHTML='A few gentle suggestions — tap to keep, ignore to skip: '
+      +sugg.map(t=>'<span class="chip suggest" data-s="'+esc(t)+'">+ '+esc(t)+'</span>').join(" ");
+    note.querySelectorAll("[data-s]").forEach(ch=>ch.onclick=async()=>{
+      it.themes.push(ch.dataset.s);await saveItem(it);renderThemeChips(it);ch.remove();});
+  };
+  const toNb=document.getElementById("d-toNb");
+  if(toNb)toNb.onclick=async()=>{it.inNotebook=true;await saveItem(it);toast("Added to your notebook");showView("notebook");};
+  const toClip=document.getElementById("d-toClip");
+  if(toClip)toClip.onclick=async()=>{it.inNotebook=false;await saveItem(it);showView("clippings");};
+  document.getElementById("d-del").onclick=async()=>{
+    if(confirm("Delete this quote and its photo? This can't be undone.")){
+      await dbDel(it.id);items=items.filter(x=>x.id!==it.id);showView(back);}};
+  showView("detail");
+}
+function renderThemeChips(it){
+  const el=document.getElementById("d-themes");
+  el.innerHTML=it.themes.length
+    ?it.themes.map(t=>'<span class="chip theme">'+esc(t)+' <b data-x="'+esc(t)+'" style="cursor:pointer">×</b></span>').join("")
+    :'<span class="tiny">No themes yet — that\'s fine.</span>';
+  el.querySelectorAll("[data-x]").forEach(x=>x.onclick=async()=>{
+    it.themes=it.themes.filter(t=>t!==x.dataset.x);await saveItem(it);renderThemeChips(it);});
+}
+
+/* ---------- themes (on-device, rule-based) ---------- */
+const THEME_WORDS={
+  love:["love","beloved","heart","tenderness","affection"],
+  loss:["loss","grief","gone","mourning","missing","lost"],
+  time:["time","moment","hour","past","future","fleeting","years"],
+  solitude:["alone","lonely","solitude","loneliness","apart"],
+  hope:["hope","light","dawn","tomorrow","believe"],
+  courage:["courage","brave","fear","afraid","dare","risk"],
+  change:["change","become","becoming","transform","grow","growth"],
+  memory:["memory","remember","forget","remembering","nostalgia"],
+  identity:["self","identity","soul","who we are","myself"],
+  nature:["nature","tree","river","sky","sea","mountain","bird","garden"],
+  mortality:["death","dying","mortal","brief","end"],
+  friendship:["friend","friendship","companion","together"],
+  freedom:["free","freedom","liberty","escape","cage"],
+  truth:["truth","true","honest","lie","real"],
+  happiness:["happy","happiness","joy","delight","laughter"],
+  wisdom:["wisdom","wise","understand","learn","knowledge"]};
+function suggestThemes(text){
+  const t=(text||"").toLowerCase();if(!t.trim())return[];
+  const scores=[];
+  for(const th in THEME_WORDS){
+    const n=THEME_WORDS[th].reduce((a,w)=>a+(t.includes(w)?1:0),0);
+    if(n>0)scores.push([th,n]);
+  }
+  return scores.sort((a,b)=>b[1]-a[1]).slice(0,3).map(s=>s[0]);
+}
+
+/* ---------- reflect ---------- */
+function reflectQuoteHTML(i){
+  return '<div class="reflect-quote" data-open="'+i.id+'">'+esc(i.quote||"(a saved photo)")
+    +'<div class="src">'+esc(i.book||"Book not added yet")+(i.author?" · "+esc(i.author):"")+'</div></div>';
+}
+function reflectOut(html){
+  const el=document.getElementById("reflectAnswer");
+  el.innerHTML=html;
+  el.querySelectorAll("[data-open]").forEach(q=>q.onclick=()=>openDetail(q.dataset.open));
+}
+function needQuotes(){
+  if(items.length)return false;
+  reflectOut('<div class="empty"><p>Reflection starts with a few saved quotes. Capture one or two first, then come back.</p></div>');
+  return true;
+}
+function reflectThemes(){
+  if(needQuotes())return;
+  const count={};
+  items.forEach(i=>i.themes.forEach(t=>count[t]=(count[t]||0)+1));
+  const top=Object.entries(count).sort((a,b)=>b[1]-a[1]).slice(0,6);
+  if(!top.length){
+    reflectOut('<p class="muted">You haven\'t named any themes yet. Open a quote and try "Suggest" — or name what you see yourself. The naming is half the reflection.</p>');
+    return;
+  }
+  let html='<p class="muted">Looking only at what you\'ve saved — here\'s what returns most often. The meaning is yours to make.</p>';
+  top.forEach(([t,n])=>{
+    const ex=items.find(i=>i.themes.includes(t)&&i.quote);
+    html+='<div class="group-title">'+esc(t)+' <span class="tiny">('+n+' quote'+(n>1?"s":"")+')</span></div>';
+    if(ex)html+=reflectQuoteHTML(ex);
+  });
+  reflectOut(html);
+}
+function reflectBooks(){
+  if(needQuotes())return;
+  const books=[...new Set(items.map(i=>i.book).filter(Boolean))];
+  if(!books.length){reflectOut('<p class="muted">No books attached yet. Add a book to a quote or two, and I can gather them for you.</p>');return;}
+  reflectOut('<p class="muted">Which book?</p>'+books.map(b=>'<button class="prompt-chip" onclick="reflectBook(\''+esc(b).replace(/'/g,"\\'")+'\')">'+esc(b)+'</button>').join(""));
+}
+function reflectBook(book){
+  const list=items.filter(i=>i.book===book);
+  reflectOut('<p class="muted">'+list.length+' quote'+(list.length>1?"s":"")+' saved from <b>'+esc(book)+'</b>:</p>'
+    +list.map(reflectQuoteHTML).join(""));
+}
+function reflectMonth(){
+  if(needQuotes())return;
+  const now=new Date(),m=now.getMonth(),y=now.getFullYear();
+  const monthly=items.filter(i=>{const d=new Date(i.createdAt);return d.getMonth()===m&&d.getFullYear()===y;});
+  if(!monthly.length){reflectOut('<p class="muted">Nothing saved yet this month — the month isn\'t over.</p>');return;}
+  const withThoughts=monthly.filter(i=>i.thoughts);
+  const themes={};monthly.forEach(i=>i.themes.forEach(t=>themes[t]=(themes[t]||0)+1));
+  const topT=Object.entries(themes).sort((a,b)=>b[1]-a[1]).slice(0,3).map(e=>e[0]);
+  let html='<p class="muted">This month you saved <b>'+monthly.length+'</b> quote'+(monthly.length>1?"s":"")
+    +(withThoughts.length?' and wrote your own thoughts on <b>'+withThoughts.length+'</b> of them':"")+'.'
+    +(topT.length?' You kept returning to: <b>'+topT.map(esc).join(", ")+'</b>.':"")+'</p>';
+  if(withThoughts.length){
+    html+='<div class="group-title">In your own words</div>';
+    withThoughts.slice(0,5).forEach(i=>{
+      html+='<div class="reflect-quote" data-open="'+i.id+'">'+esc(i.thoughts)+'<div class="src">on “'+esc((i.quote||"").slice(0,60))+(i.quote&&i.quote.length>60?"…":"")+'”</div></div>';});
+  }
+  html+='<p class="tiny" style="margin-top:10px">This is only a mirror of what you saved — the reflection itself is yours.</p>';
+  reflectOut(html);
+}
+function reflectSearch(q){
+  q=(q||"").trim();if(!q)return;
+  if(needQuotes())return;
+  let key=q.toLowerCase().replace(/^(show me|find|what about)?\s*quotes?\s*(about|on)?\s*/,"").trim()||q.toLowerCase();
+  const words=[key,...(THEME_WORDS[key]||[])];
+  const hits=items.filter(i=>{
+    const hay=[i.quote,i.thoughts,i.themes.join(" "),i.book,i.author].join(" ").toLowerCase();
+    return words.some(w=>hay.includes(w));});
+  if(!hits.length){
+    reflectOut('<p class="muted">I couldn\'t find anything about “'+esc(q)+'” in what you\'ve saved so far. I can only see your own quotes — maybe the idea is waiting in your next book.</p>');
+    return;
+  }
+  reflectOut('<p class="muted">From your own notebook, on “'+esc(key)+'”:</p>'+hits.map(reflectQuoteHTML).join(""));
+}
+
+/* ---------- settings ---------- */
+async function exportData(){
+  const data=JSON.stringify({app:"Quote Notebook",version:"0.1.0",exportedAt:new Date().toISOString(),quotes:items},null,2);
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(new Blob([data],{type:"application/json"}));
+  a.download="my-quote-notebook.json";a.click();
+  toast("Export ready");
+}
+async function deleteAll(){
+  if(!confirm("Delete every quote, photo, and thought? This can't be undone."))return;
+  if(!confirm("Last check — really delete everything?"))return;
+  await dbClear();items=[];toast("Everything deleted");showView("save");
+}
+
+/* ---------- onboarding ---------- */
+const SLIDES=[
+  ["Found something worth saving?","Snap a page, paste a line, keep a screenshot — in seconds, without leaving your book."],
+  ["It rests in Clippings.","No forms, no pressure. Book, page, and thoughts can all wait until you're ready."],
+  ["Make sense of it later.","Turn clippings into notebook entries, then reflect: what themes keep coming back?"]];
+function onboard(step){
+  const el=document.getElementById("onboard");
+  if(step>=SLIDES.length){el.classList.add("hidden");localStorage.setItem("qn_onboarded","1");return;}
+  el.classList.remove("hidden");
+  el.innerHTML='<h1>'+SLIDES[step][0]+'</h1><p>'+SLIDES[step][1]+'</p>'
+    +'<div class="dots">'+SLIDES.map((_,i)=>'<span class="'+(i===step?"on":"")+'"></span>').join("")+'</div>'
+    +'<button class="btn" onclick="onboard('+(step+1)+')">'+(step===SLIDES.length-1?"Start reading":"Next")+'</button>'
+    +(step===0?'<button class="btn ghost" onclick="onboard('+SLIDES.length+')">Skip</button>':"");
+}
+
+/* ---------- boot ---------- */
+(async function(){
+  try{items=await dbAll();}catch(e){items=[];}
+  items.sort((a,b)=>b.createdAt-a.createdAt);
+  showView("save");
+  if(!localStorage.getItem("qn_onboarded"))onboard(0);
+})();
+</script>
+</body>
+</html>

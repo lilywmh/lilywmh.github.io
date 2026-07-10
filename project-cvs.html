@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Co-Viewing Study — Research | Meihui (Lily) Wu</title>
+<meta name="description" content="Linguistic alignment, conversation dynamics, and multimodal coordination as predictors of social connection in dyadic co-viewing. Research by Lily Wu et al., presented at SANS.">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { darkMode: 'class', theme: { extend: { fontFamily: { sans: ['SF Pro Display','-apple-system','BlinkMacSystemFont','Inter','system-ui','sans-serif'] } } } };
+</script>
+<style>
+  html { scroll-behavior: smooth; scroll-padding-top: 120px; }
+  body { font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Inter', system-ui, sans-serif; }
+  html.dark body { background: #07050e !important; }
+  html.dark { color-scheme: dark; }
+  html.dark .dk-t1 { color: #ede9ff; }
+  html.dark .dk-t2 { color: #b8acd8; }
+  html.dark .dk-t3 { color: #8a7daa; }
+  html.dark .dk-accent { color: #a78bfa; }
+  html.dark .dk-card { background: rgba(15, 11, 30, 0.82); border: 1px solid rgba(120, 80, 220, 0.22); box-shadow: 0 4px 40px rgba(0,0,0,0.55), inset 0 1px 0 rgba(200,150,255,0.05); }
+  html.dark .dk-card:hover { border-color: rgba(139, 92, 246, 0.4); }
+  html.dark .dk-divider { background: rgba(120, 80, 220, 0.2) !important; }
+  html.dark .dk-tag { background: rgba(109, 40, 217, 0.14); border: 1px solid rgba(139, 92, 246, 0.25); color: #b8acd8; }
+  html.dark .dk-pill-accent { background: rgba(109, 40, 217, 0.22); color: #c4b5fd; }
+  html.dark .dk-nav { background: rgba(10, 7, 22, 0.82) !important; border-color: rgba(120, 80, 220, 0.28) !important; }
+  html.dark .dk-toggle { border: 1px solid rgba(120, 80, 220, 0.32); color: #9880c0; background: rgba(15, 11, 30, 0.6); }
+  html.dark .dk-toggle:hover { border-color: rgba(167,139,250,0.55); color: #c4b5fd; background: rgba(24,18,48,0.85); }
+  html.dark .dk-stat { background: rgba(88, 28, 135, 0.16); border: 1px solid rgba(139,92,246,0.22); }
+  html.dark .dk-hi { background: rgba(88,28,135,0.2); border: 1px solid rgba(139,92,246,0.35); }
+  html.dark .dk-soft { background: rgba(30,22,55,0.5); }
+  html.dark .dk-axis { background: rgba(150,120,210,0.35); }
+
+  .lt-card { background: rgba(255,255,255,0.55); border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 4px 30px rgba(80,60,160,0.06); }
+  .lt-stat { background: rgba(238,233,255,0.6); border: 1px solid rgba(220,210,250,0.9); }
+  .lt-hi { background: rgba(238,233,255,0.7); border: 1px solid rgba(199,187,245,0.9); }
+  .lt-soft { background: rgba(248,246,253,0.8); }
+  .lt-axis { background: rgba(180,175,200,0.7); }
+
+  .cvs-hero-card {
+    background:
+      radial-gradient(circle at 88% 18%, rgba(129,140,248,0.26), transparent 28%),
+      radial-gradient(circle at 74% 78%, rgba(244,114,182,0.18), transparent 32%),
+      linear-gradient(135deg, rgba(248,250,255,0.92), rgba(232,236,250,0.82));
+    border-color: rgba(210,216,240,0.95);
+    box-shadow: 0 20px 70px rgba(80,95,140,0.12);
+  }
+  .cvs-hero-visual {
+    min-height: 26rem;
+  }
+  .cvs-lab-card {
+    background: rgba(255,255,255,0.78);
+    border: 1px solid rgba(255,255,255,0.9);
+    box-shadow: 0 18px 50px rgba(80,95,140,0.14);
+  }
+  .cvs-dyad-card {
+    background: rgba(255,255,255,0.82);
+    border: 1px solid rgba(255,255,255,0.9);
+    box-shadow: 0 26px 70px rgba(80,95,140,0.16);
+  }
+  .cvs-resource-primary {
+    background: #4f46e5;
+    color: #ffffff;
+    border: 1px solid rgba(79,70,229,0.9);
+    box-shadow: 0 14px 34px rgba(79,70,229,0.24);
+  }
+  .cvs-resource-primary:hover {
+    background: #4338ca;
+    color: #ffffff;
+    box-shadow: 0 18px 44px rgba(79,70,229,0.32);
+  }
+  html.dark .cvs-hero-card {
+    background:
+      radial-gradient(circle at 88% 18%, rgba(129,140,248,0.18), transparent 30%),
+      radial-gradient(circle at 78% 76%, rgba(244,114,182,0.1), transparent 34%),
+      linear-gradient(135deg, rgba(17,14,34,0.94), rgba(10,7,22,0.92));
+  }
+  html.dark .cvs-lab-card {
+    background: rgba(245,243,255,0.9);
+    border-color: rgba(196,181,253,0.24);
+  }
+  html.dark .cvs-dyad-card {
+    background: rgba(245,243,255,0.9);
+    border-color: rgba(196,181,253,0.24);
+    box-shadow: 0 26px 70px rgba(0,0,0,0.32);
+  }
+  html.dark .cvs-resource-primary {
+    background: #6d28d9;
+    border-color: rgba(167,139,250,0.5);
+    color: #ffffff;
+  }
+
+  /* stream number badge */
+  .stream-num { font-variant-numeric: tabular-nums; }
+
+  /* planned / blueprint styling */
+  .planned-card { border-style: dashed !important; }
+
+  .dk-toc-link { transition: color .25s; }
+  .dk-toc-bar { transition: all .25s; }
+  .dk-toc-link.active { color: #4f46e5; }
+  .dk-toc-link.active .dk-toc-bar { width: 22px; background: #6366f1; }
+  html.dark .dk-toc-link.active { color: #c4b5fd; }
+  html.dark .dk-toc-link.active .dk-toc-bar { background: #a78bfa; }
+
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
+  .reveal.in { opacity: 1; transform: none; }
+  #readbar { transform-origin: 0 50%; }
+
+  /* Wider editorial case-study rhythm */
+  .case-wide .text-\[11px\] { font-size: 0.6875rem; line-height: 1.35; }
+  .case-wide .text-xs { font-size: 0.75rem; line-height: 1.45; }
+  .case-wide .text-sm { font-size: 0.875rem; line-height: 1.65; }
+  .case-wide .text-base { font-size: 1rem; line-height: 1.7; }
+  .case-wide .text-lg { font-size: 1.125rem; line-height: 1.75; }
+  .case-wide .text-xl { font-size: 1.25rem; line-height: 1.45; }
+  .case-wide .text-2xl { font-size: 1.5rem; line-height: 1.22; }
+  .case-wide header h1 { font-size: 3.25rem; line-height: 1.06; letter-spacing: -0.045em; }
+  .case-wide main .text-lg { font-size: 1.125rem; line-height: 1.75; }
+  .case-wide main .text-sm { font-size: 0.875rem; line-height: 1.65; }
+  .case-wide main h2 { font-size: 2.75rem; line-height: 1.08; letter-spacing: -0.04em; }
+  .case-shell { width: min(80vw, 92rem) !important; max-width: 92rem; }
+  #toc .dk-toc-link { font-size: 0.9375rem; line-height: 1.6; }
+  #toc p { font-size: 0.75rem; }
+  @media (max-width: 1279px) {
+    .case-shell { width: min(calc(100% - 3rem), 72rem) !important; }
+    .case-wide header h1 { font-size: 2.75rem; }
+    .case-wide main h2 { font-size: 2.25rem; }
+  }
+  @media (max-width: 767px) {
+    .case-shell { width: calc(100% - 1.5rem) !important; }
+    .case-wide header h1 { font-size: 2.25rem; }
+    .case-wide main h2 { font-size: 1.875rem; letter-spacing: -0.035em; }
+  }
+</style>
+</head>
+<body class="case-wide min-h-screen bg-[#FBFBFD] text-[#1D1D1F] selection:bg-indigo-100 overflow-x-hidden">
+
+<div class="fixed top-0 left-0 right-0 h-[3px] z-[60] bg-transparent">
+  <div id="readbar" class="h-full w-full bg-gradient-to-r from-rose-300 via-violet-400 to-indigo-400 scale-x-0"></div>
+</div>
+
+<nav class="fixed top-4 left-1/2 -translate-x-1/2 w-[94%] case-shell z-50 border rounded-full backdrop-blur-2xl py-3 px-6 flex items-center justify-between dk-nav bg-white/70 border-white/60 shadow-[0_8px_40px_rgba(0,0,0,0.06)]">
+  <a href="index.html#work" class="flex items-center gap-2 text-sm font-medium dk-t2 text-slate-500 hover:text-indigo-500 transition-colors group">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:-translate-x-0.5 transition-transform"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    <span class="hidden sm:inline">All projects</span>
+  </a>
+  <div class="flex items-baseline gap-2 select-none">
+    <span class="font-extralight tracking-[0.28em] text-sm dk-t3 text-slate-500">RESEARCH</span>
+    <span class="font-bold tracking-[0.2em] text-sm dk-t1 text-slate-900">Co-Viewing</span>
+  </div>
+  <button id="themeBtn" class="flex items-center gap-1.5 px-3.5 py-2 rounded-full border text-sm font-medium dk-toggle bg-white/50 border-white/60 text-slate-500 hover:text-slate-800 hover:bg-white/80 transition-all">
+    <span id="themeIcon">☾</span><span id="themeLabel" class="hidden md:inline">Dark</span>
+  </button>
+</nav>
+
+<!-- Hero -->
+<header class="case-shell mx-auto px-6 pt-36 md:pt-44 pb-14">
+  <div class="reveal in rounded-[40px] md:rounded-[56px] p-7 md:p-12 lg:p-14 dk-card lt-card cvs-hero-card overflow-hidden">
+    <div class="grid lg:grid-cols-[1fr_0.72fr] gap-10 lg:gap-14 items-center">
+      <div class="relative z-10">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-[0.25em] dk-pill-accent bg-indigo-50 text-indigo-500 mb-6">
+          Cognitive &amp; Social Neuroscience
+        </div>
+        <h1 class="text-4xl md:text-6xl font-semibold tracking-tighter leading-[1.08] dk-t1 text-slate-900 mb-5">
+          Is connection about <span class="italic font-light">how</span> we talk, not <span class="italic font-light">what</span> we say?
+        </h1>
+        <p class="text-lg md:text-2xl font-light leading-snug max-w-3xl dk-t2 text-slate-500">
+          Linguistic, vocal, and visual coordination as correlates of social connection in dyadic co-viewing — measuring all three channels in the same conversations to ask which layer actually carries the feeling.
+        </p>
+        <div class="flex flex-wrap gap-x-6 gap-y-2 mt-6 text-sm dk-t3 text-slate-400">
+          <span><span class="dk-t1 text-slate-700 font-medium">Meihui (Lily) Wu</span>, Chang Lu, Sara M. Grady &amp; Elisa C. Baek</span>
+          <span>·</span><span>USC &amp; Ohio State · Social Connection Lab</span>
+          <span>·</span><span>Presented at SANS</span>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12">
+          <div class="rounded-3xl p-5 dk-card lt-card">
+            <p class="text-[11px] font-bold uppercase tracking-[0.2em] dk-t3 text-slate-400 mb-1.5">My Role</p>
+            <p class="text-sm font-semibold dk-t1 text-slate-800 leading-snug">First author · led analysis &amp; pipeline</p>
+          </div>
+          <div class="rounded-3xl p-5 dk-card lt-card">
+            <p class="text-[11px] font-bold uppercase tracking-[0.2em] dk-t3 text-slate-400 mb-1.5">Paradigm</p>
+            <p class="text-sm font-semibold dk-t1 text-slate-800 leading-snug">Dyadic co-viewing · fNIRS · 24 dyads analyzed</p>
+          </div>
+          <div class="rounded-3xl p-5 dk-card lt-card">
+            <p class="text-[11px] font-bold uppercase tracking-[0.2em] dk-t3 text-slate-400 mb-1.5">Methods</p>
+            <p class="text-sm font-semibold dk-t1 text-slate-800 leading-snug">SBERT · RoBERTa · LLM coding · Praat · MediaPipe</p>
+          </div>
+          <div class="rounded-3xl p-5 dk-card lt-card">
+            <p class="text-[11px] font-bold uppercase tracking-[0.2em] dk-t3 text-slate-400 mb-1.5">Channels</p>
+            <p class="text-sm font-semibold dk-t1 text-slate-800 leading-snug">Linguistic · Vocal · Visual</p>
+          </div>
+        </div>
+
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="assets/cvs_poster.pdf" target="_blank" rel="noopener"
+             class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold cvs-resource-primary transition-all">
+            SANS Poster
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="cvs-hero-visual relative hidden md:flex flex-col justify-center gap-5">
+        <div class="cvs-lab-card rounded-[28px] p-4 rotate-[-2deg]">
+          <img src="assets/cvs-social-connection-lab.png" alt="Social Connection Lab" class="w-full rounded-[18px]">
+        </div>
+        <div class="cvs-dyad-card rounded-[32px] p-6 rotate-[2deg]">
+          <img src="assets/cvs-dyad-circles.png" alt="Dyadic co-viewing sensor diagram" class="w-full max-h-[20rem] object-contain">
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="case-shell mx-auto px-6 pb-32 flex gap-16">
+
+  <aside class="hidden lg:block w-56 flex-shrink-0">
+    <nav id="toc" class="sticky top-32 space-y-1">
+      <p class="text-[11px] font-bold uppercase tracking-[0.25em] dk-t3 text-slate-400 mb-4">On this page</p>
+      <a href="#background" class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>Background</a>
+      <a href="#questions"  class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>Research Questions</a>
+      <a href="#streams"    class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>Three Channels</a>
+      <a href="#linguistic" class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>1 · Linguistic</a>
+      <a href="#acoustic"   class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>2 · Vocal</a>
+      <a href="#video"      class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>3 · Visual</a>
+      <a href="#conclusion" class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>Conclusion</a>
+    </nav>
+  </aside>
+
+  <main class="flex-1 min-w-0 space-y-24">
+
+    <!-- BACKGROUND -->
+    <section id="background" class="reveal scroll-mt-32">
+      <p class="text-xs font-bold uppercase tracking-[0.25em] dk-accent text-indigo-400 mb-2">Background</p>
+      <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900 mb-6">Shared experiences bond us — but which layer carries the feeling?</h2>
+      <div class="space-y-5 text-lg leading-relaxed font-light dk-t2 text-slate-600">
+        <p>People coordinate a conversation almost effortlessly: they take turns with sub-second precision, reuse each other's words, drift toward each other's pitch and loudness, and orient their bodies to one another. A long tradition links this coordination to social bonding — but it's usually measured in <span class="italic">one</span> channel per study, in words <span class="italic">or</span> voice <span class="italic">or</span> body, and the channels are then treated as interchangeable expressions of a single "rapport."</p>
+        <p>That leaves two open questions. Within language, is connection carried by the <span class="font-medium dk-t1 text-slate-800">content</span> partners share — what they think and say — or by the <span class="font-medium dk-t1 text-slate-800">process</span> of the exchange itself? <span class="font-medium dk-t1 text-slate-800">Shared Reality Theory</span> predicts that similar interpretations should matter; a responsiveness account locates the signal in whether each turn is met and built upon. And across channels: if coordinated dyads simply coordinate everything, channel choice is convenience — but if the channels <span class="italic">dissociate</span>, theories and applied systems must specify which one actually matters. Answering that requires measuring all channels in the same conversations, establishing reliability before testing validity.</p>
+      </div>
+    </section>
+
+    <!-- RESEARCH QUESTIONS -->
+    <section id="questions" class="reveal scroll-mt-32">
+      <p class="text-xs font-bold uppercase tracking-[0.25em] dk-accent text-indigo-400 mb-2">Research Questions</p>
+      <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900 mb-6">Three questions, tested in sequence</h2>
+      <div class="grid md:grid-cols-3 gap-5">
+        <div class="rounded-[28px] p-8 dk-hi lt-hi">
+          <p class="text-xs font-bold uppercase tracking-[0.2em] dk-accent text-indigo-400 mb-2">RQ1 · Before talking</p>
+          <p class="text-base dk-t2 text-slate-700 font-light leading-relaxed">Does <span class="font-medium dk-t1 text-slate-900">pre-discussion interpretive alignment</span> — how similarly partners understood the film, from their written reflections — predict connection?</p>
+        </div>
+        <div class="rounded-[28px] p-8 dk-hi lt-hi">
+          <p class="text-xs font-bold uppercase tracking-[0.2em] dk-accent text-indigo-400 mb-2">RQ2 · Content vs. process</p>
+          <p class="text-base dk-t2 text-slate-700 font-light leading-relaxed">Within the discussion, is connection associated with <span class="font-medium dk-t1 text-slate-900">content similarity</span> or with <span class="font-medium dk-t1 text-slate-900">interaction dynamics</span>?</p>
+        </div>
+        <div class="rounded-[28px] p-8 dk-hi lt-hi">
+          <p class="text-xs font-bold uppercase tracking-[0.2em] dk-accent text-indigo-400 mb-2">RQ3 · Which channel</p>
+          <p class="text-base dk-t2 text-slate-700 font-light leading-relaxed">Across channels, does <span class="font-medium dk-t1 text-slate-900">vocal or visual coordination</span> add variance <span class="italic">beyond</span> the linguistic baseline?</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- THREE CHANNELS -->
+    <section id="streams" class="reveal scroll-mt-32">
+      <p class="text-xs font-bold uppercase tracking-[0.25em] dk-accent text-indigo-400 mb-2">Three Channels</p>
+      <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900 mb-6">Three lenses on one conversation</h2>
+      <p class="text-lg leading-relaxed font-light dk-t2 text-slate-600 mb-8">The same 24 dyads — strangers who watched <span class="italic">Piper</span> and <span class="italic">Partly Cloudy</span>, wrote reflections, and discussed each film — are analyzed through three coordinated channels measured from the identical sessions. Two comparable conversations per dyad let every measure be checked for cross-session reliability before any outcome test.</p>
+      <div class="grid md:grid-cols-3 gap-5">
+        <a href="#linguistic" class="rounded-[28px] p-7 dk-card lt-card block hover:-translate-y-1 transition-transform">
+          <div class="flex items-center gap-3 mb-3"><span class="stream-num text-2xl font-bold dk-accent text-indigo-400">01</span><span class="text-lg">💬</span></div>
+          <p class="text-base font-semibold dk-t1 text-slate-900">Linguistic</p>
+          <p class="text-sm dk-t2 text-slate-500 font-light mt-1 leading-snug">What &amp; how partners write and say — content alignment + LLM-coded conversation dynamics.</p>
+          <p class="text-xs font-bold uppercase tracking-widest text-emerald-500 mt-3">Dynamics win</p>
+        </a>
+        <a href="#acoustic" class="rounded-[28px] p-7 dk-card lt-card block hover:-translate-y-1 transition-transform">
+          <div class="flex items-center gap-3 mb-3"><span class="stream-num text-2xl font-bold dk-accent text-indigo-400">02</span><span class="text-lg">🎙️</span></div>
+          <p class="text-base font-semibold dk-t1 text-slate-900">Vocal</p>
+          <p class="text-sm dk-t2 text-slate-500 font-light mt-1 leading-snug">How partners sound — prosodic entrainment in pitch, loudness &amp; rate at turn transitions.</p>
+          <p class="text-xs font-bold uppercase tracking-widest text-emerald-500 mt-3">Adds signal</p>
+        </a>
+        <a href="#video" class="rounded-[28px] p-7 dk-card lt-card block hover:-translate-y-1 transition-transform">
+          <div class="flex items-center gap-3 mb-3"><span class="stream-num text-2xl font-bold dk-accent text-indigo-400">03</span><span class="text-lg">🎥</span></div>
+          <p class="text-base font-semibold dk-t1 text-slate-900">Visual</p>
+          <p class="text-sm dk-t2 text-slate-500 font-light mt-1 leading-snug">How partners move — upper-limb motion, posture &amp; mutual head orientation from video.</p>
+          <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mt-3">Reliable, but null</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- ══════════ CHANNEL 1: LINGUISTIC ══════════ -->
+    <section id="linguistic" class="reveal scroll-mt-32">
+      <div class="flex items-center gap-4 mb-6">
+        <span class="stream-num text-4xl font-bold dk-accent text-indigo-300">01</span>
+        <div>
+          <p class="text-xs font-bold uppercase tracking-[0.25em] dk-accent text-indigo-400">Channel · Content vs. process</p>
+          <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900">Linguistic — What They Say vs. How They Say It</h2>
+        </div>
+      </div>
+      <p class="text-lg leading-relaxed font-light dk-t2 text-slate-600 mb-8">The linguistic channel splits cleanly in two. <span class="font-medium dk-t1 text-slate-800">Content</span> is what partners independently thought and said — the alignment of their pre-discussion reflections and the semantic/sentiment overlap of their transcripts. <span class="font-medium dk-t1 text-slate-800">Process</span> is how the conversation actually unfolded — ten interactional moves coded turn by turn. Measuring both lets content and process compete directly.</p>
+
+      <!-- Study design flow -->
+      <div class="rounded-[28px] p-8 dk-card lt-card mb-6">
+        <p class="text-xs font-bold uppercase tracking-[0.25em] dk-t3 text-slate-400 mb-6">Study design · <span class="italic normal-case tracking-normal">Piper</span> &amp; <span class="italic normal-case tracking-normal">Partly Cloudy</span>, order counterbalanced</p>
+        <div class="flex flex-col sm:flex-row items-stretch gap-3">
+          <div class="flex-1 rounded-2xl p-4 dk-soft lt-soft text-center"><div class="text-2xl mb-1">▶️</div><p class="text-sm font-semibold dk-t1 text-slate-800">1st view</p><p class="text-xs dk-t3 text-slate-400">watch together</p></div>
+          <div class="flex items-center justify-center dk-t3 text-slate-300 rotate-90 sm:rotate-0">→</div>
+          <div class="flex-1 rounded-2xl p-4 dk-soft lt-soft text-center"><div class="text-2xl mb-1">✍️</div><p class="text-sm font-semibold dk-t1 text-slate-800">Written reflections</p><p class="text-xs dk-t3 text-slate-400">before talking</p></div>
+          <div class="flex items-center justify-center dk-t3 text-slate-300 rotate-90 sm:rotate-0">→</div>
+          <div class="flex-1 rounded-2xl p-4 dk-soft lt-soft text-center"><div class="text-2xl mb-1">🗣️</div><p class="text-sm font-semibold dk-t1 text-slate-800">Discussion</p><p class="text-xs dk-t3 text-slate-400">open</p></div>
+          <div class="flex items-center justify-center dk-t3 text-slate-300 rotate-90 sm:rotate-0">→</div>
+          <div class="flex-1 rounded-2xl p-4 dk-soft lt-soft text-center"><div class="text-2xl mb-1">▶️</div><p class="text-sm font-semibold dk-t1 text-slate-800">2nd view</p><p class="text-xs dk-t3 text-slate-400">+ questionnaire</p></div>
+        </div>
+        <p class="text-sm dk-t2 text-slate-500 font-light mt-5 leading-relaxed">Strangers wore fNIRS caps throughout (neural data not analyzed here). A final questionnaire captured four connection outcomes — enjoyment, co-viewing preference, shared reality, and partner evaluation; the primary <span class="font-medium dk-t1 text-slate-800">connection composite</span> is the equal-weight mean of the last three (Cronbach's α = .72; r = 1.00 with their first principal component).</p>
+      </div>
+
+      <!-- Content vs Dynamics -->
+      <div class="grid md:grid-cols-2 gap-6 mb-6">
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-sm font-semibold dk-t1 text-slate-900 mb-2">Content — what they say</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Semantic similarity (SBERT), sentiment alignment (RoBERTa), and dictionary-based affective alignment — computed on both the pre-discussion reflections and the discussion transcripts. Reflections index what partners <span class="italic">independently</span> thought, cleanly separated from how they later talked.</p>
+        </div>
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-sm font-semibold dk-t1 text-slate-900 mb-2">Process — how they interact</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Structural features (turn-taking, participation balance) plus ten interactional dimensions coded turn by turn by a large language model — agreement type, question-asking, epistemic stance, convergence — yielding measures like elaborated agreement and question asymmetry.</p>
+        </div>
+      </div>
+
+      <!-- LLM annotation -->
+      <div class="rounded-[28px] p-8 dk-card lt-card mb-6">
+        <p class="text-sm font-semibold dk-t1 text-slate-900 mb-1">Coding conversational dynamics with an LLM</p>
+        <p class="text-sm dk-t3 text-slate-400 mb-5 italic">Claude Haiku · few-shot · 5,425 turns · 23 dyads · 10 interactional dimensions, calibrated against researcher judgment on a held-out dyad</p>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="rounded-2xl p-5 dk-soft lt-soft">
+            <p class="text-sm font-semibold dk-t1 text-slate-800">Elaborated agreement</p>
+            <p class="text-xs dk-t2 text-slate-500 font-light mt-1 mb-3">Affirms the partner <span class="italic">and</span> adds new content — not just a backchannel.</p>
+            <p class="text-sm italic dk-t2 text-slate-600 mb-2">"Right, and that's why the ending hit so hard."</p>
+            <div class="flex gap-2"><span class="text-[11px] px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300 font-medium">agreement</span><span class="text-[11px] px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300 font-medium">elaborated</span></div>
+          </div>
+          <div class="rounded-2xl p-5 dk-soft lt-soft">
+            <p class="text-sm font-semibold dk-t1 text-slate-800">Question asymmetry</p>
+            <p class="text-xs dk-t2 text-slate-500 font-light mt-1 mb-3">One partner asks more questions — complementary asker/answerer roles.</p>
+            <p class="text-sm italic dk-t2 text-slate-600 mb-2">"Were you disappointed by it?"</p>
+            <div class="flex gap-2"><span class="text-[11px] px-2.5 py-1 rounded-full bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-300 font-medium">question</span><span class="text-[11px] px-2.5 py-1 rounded-full bg-slate-200 text-slate-600 dark:bg-slate-500/20 dark:text-slate-300 font-medium">role-taking</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RESULTS -->
+      <h3 class="text-xl font-semibold dk-t1 text-slate-900 mb-4 mt-10">Results</h3>
+      <div class="grid md:grid-cols-2 gap-6 mb-6">
+        <!-- Pre-discussion alignment null -->
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-sm font-semibold dk-t1 text-slate-900 mb-1">RQ1 — Pre-discussion alignment predicts nothing</p>
+          <p class="text-xs dk-t3 text-slate-400 mb-5">Reflection alignment → connection · standardized β (all n.s.)</p>
+          <div class="space-y-3">
+            <div class="flex items-center justify-between rounded-xl px-4 py-3 dk-soft lt-soft"><span class="text-sm dk-t2 text-slate-600">Semantic alignment</span><span class="text-sm font-semibold dk-t3 text-slate-400">β = .10 · p = .70</span></div>
+            <div class="flex items-center justify-between rounded-xl px-4 py-3 dk-soft lt-soft"><span class="text-sm dk-t2 text-slate-600">Sentiment alignment</span><span class="text-sm font-semibold dk-t3 text-slate-400">β = .10 · p = .68</span></div>
+            <div class="flex items-center justify-between rounded-xl px-4 py-3 dk-soft lt-soft"><span class="text-sm dk-t2 text-slate-600">Affective alignment</span><span class="text-sm font-semibold dk-t3 text-slate-400">β = −.21 · p = .39</span></div>
+          </div>
+          <p class="text-sm dk-t2 text-slate-500 font-light mt-5 leading-relaxed">Whatever partners independently thought about the films, the <span class="font-medium dk-t1 text-slate-800">similarity</span> of those interpretations carried no association with how connected they later felt.</p>
+        </div>
+
+        <!-- KEY PREDICTORS diverging -->
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-sm font-semibold dk-t1 text-slate-900 mb-1">RQ2 — In the discussion, dynamics beat content</p>
+          <p class="text-xs dk-t3 text-slate-400 mb-6">Standardized β · * p &lt; .05 · † p &lt; .10</p>
+          <div class="space-y-4">
+            <!-- scale -1 .. +1, center 50% -->
+            <div class="flex items-center gap-3">
+              <span class="w-28 text-xs dk-t2 text-slate-500 text-right leading-tight">Question asymmetry</span>
+              <div class="flex-1 relative h-6">
+                <div class="absolute top-0 bottom-0 dk-axis lt-axis" style="left:50%;width:1px;"></div>
+                <div class="absolute top-1 bottom-1 rounded-r bg-emerald-400" style="left:50%;width:32.5%;"></div>
+                <span class="absolute top-1/2 -translate-y-1/2 text-[11px] font-semibold text-emerald-600" style="left:calc(50% + 32.5% + 4px);">+.65*</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="w-28 text-xs dk-t2 text-slate-500 text-right leading-tight">Elaborated agreement</span>
+              <div class="flex-1 relative h-6">
+                <div class="absolute top-0 bottom-0 dk-axis lt-axis" style="left:50%;width:1px;"></div>
+                <div class="absolute top-1 bottom-1 rounded-r bg-emerald-400" style="left:50%;width:27.5%;"></div>
+                <span class="absolute top-1/2 -translate-y-1/2 text-[11px] font-semibold text-emerald-600" style="left:calc(50% + 27.5% + 4px);">+.55†</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="w-28 text-xs dk-t2 text-slate-500 text-right leading-tight">Sentiment synchrony</span>
+              <div class="flex-1 relative h-6">
+                <div class="absolute top-0 bottom-0 dk-axis lt-axis" style="left:50%;width:1px;"></div>
+                <div class="absolute top-1 bottom-1 rounded-l bg-rose-400" style="right:50%;width:19.5%;"></div>
+                <span class="absolute top-1/2 -translate-y-1/2 text-[11px] font-semibold text-rose-500" style="right:calc(50% + 19.5% + 4px);">−.39†</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="w-28 text-xs dk-t2 text-slate-500 text-right leading-tight">Semantic similarity</span>
+              <div class="flex-1 relative h-6">
+                <div class="absolute top-0 bottom-0 dk-axis lt-axis" style="left:50%;width:1px;"></div>
+                <div class="absolute top-1 bottom-1 rounded-l bg-rose-400" style="right:50%;width:5.5%;"></div>
+                <span class="absolute top-1/2 -translate-y-1/2 text-[11px] font-semibold text-rose-500" style="right:calc(50% + 5.5% + 4px);">−.11</span>
+              </div>
+            </div>
+          </div>
+          <p class="text-sm dk-t2 text-slate-500 font-light mt-6 leading-relaxed">Complementary role-taking and elaborated agreement <span class="text-emerald-600 dark:text-emerald-400 font-medium">raise</span> connection; content overlap and emotional mirroring do not.</p>
+        </div>
+      </div>
+
+      <div class="rounded-[28px] p-8 dk-hi lt-hi">
+        <p class="text-lg leading-relaxed font-light dk-t2 text-slate-700">An exploratory model of the screened dynamics features explained <span class="font-medium dk-t1 text-slate-900">R² = .46</span> of the connection composite (adjusted .37; <span class="font-medium dk-t1 text-slate-900">leave-one-out CV R² = .17</span>, n = 23). Because features were selected on the same data, the model is <span class="italic">descriptive</span> and the cross-validated figure is the honest one — but every content effect points the same way: connection tracked <span class="font-medium dk-t1 text-slate-900">how partners engaged each other</span>, affirming with added content and taking complementary roles, not how similar their contributions were.</p>
+      </div>
+    </section>
+
+    <!-- ══════════ STREAM 2: ACOUSTIC ══════════ -->
+    <section id="acoustic" class="reveal scroll-mt-32">
+      <div class="flex items-center gap-4 mb-6">
+        <span class="stream-num text-4xl font-bold dk-accent text-indigo-300">02</span>
+        <div>
+          <p class="text-xs font-bold uppercase tracking-[0.25em] dk-accent text-indigo-400">Channel · Adds signal</p>
+          <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900">Vocal — Prosodic Entrainment</h2>
+        </div>
+      </div>
+      <p class="text-lg leading-relaxed font-light dk-t2 text-slate-600 mb-8">If <span class="italic">how</span> partners interact matters more than what they say, the voice is the next place to look. This channel tests whether vocal coordination at turn transitions is distinct from the transcript dynamics and adds its own signal to connection — the key test being <span class="font-medium dk-t1 text-slate-800">incremental</span> variance beyond the linguistic baseline, not correlation on its own.</p>
+
+      <div class="space-y-6 mb-8">
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-3">Method in brief</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Discussions were recorded on a <span class="font-medium dk-t1 text-slate-800">single shared microphone</span>, so coordination is measured at speaker transitions (turn-adjacent), not as continuous overlap. Speaker turns were manually labeled; WhisperX supplied word timing (95% coverage). With Praat/Parselmouth I extracted f0, intensity, and speaking rate per turn — plus 500 ms turn-edge windows — with f0 and intensity z-scored within speaker so coordination reflects relative contour, not baseline voice or mic distance.</p>
+        </div>
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-4">Three entrainment indices, at every speaker switch</p>
+          <div class="grid sm:grid-cols-3 gap-3">
+            <div class="rounded-2xl p-4 dk-soft lt-soft"><p class="text-sm font-semibold dk-t1 text-slate-800">Proximity</p><p class="text-xs dk-t2 text-slate-500 mt-1">how close the two speakers' values are at adjacent turns</p></div>
+            <div class="rounded-2xl p-4 dk-soft lt-soft"><p class="text-sm font-semibold dk-t1 text-slate-800">Convergence</p><p class="text-xs dk-t2 text-slate-500 mt-1">whether the gap shrinks over the session</p></div>
+            <div class="rounded-2xl p-4 dk-soft lt-soft"><p class="text-sm font-semibold dk-t1 text-slate-800">Synchrony</p><p class="text-xs dk-t2 text-slate-500 mt-1">turn-by-turn covariation of the two speakers</p></div>
+          </div>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600 mt-4">A <span class="font-medium dk-t1 text-slate-800">pseudo-dyad surrogate</span> — pairing speakers who never interacted — provides the chance baseline.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div class="rounded-3xl p-6 dk-stat lt-stat text-center">
+          <p class="text-2xl md:text-3xl font-bold dk-accent text-indigo-500">r = .03–.21</p>
+          <p class="text-xs dk-t3 text-slate-500 mt-1.5 leading-snug">Vocal × transcript composites — near-zero (distinct)</p>
+        </div>
+        <div class="rounded-3xl p-6 dk-stat lt-stat text-center">
+          <p class="text-2xl md:text-3xl font-bold dk-accent text-indigo-500">p = .024</p>
+          <p class="text-xs dk-t3 text-slate-500 mt-1.5 leading-snug">f0 &amp; intensity above chance vs. pseudo-dyads</p>
+        </div>
+        <div class="rounded-3xl p-6 dk-stat lt-stat text-center">
+          <p class="text-2xl md:text-3xl font-bold dk-accent text-indigo-500">ΔR² = .198</p>
+          <p class="text-xs dk-t3 text-slate-500 mt-1.5 leading-snug">Intensity-edge index over linguistic, p = .015</p>
+        </div>
+        <div class="rounded-3xl p-6 dk-stat lt-stat text-center">
+          <p class="text-2xl md:text-3xl font-bold dk-accent text-indigo-500">r = .52</p>
+          <p class="text-xs dk-t3 text-slate-500 mt-1.5 leading-snug">Partial correlation, intensity-edge × connection</p>
+        </div>
+      </div>
+
+      <div class="space-y-5">
+        <div class="rounded-[24px] p-6 dk-card lt-card">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-1.5">A distinct dimension</p>
+          <p class="text-sm dk-t2 text-slate-600 font-light leading-relaxed">Vocal and transcript composites were essentially uncorrelated (r = .03–.21, p &gt; .37) — vocal alignment indexes coordination largely separate from turn-level conversational dynamics.</p>
+        </div>
+        <div class="rounded-[24px] p-6 dk-card lt-card">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-1.5">Real entrainment, and loudness carries it</p>
+          <p class="text-sm dk-t2 text-slate-600 font-light leading-relaxed">Against the pseudo-dyad null, real dyads showed above-chance synchrony for pitch (real r = .19 vs. .01, p = .024) and intensity (.24 vs. .00, p = .024) but not rate. In the hierarchical models the linguistic composite + order explained R² = .26; the blunt <span class="font-medium dk-t1 text-slate-800">omnibus</span> vocal composite added essentially nothing (ΔR² = .003, p = .79), while the theory-specified <span class="font-medium dk-t1 text-slate-800">intensity-edge index</span> added ΔR² = .198 (permutation p = .015, partial r = .52). Dyads whose loudness converged at the moment of turn exchange felt more connected — beyond everything the transcripts captured.</p>
+        </div>
+        <div class="rounded-[24px] p-6 dk-card lt-card">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-1.5">Honest caveats</p>
+          <p class="text-sm dk-t2 text-slate-600 font-light leading-relaxed">The index was motivated by prior literature but not preregistered for this dataset, so it is <span class="font-medium dk-t1 text-slate-800">exploratory</span>; the increment attenuated when age and gender entered the model, so demographic confounding cannot be excluded at N = 24. An earlier "negative rate" association turned out to be a measurement artifact — a cautionary example that reversed once a validated syllable-rate measure was used.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════ CHANNEL 3: VISUAL ══════════ -->
+    <section id="video" class="reveal scroll-mt-32">
+      <div class="flex items-center gap-4 mb-6">
+        <span class="stream-num text-4xl font-bold dk-accent text-indigo-300">03</span>
+        <div>
+          <p class="text-xs font-bold uppercase tracking-[0.25em] dk-accent text-indigo-400">Channel · Reliable, but null</p>
+          <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900">Visual — Behavioral Coordination</h2>
+        </div>
+      </div>
+      <p class="text-lg leading-relaxed font-light dk-t2 text-slate-600 mb-8">The third channel takes the "how, not what" logic to the body: pose estimation on the discussion videos, measuring upper-limb movement, postural openness, and how often partners orient their heads toward each other. A null here would be uninformative if the measures were noisy — so the video variables were selected for <span class="font-medium dk-t1 text-slate-800">reliability alone, before any outcome analysis</span>, guaranteeing the null can't be a selection artifact.</p>
+
+      <!-- Reliability-first method -->
+      <div class="grid md:grid-cols-2 gap-6 mb-6">
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-sm font-semibold dk-t1 text-slate-900 mb-3">Reliability-first selection</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">MediaPipe Pose, Hands, and FaceMesh on frames sampled at 2 Hz within turn windows. Candidate variables were screened on detection reliability, <span class="font-medium dk-t1 text-slate-800">cross-session stability</span> (a dyad's two films as test–retest), and interpretability — with outcome associations deliberately <span class="italic">not</span> consulted. Four variables passed; unreliable hand-landmark measures and unstable frame-level movement synchrony (r = −.21) and near-face hand rates (r = −.33) were rejected, and reported for transparency.</p>
+        </div>
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-sm font-semibold dk-t1 text-slate-900 mb-3">Behaviorally valid</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600 mb-4">The battery passed built-in validity checks before it was ever related to connection:</p>
+          <ul class="space-y-2 text-sm dk-t2 text-slate-600 font-light leading-relaxed list-none">
+            <li class="flex gap-2"><span class="dk-accent text-indigo-400">›</span><span><span class="font-medium dk-t1 text-slate-800">94%</span> of participants (45 of 48) moved their arms more while speaking than listening.</span></li>
+            <li class="flex gap-2"><span class="dk-accent text-indigo-400">›</span><span>Pose detection was at ceiling (&gt; .999) in every session.</span></li>
+            <li class="flex gap-2"><span class="dk-accent text-indigo-400">›</span><span>Mutual head orientation was the single most stable measure in <span class="italic">any</span> channel (r = .79).</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div class="rounded-3xl p-6 dk-stat lt-stat text-center">
+          <p class="text-2xl md:text-3xl font-bold dk-accent text-indigo-500">.52–.79</p>
+          <p class="text-xs dk-t3 text-slate-500 mt-1.5 leading-snug">Cross-session stability of the 4 selected variables</p>
+        </div>
+        <div class="rounded-3xl p-6 dk-stat lt-stat text-center">
+          <p class="text-2xl md:text-3xl font-bold dk-accent text-indigo-500">94%</p>
+          <p class="text-xs dk-t3 text-slate-500 mt-1.5 leading-snug">Moved more while speaking (behavioral validity)</p>
+        </div>
+        <div class="rounded-3xl p-6 dk-stat lt-stat text-center">
+          <p class="text-2xl md:text-3xl font-bold dk-accent text-indigo-500">ΔR² ≤ .017</p>
+          <p class="text-xs dk-t3 text-slate-500 mt-1.5 leading-snug">Added variance in connection · all p ≥ .45</p>
+        </div>
+        <div class="rounded-3xl p-6 dk-stat lt-stat text-center">
+          <p class="text-2xl md:text-3xl font-bold dk-accent text-indigo-500">|r| ≤ .15</p>
+          <p class="text-xs dk-t3 text-slate-500 mt-1.5 leading-snug">Zero-order correlation with the composite</p>
+        </div>
+      </div>
+
+      <div class="rounded-[28px] p-8 dk-hi lt-hi">
+        <p class="text-lg leading-relaxed font-light dk-t2 text-slate-700">No video variable added meaningful variance beyond the linguistic and vocal predictors — <span class="font-medium dk-t1 text-slate-900">all ΔR² ≤ .017, all permutation p ≥ .45</span> (FDR-adjusted ≈ .93), unchanged when the vocal index was removed and in a quality-control-gated sensitivity arm. Because the measures were selected for reliability first, this is a <span class="font-medium dk-t1 text-slate-900">real null, not attenuation</span>: reliable, behaviorally valid instruments simply carry no connection-relevant signal beyond the other channels. Caveats remain — seated film discussions restrict gross movement, and head orientation is a proxy rather than calibrated gaze.</p>
+      </div>
+    </section>
+
+    <!-- CONCLUSION -->
+    <section id="conclusion" class="reveal scroll-mt-32">
+      <p class="text-xs font-bold uppercase tracking-[0.25em] dk-accent text-indigo-400 mb-2">Conclusion · a multimodal dissociation</p>
+      <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900 mb-6">How partners interact — and within the how, the <span class="italic font-light">voice</span></h2>
+
+      <!-- Incremental ΔR² chart -->
+      <div class="rounded-[28px] p-8 dk-card lt-card mb-6">
+        <p class="text-sm font-semibold dk-t1 text-slate-900 mb-1">Incremental ΔR² in connection, by channel</p>
+        <p class="text-xs dk-t3 text-slate-400 mb-6">Added over the linguistic baseline (R² = .26) · same sample &amp; pipeline · N = 24 dyads · * permutation p &lt; .05</p>
+        <div class="space-y-4">
+          <div class="flex items-center gap-3">
+            <span class="w-40 text-xs dk-t2 text-slate-500 text-right leading-tight">Vocal · intensity-edge</span>
+            <div class="flex-1 relative h-7">
+              <div class="absolute top-1 bottom-1 left-0 rounded bg-emerald-400" style="width:79%;"></div>
+              <span class="absolute top-1/2 -translate-y-1/2 text-[11px] font-semibold text-emerald-700 dark:text-emerald-300" style="left:calc(79% + 6px);">ΔR² = .198*</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-40 text-xs dk-t2 text-slate-500 text-right leading-tight">Visual · 4 video variables</span>
+            <div class="flex-1 relative h-7">
+              <div class="absolute top-1 bottom-1 left-0 rounded bg-slate-300 dark:bg-slate-600" style="width:6.8%;"></div>
+              <span class="absolute top-1/2 -translate-y-1/2 text-[11px] font-semibold dk-t3 text-slate-400" style="left:calc(6.8% + 6px);">ΔR² ≤ .017</span>
+            </div>
+          </div>
+        </div>
+        <p class="text-sm dk-t2 text-slate-500 font-light mt-6 leading-relaxed">From the same sample and pipeline, the vocal channel adds substantial variance while visible movement adds essentially none — a dissociation, not a matter of measurement quality.</p>
+      </div>
+
+      <div class="rounded-[32px] p-8 md:p-10 dk-card lt-card mb-6">
+        <p class="text-lg leading-relaxed font-light dk-t2 text-slate-700">The answer was consistent across two independent contrasts. Within language, content similarity and pre-discussion interpretive alignment predicted <span class="font-medium dk-t1 text-slate-900">nothing</span>, while interaction dynamics — question asymmetry and elaborated agreement — tracked connection. Across channels, vocal coordination at turn exchanges predicted connection beyond the linguistic baseline, while reliable, behaviorally valid video measures added nothing. Connection tracked <span class="font-medium dk-t1 text-slate-900">how partners interacted rather than what they said, and within the how, the auditory channel specifically</span>. This fits an account of shared reality built <span class="italic">in the interaction</span> — being met at the level one just spoke at — rather than through similarity of content or visible movement.</p>
+      </div>
+      <div class="rounded-[28px] p-8 dk-hi lt-hi">
+        <p class="text-sm font-bold uppercase tracking-[0.2em] dk-accent text-indigo-400 mb-2">What comes next</p>
+        <p class="text-sm leading-relaxed font-light dk-t2 text-slate-700">A preregistered replication with per-speaker audio, calibrated eye-tracking alongside the movement battery, connection measured after each conversation, formal inter-rater validation of the LLM annotation scheme, and a sample sized for effects an order of magnitude smaller than these pilot estimates. The fNIRS data already collected in this paradigm offer a further test: the responsiveness account predicts that vocal and interactional coordination — not content overlap — should track <span class="font-medium dk-t1 text-slate-900">neural coupling</span> between partners.</p>
+      </div>
+    </section>
+
+    <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-slate-200/70 dark:border-violet-900/30">
+      <a href="project-clinicalwhisper.html" class="text-sm font-medium dk-t2 text-slate-500 hover:text-indigo-500 transition-colors flex items-center gap-2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Previous: ClinicalWhisper
+      </a>
+      <a href="index.html#work" class="text-sm font-medium dk-t2 text-slate-500 hover:text-indigo-500 transition-colors flex items-center gap-2">
+        Back to all projects
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+
+  </main>
+</div>
+
+<footer class="border-t border-slate-200/70 dark:border-violet-900/30 py-12 text-center">
+  <p class="text-sm dk-t3 text-slate-400">Meihui (Lily) Wu © 2026 · <span class="italic">Stay Curious.</span></p>
+</footer>
+
+<script>
+  (function(){
+    var saved = localStorage.getItem('theme');
+    var prefers = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (saved === 'dark' || (!saved && prefers)) document.documentElement.classList.add('dark');
+    syncThemeBtn();
+  })();
+  function syncThemeBtn(){
+    var dk = document.documentElement.classList.contains('dark');
+    document.getElementById('themeIcon').textContent = dk ? '☀' : '☾';
+    document.getElementById('themeLabel').textContent = dk ? 'Light' : 'Dark';
+  }
+  document.getElementById('themeBtn').addEventListener('click', function(){
+    document.documentElement.classList.toggle('dark');
+    localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark':'light');
+    syncThemeBtn();
+  });
+  window.addEventListener('scroll', function(){
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    var p = h > 0 ? window.scrollY / h : 0;
+    document.getElementById('readbar').style.transform = 'scaleX(' + p + ')';
+  }, {passive:true});
+  var revs = document.querySelectorAll('.reveal');
+  var ro = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); ro.unobserve(e.target); } }); }, {threshold: 0.1});
+  revs.forEach(function(el){ ro.observe(el); });
+  var links = Array.from(document.querySelectorAll('.dk-toc-link'));
+  var sections = links.map(function(l){ return document.querySelector(l.getAttribute('href')); });
+  function spy(){ var y = window.scrollY + 160; var idx = 0; sections.forEach(function(s, i){ if(s && s.offsetTop <= y) idx = i; }); links.forEach(function(l,i){ l.classList.toggle('active', i === idx); }); }
+  window.addEventListener('scroll', spy, {passive:true}); spy();
+</script>
+</body>
+</html>

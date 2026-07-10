@@ -1,12 +1,95 @@
-// Your JavaScript code will go here
+// Dark/Light mode – run immediately to avoid flash
+(function() {
+    var root = document.documentElement;
+    if (!root) return;
+    var stored = localStorage.getItem('theme');
+    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var theme = (stored === 'dark' || stored === 'light') ? stored : (prefersDark ? 'dark' : 'light');
+    root.setAttribute('data-theme', theme);
+})();
+
+// Interactive custom cursor (desktop / pointer devices – e.g. Chrome)
+
+
+  
 document.addEventListener('DOMContentLoaded', function() {
-    // Smooth scrolling for navigation links
+    const cursorDot = document.querySelector('.cursor-dot');
+    const cursorRing = document.querySelector('.cursor-ring');
+    const hoverTargets = document.querySelectorAll('a, button, .project-card, .nav-toggle, .theme-toggle');
+
+    // Use custom cursor only on pointer devices and when user has not requested reduced motion
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const useCustomCursor = !prefersReducedMotion
+        && (window.matchMedia('(hover: hover)').matches || window.matchMedia('(pointer: fine)').matches)
+        && cursorDot && cursorRing;
+
+    if (useCustomCursor) {
+        let mouseX = 0, mouseY = 0;
+        let ringX = 0, ringY = 0;
+
+        document.body.classList.add('using-cursor');
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateCursor() {
+            cursorDot.style.left = mouseX + 'px';
+            cursorDot.style.top = mouseY + 'px';
+            ringX += (mouseX - ringX) * 0.2;
+            ringY += (mouseY - ringY) * 0.2;
+            cursorRing.style.left = ringX + 'px';
+            cursorRing.style.top = ringY + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        hoverTargets.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursorDot.classList.add('cursor-hover');
+                cursorRing.classList.add('cursor-hover');
+            });
+            el.addEventListener('mouseleave', () => {
+                cursorDot.classList.remove('cursor-hover');
+                cursorRing.classList.remove('cursor-hover');
+            });
+        });
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    function updateThemeLabels() {
+        var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        document.querySelectorAll('.theme-toggle').forEach(function(btn) {
+            btn.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+        });
+    }
+    updateThemeLabels();
+
+    // Theme toggle: clicking moon = switch to dark, clicking sun = switch to light
+    // document.addEventListener('click', function(e) {
+    //     var btn = e.target && e.target.closest && e.target.closest('.theme-toggle');
+    //     if (!btn) return;
+    //     e.preventDefault();
+    //     e.stopPropagation();
+    //     var root = document.documentElement;
+    //     var current = root.getAttribute('data-theme') || 'light';
+    //     var next = (current === 'dark') ? 'light' : 'dark';
+    //     root.setAttribute('data-theme', next);
+    //     localStorage.setItem('theme', next);
+    //     updateThemeLabels();
+    // });
+    // Smooth scrolling for in-page links (instant when user prefers reduced motion)
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                e.preventDefault();
+                target.scrollIntoView({
+                    behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+                });
+            }
         });
     });
 
@@ -65,32 +148,31 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Mobile menu toggle
+    // 1. Mobile Menu Fix
     const navToggle = document.querySelector('.nav-toggle');
     const navLinks = document.querySelector('.nav-links');
-    
-    navToggle.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-        
-        // Animate hamburger to X
-        navToggle.classList.toggle('active');
-        if (navToggle.classList.contains('active')) {
-            navToggle.querySelector('.hamburger').style.transform = 'rotate(45deg)';
-            navToggle.querySelector('.hamburger').style.backgroundColor = 'transparent';
-            navToggle.querySelector('.hamburger::before').style.transform = 'rotate(90deg)';
-            navToggle.querySelector('.hamburger::after').style.transform = 'rotate(-90deg)';
-        } else {
-            navToggle.querySelector('.hamburger').style.transform = 'none';
-            navToggle.querySelector('.hamburger').style.backgroundColor = var('--gray-900');
-            navToggle.querySelector('.hamburger::before').style.transform = 'none';
-            navToggle.querySelector('.hamburger::after').style.transform = 'none';
-        }
-    });
 
-    // Close mobile menu when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!navToggle.contains(e.target) && !navLinks.contains(e.target)) {
-            navLinks.classList.remove('active');
-            navToggle.classList.remove('active');
-        }
+    if (navToggle) {
+        navToggle.addEventListener('click', () => {
+            // Toggle a single class; handle the "X" animation in CSS!
+            navToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+    }
+
+    // 2. Theme Toggle Fix (Simplified)
+    document.addEventListener('click', function(e) {
+        const btn = e.target.closest('.theme-toggle');
+        if (!btn) return;
+
+        const root = document.documentElement;
+        const isDark = root.getAttribute('data-theme') === 'dark';
+        const nextTheme = isDark ? 'light' : 'dark';
+
+        root.setAttribute('data-theme', nextTheme);
+        localStorage.setItem('theme', nextTheme);
+        
+        // Update aria-label for accessibility
+        btn.setAttribute('aria-label', nextTheme === 'dark' ? 'Switch to light' : 'Switch to dark');
     });
 }); 

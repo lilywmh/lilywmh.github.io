@@ -19,8 +19,42 @@
   };
 </script>
 <style>
-  html { scroll-behavior: smooth; }
+  /* Stable visual density: keep desktop type steady, then adjust only on narrow screens. */
+  html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+  }
   body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', system-ui, sans-serif; }
+  img, video { max-width: 100%; height: auto; }
+
+  .home-scale .max-w-\[1700px\],
+  .home-scale .max-w-7xl {
+    width: min(80vw, 92rem) !important;
+    max-width: 92rem !important;
+  }
+  .home-scale .min-h-screen h1 {
+    font-size: clamp(3.5rem, 4.8vw, 5.3125rem) !important;
+    line-height: 1.08;
+  }
+  @media (max-width: 1279px) {
+    html { font-size: 15px; }
+    .home-scale .max-w-\[1700px\],
+    .home-scale .max-w-7xl {
+      width: min(calc(100% - 3rem), 72rem) !important;
+      max-width: 72rem !important;
+    }
+    .home-scale .min-h-screen h1 { font-size: 3.75rem !important; }
+  }
+  @media (max-width: 767px) {
+    html { font-size: 14px; }
+    .home-scale .max-w-\[1700px\],
+    .home-scale .max-w-7xl {
+      width: calc(100% - 1.5rem) !important;
+      max-width: none !important;
+    }
+    .home-scale .min-h-screen h1 { font-size: 3rem !important; }
+  }
 
   @keyframes fadeZoom {
     from { opacity: 0; transform: scale(0.98); }
@@ -188,7 +222,7 @@
   }
 </style>
 </head>
-<body class="min-h-screen bg-[#FBFBFD] text-[#1D1D1F] selection:bg-indigo-100 overflow-x-hidden">
+<body class="home-scale min-h-screen bg-[#FBFBFD] text-[#1D1D1F] selection:bg-indigo-100 overflow-x-hidden">
   <div id="root"></div>
 
   <!-- React + Babel -->
@@ -209,35 +243,44 @@
     window.TRANSLATIONS = {
       en: {
         nav: { subtitle: 'UX · Research · Design', link1: 'Projects', link2: 'Experience', link3: 'Beyond', link4: 'Contact' },
+        light: "Light",
+        dark: "Dark",
         hero: {
           badge: "USC '27 · Cognitive Science & Applied Math",
-          line1: 'I care about',
-          line2: '',
-          highlight: ' people.',
+          line1: 'I build around',
+          highlight: ' human connection.',
           period: '',
-          desc: "I'm Lily — from Shenzhen, now at USC double majoring in Cognitive Science and Applied Mathematics. I grew up obsessed with what makes a story land and an interaction feel right. That turned into UX research and design. I believe good products should quietly make people's lives better.",
+          desc: "I'm Lily, curious about how people connect, think, and use technology.",
           cta: 'See My Work',
         },
         work: {
           title: 'Projects',
-          subtitle: 'selected work · 2023–2025',
+          subtitle: 'selected work · 2023–2026',
           kinBadge: 'UX Research · Health Tech',
           kinTitle: 'KIN',
           kinSub: 'Remote Caregiving App',
           kinDesc: 'An app that helps families stay connected across distance when someone needs care. Led a team of 3 through user research, prototyping, and usability testing — including a tiered alert system with AI-assisted guidance for caregivers.',
           kinTags: ['Health Tech', 'Remote Caregiving', 'UX Research'],
-          whisperTitle: 'Whisper',
+          whisperTitle: 'ClinicalWhisper',
           whisperSub: 'The Dopaminergic Voice',
           whisperDesc: 'Building an acoustic analysis pipeline using OpenAI Whisper to identify speech patterns linked to mental health. Led the voice stream analysis. Paper in progress.',
           whisperTag: 'ML · Acoustic Analysis',
-          neuroTitle: 'Neurofoot',
+          neuroTitle: 'NeuroFoot',
           neuroSub: 'Diabetic Foot Health Monitor',
-          neuroDesc: 'A smart slipper that monitors plantar pressure, moisture, and gait in real-time for diabetic patients. Contributed to research, market analysis, and regulatory strategy.',
-          neuroTag: 'Health Hardware · Research',
-          cvsTitle: 'CVS Study',
-          cvsSub: 'Co-viewing & Connection',
-          cvsDesc: 'A solo study investigating whether what people talk about — or how they talk — affects the quality of social connection during co-viewing. Presented at conference.',
-          cvsTag: 'Cognitive Science · Solo Research',
+          neuroDesc: 'A smart sandal with a 16-zone pressure insole that alerts diabetic-neuropathy patients before silent tissue damage. I led the clinical-need framing, regulatory positioning, and risk analysis (FMEA).',
+          neuroTag: 'Medical Device · Regulatory',
+          cvsTitle: 'Co-Viewing Study',
+          cvsSub: 'How, Not What, We Say',
+          cvsDesc: 'First-authored study on social connection in dyadic co-viewing, measuring linguistic, vocal, and visual coordination in the same conversations. Connection tracks how partners interact — and the vocal channel specifically — not what they say. Presented at SANS.',
+          cvsTag: 'Social Neuroscience · Research',
+          quoteeTitle: 'Quotee',
+          quoteeSub: 'Save Quotes. Reflect Later.',
+          quoteeDesc: 'A calm iOS reading companion, designed and built solo in SwiftUI. Snap a page, highlight the lines you love, and watch your own quote shelf grow — with on-device OCR in English and Chinese, and no tracking, ever.',
+          quoteeTag: 'iOS · Product Design',
+          viewCase: 'View case study',
+          comingSoon: 'Coming soon',
+          productGroup: 'Product & Design',
+          researchGroup: 'Research',
         },
         experience: {
           title: 'Experience & Education',
@@ -286,14 +329,15 @@
         footer: { tagline: 'Stay Curious.', copy: 'Meihui (Lily) Wu © 2026' },
       },
       zh: {
-        nav: { subtitle: 'UX · 研究 · 设计', link1: '项目', link2: '经历', link3: '生活', link4: '联系我' },
+        nav: { subtitle: 'UX · 科研 · 设计', link1: '项目', link2: '经历', link3: '生活', link4: '联系我' },
+        light: "浅色",
+        dark: "深色",
         hero: {
           badge: "USC '27 · 认知科学 & 应用数学",
-          line1: '我关心',
-          line2: '',
-          highlight: ' 人。',
+          line1: '以人为起点',
+          highlight: ' 创造有温度的交互体验',
           period: '',
-          desc: '我是 Lily，来自深圳，现就读于 USC，双学位：认知科学与应用数学。从小就迷恋什么样的故事能打动人、什么样的交互让人舒服。这个问题带我走向了 UX 研究和设计。我相信好的产品能悄悄地让人的生活变好一点。',
+          desc: '我是 Lily（吴美慧），我好奇人与人之间如何交流，也好奇我们如何理解世界。',
           cta: '查看我的项目',
         },
         work: {
@@ -308,14 +352,22 @@
           whisperSub: '多巴胺之声',
           whisperDesc: '基于 OpenAI Whisper 搭建声学分析 pipeline，识别与心理健康相关的语音特征。负责语音流分析模块，论文撰写中。',
           whisperTag: 'ML · 声学分析',
-          neuroTitle: 'Neurofoot',
+          neuroTitle: 'NeuroFoot',
           neuroSub: '糖尿病足底健康监测',
-          neuroDesc: '实时监测足底压力、湿度和步态的智能拖鞋，面向糖尿病患者。参与研究、市场调研和法规策略工作。',
-          neuroTag: '健康硬件 · 研究',
-          cvsTitle: 'CVS Study',
-          cvsSub: '共同观看与社交连接',
-          cvsDesc: '独立研究项目，探究共同观看时人们谈话的内容与方式如何影响社交连接质量。在学术会议上发表。',
-          cvsTag: '认知科学 · 独立研究',
+          neuroDesc: '内置16区压力鞋垫的智能凉鞋，在糖尿病神经病变患者出现无声组织损伤前发出预警。我负责临床需求定义、法规定位与风险分析（FMEA）。',
+          neuroTag: '医疗器械 · 法规',
+          cvsTitle: '共同观看研究',
+          cvsSub: '关键在“如何说”',
+          cvsDesc: '第一作者研究，在同一批对话中测量语言、声音与视觉三个通道的协调。社交连接取决于双方如何互动——尤其是声音通道——而非谈话内容本身。在SANS学术会议上发表。',
+          cvsTag: '社会神经科学 · 研究',
+          quoteeTitle: 'Quotee',
+          quoteeSub: '摘录佳句，静心回味',
+          quoteeDesc: '一款安静的 iOS 阅读伴侣，从设计到开发均独立完成。拍下书页，像荧光笔一样选中喜欢的句子，看着自己的书架慢慢生长——中英文离线识别，全程无追踪。',
+          quoteeTag: 'iOS · 产品设计',
+          viewCase: '查看案例',
+          comingSoon: '敬请期待',
+          productGroup: '产品与设计',
+          researchGroup: '研究',
         },
         experience: {
           title: '经历与学历',
@@ -384,10 +436,24 @@
     const Mail         = (p) => <Icon {...p} d={<><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></>} />;
     const Utensils     = (p) => <Icon {...p} d={<><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/></>} />;
     const ArrowUpRight = (p) => <Icon {...p} d={<><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></>} />;
+    const ArrowLeft = (p) => (
+      <Icon
+        {...p}
+        d={
+          <>
+            <line x1="20" y1="12" x2="4" y2="12" />
+            <polyline points="10 6 4 12 10 18" />
+          </>
+        }
+      />
+    );
     const Sparkles     = (p) => <Icon {...p} d={<><path d="M12 3l1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2z"/><path d="M19 3v4"/><path d="M21 5h-4"/><path d="M19 17v4"/><path d="M21 19h-4"/></>} />;
     const Send         = (p) => <Icon {...p} d={<><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></>} />;
+    const Heart        = (p) => <Icon {...p} d={<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"/>} />;
+    const Activity     = (p) => <Icon {...p} d={<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>} />;
+    const MessageCircle= (p) => <Icon {...p} d={<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z"/>} />;
 
-    Object.assign(window, { MapPin, Brain, Layers, Github, Linkedin, Mail, Utensils, ArrowUpRight, Sparkles, Send });
+    Object.assign(window, { MapPin, Brain, Layers, Github, Linkedin, Mail, Utensils, ArrowUpRight, ArrowLeft, Sparkles, Send, Heart, Activity, MessageCircle });
   </script>
 
   <!-- Particle background -->
@@ -500,7 +566,7 @@
             borderRadius: scrolled ? '28px' : '999px',
             transition: 'border-radius 600ms cubic-bezier(0.34,1.56,0.64,1), background 500ms, border-color 500ms, box-shadow 500ms, padding 400ms',
           }}
-          className={`fixed top-4 left-1/2 -translate-x-1/2 w-[94%] max-w-6xl z-40 border
+          className={`fixed top-4 left-1/2 -translate-x-1/2 w-[94%] max-w-7xl z-40 border
             ${scrolled
               ? (dk
                   ? 'backdrop-blur-2xl dk-nav-scrolled border-purple-900/30 py-3'
@@ -560,7 +626,7 @@
                   ${dk ? 'dk-toggle' : 'bg-white/50 border-white/60 text-slate-500 hover:text-slate-800 hover:bg-white/80'}`}
               >
                 <span className="text-base leading-none">{dk ? '☀' : '☾'}</span>
-                <span className="hidden md:inline">{dk ? 'Light' : 'Dark'}</span>
+                <span className="hidden md:inline">{dk ? window.TRANSLATIONS[lang].light : window.TRANSLATIONS[lang].dark}</span>
               </button>
 
               {/* Language */}
@@ -570,7 +636,7 @@
                   ${dk ? 'dk-toggle' : 'bg-white/50 border-white/60 text-slate-500 hover:text-slate-800 hover:bg-white/80'}`}
               >
                 <span className="text-base leading-none">🌐</span>
-                <span className="hidden md:inline">{lang === 'en' ? '中文' : 'English'}</span>
+                <span className="hidden md:inline">{lang === 'en' ? '中' : 'EN'}</span>
               </button>
 
               {/* Resume */}
@@ -620,7 +686,7 @@
             aria-label="Toggle language"
           >
             <span className="text-base leading-none">🌐</span>
-            <span>{lang === 'en' ? '中文' : 'English'}</span>
+            <span>{lang === 'en' ? '中' : 'EN'}</span>
           </button>
 
         </div>
@@ -637,7 +703,7 @@
       const dk = theme === 'dark';
 
       return (
-        <section className="min-h-screen flex flex-col justify-center px-6 max-w-[1380px] mx-auto pt-28">
+        <section className="min-h-[88vh] flex flex-col justify-center px-6 max-w-[1700px] mx-auto pt-28">
           <div className={`relative group p-12 md:p-20 rounded-[60px] border backdrop-blur-3xl shadow-xl space-y-10 anim-in
             ${dk ? 'dk-card' : 'border-white/70 bg-white/40'}`}>
             <div className="pointer-events-none absolute top-10 right-10 w-28 h-28 rounded-full bg-gradient-to-br from-purple-200/40 to-rose-200/40 blur-2xl group-hover:scale-150 transition-transform duration-1000" />
@@ -647,15 +713,16 @@
               {T.badge}
             </div>
 
-            <h1 className={`text-5xl md:text-[88px] font-semibold tracking-tighter leading-[1.0] ${dk ? 'dk-t1' : 'text-slate-900'}`}>
+            <h1 className={`text-5xl sm:text-6xl md:text-7xl xl:text-[85px] font-semibold tracking-tighter leading-[1.1] ${dk ? 'dk-t1' : 'text-slate-1000'}`}>
               {T.line1}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-rose-300 to-emerald-300 italic font-light">
+              <br />
+              <span className="inline-block pl-0 pr-[15px] text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-rose-300 to-emerald-300 italic font-light">
                 {T.highlight}
               </span>{T.period}
               {T.line2 && <><br/>{T.line2}</>}
             </h1>
 
-            <p className={`text-xl md:text-2xl font-normal max-w-2xl leading-relaxed ${dk ? 'dk-t2' : 'text-slate-500/80'}`}>
+            <p className={`text-xl md:text-2xl font-normal max-w-5xl leading-relaxed ${dk ? 'dk-t2' : 'text-slate-500/80'}`}>
               {T.desc}
             </p>
 
@@ -665,10 +732,11 @@
                   ${dk ? 'dk-send-btn' : 'bg-slate-900 text-white'}`}>
                   {T.cta}
                 </span>
-                <div className={`w-14 h-14 rounded-full border flex items-center justify-center group-hover/cta:border-transparent group-hover/cta:rotate-45 transition-all duration-500 backdrop-blur-md
+                <div className={`w-14 h-14 rounded-full border flex items-center justify-center group-hover/cta:border-transparent group-hover/cta:-rotate-90 transition-all duration-500 backdrop-blur-md
                   ${dk ? 'border-purple-900/50 bg-purple-950/30 group-hover/cta:bg-purple-900/40' : 'border-slate-200 bg-white/40 group-hover/cta:bg-white'}`}>
-                  <ArrowUpRight size={22} className={`${dk ? 'dk-t3' : 'text-slate-400'} group-hover/cta:text-indigo-500`} />
+                  <ArrowLeft size={22} className={`${dk ? 'dk-t3' : 'text-slate-400'} group-hover/cta:text-indigo-500`} />
                 </div>
+                
               </a>
             </div>
           </div>
@@ -685,35 +753,92 @@
       const T = window.TRANSLATIONS[lang].work;
       const dk = theme === 'dark';
 
-      const smallCards = [
+      const productCards = [
         {
-          icon: <Brain size={26} className="text-purple-300" />,
-          iconBg: dk ? 'dk-icon-purple' : 'bg-purple-50',
-          title: T.whisperTitle,
-          sub: T.whisperSub,
-          desc: T.whisperDesc,
-          tag: T.whisperTag,
-        },
-        {
-          icon: <Layers size={26} className="text-emerald-400" />,
-          iconBg: dk ? 'dk-icon-emerald' : 'bg-emerald-50',
-          title: T.neuroTitle,
-          sub: T.neuroSub,
-          desc: T.neuroDesc,
-          tag: T.neuroTag,
-        },
-        {
-          icon: <Sparkles size={26} className="text-rose-300" />,
+          icon: <Heart size={24} className="text-rose-300" />,
           iconBg: dk ? 'dk-icon-rose' : 'bg-rose-50',
-          title: T.cvsTitle,
-          sub: T.cvsSub,
-          desc: T.cvsDesc,
-          tag: T.cvsTag,
+          title: T.kinTitle, sub: T.kinSub, desc: T.kinDesc,
+          tags: T.kinTags, link: 'project-kin.html',
+        },
+        {
+          icon: <Activity size={24} className="text-emerald-400" />,
+          iconBg: dk ? 'dk-icon-emerald' : 'bg-emerald-50',
+          title: T.neuroTitle, sub: T.neuroSub, desc: T.neuroDesc,
+          tags: [T.neuroTag], link: 'project-neurofoot.html',
+        },
+        {
+          icon: <Sparkles size={24} className="text-indigo-300" />,
+          iconBg: dk ? 'dk-icon-indigo' : 'bg-indigo-50',
+          title: T.quoteeTitle, sub: T.quoteeSub, desc: T.quoteeDesc,
+          tags: [T.quoteeTag], link: 'project-quotee.html',
+        },
+      ];
+      const researchCards = [
+        {
+          icon: <Brain size={24} className="text-purple-300" />,
+          iconBg: dk ? 'dk-icon-purple' : 'bg-purple-50',
+          title: T.whisperTitle, sub: T.whisperSub, desc: T.whisperDesc,
+          tags: [T.whisperTag], link: 'project-clinicalwhisper.html',
+        },
+        {
+          icon: <MessageCircle size={24} className="text-rose-300" />,
+          iconBg: dk ? 'dk-icon-rose' : 'bg-rose-50',
+          title: T.cvsTitle, sub: T.cvsSub, desc: T.cvsDesc,
+          tags: [T.cvsTag], link: 'project-cvs.html',
         },
       ];
 
+      const Card = (card, i) => {
+        const Tag = card.link ? 'a' : 'div';
+        const clickable = !!card.link;
+        return (
+          <Tag key={i} href={card.link || undefined}
+            className={`group rounded-[40px] border backdrop-blur-xl p-9 md:p-10 transition-all duration-500 shadow-sm flex flex-col h-full min-h-[360px] ${clickable ? 'cursor-pointer' : ''} ${card.soon ? 'opacity-90' : ''}
+            ${dk ? 'dk-card' : 'border-white/80 bg-white/30'} ${clickable ? (dk ? 'hover:-translate-y-2' : 'hover:bg-white/55 hover:-translate-y-2 hover:shadow-xl') : ''}`}>
+            <div className={`w-14 h-14 rounded-3xl flex items-center justify-center transition-transform ${clickable ? 'group-hover:scale-110' : ''} ${card.iconBg}`}>
+              {card.icon}
+            </div>
+            <div className="mt-7 flex-grow flex flex-col space-y-3">
+              <div>
+                <h3 className={`text-2xl font-semibold ${dk ? 'dk-t1' : 'text-slate-900'}`}>{card.title}</h3>
+                <p className={`text-sm font-medium mt-0.5 ${dk ? 'dk-t3' : 'text-slate-400'}`}>{card.sub}</p>
+              </div>
+              <p className={`text-base leading-relaxed font-light ${dk ? 'dk-t2' : 'text-slate-500'}`}>{card.desc}</p>
+              <div className="flex flex-wrap gap-2 pt-1">
+                {card.tags.map(tag => (
+                  <span key={tag} className={`text-xs px-3 py-1.5 rounded-full font-medium backdrop-blur-md
+                    ${dk ? 'dk-tag' : 'bg-white/60 border border-white/80 text-slate-500'}`}>{tag}</span>
+                ))}
+              </div>
+            </div>
+            <div className="mt-7">
+              {clickable ? (
+                <span className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold shadow-sm transition-all group-hover:gap-3 group-hover:shadow-md
+                  ${dk ? 'dk-send-btn' : 'bg-slate-900 text-white group-hover:bg-indigo-600'}`}>
+                  {T.viewCase}
+                  <ArrowUpRight size={16} className="group-hover:rotate-45 transition-transform" />
+                </span>
+              ) : (
+                <span className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold border
+                  ${dk ? 'border-purple-900/40 dk-t3' : 'border-slate-200 text-slate-400'}`}>
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+                  {T.comingSoon}
+                </span>
+              )}
+            </div>
+          </Tag>
+        );
+      };
+
+      const groupHeader = (label) => (
+        <div className="flex items-center gap-4 mb-8 px-2">
+          <span className={`text-sm font-bold uppercase tracking-[0.3em] ${dk ? 'dk-accent' : 'text-indigo-400'}`}>{label}</span>
+          <div className={`h-px flex-grow ${dk ? 'dk-divider' : 'bg-slate-200/70'}`} />
+        </div>
+      );
+
       return (
-        <section id="work" className="max-w-[1380px] mx-auto px-6 py-48 space-y-24">
+        <section id="work" className="max-w-[1700px] mx-auto px-6 py-16 sm:py-20 lg:py-28 space-y-20">
           <div className="flex items-end justify-between px-2">
             <div className="space-y-1">
               <h2 className={`text-4xl font-semibold tracking-tight ${dk ? 'dk-t1' : 'text-slate-900'}`}>{T.title}</h2>
@@ -722,63 +847,18 @@
             <div className={`h-px flex-grow mx-10 hidden md:block ${dk ? 'dk-divider' : 'bg-slate-200/70'}`} />
           </div>
 
-          <div className="space-y-12">
-            {/* Flagship — KIN */}
-            <article className={`group relative rounded-[50px] border backdrop-blur-xl p-12 md:p-16 transition-all duration-700 flex flex-col md:flex-row gap-12
-              ${dk ? 'dk-card' : 'border-white/80 bg-white/30 hover:bg-white/55 hover:shadow-2xl'}`}>
-              <div className="pointer-events-none absolute top-0 right-0 w-72 h-72 bg-indigo-100/40 blur-[90px] -z-10 group-hover:scale-150 transition-transform duration-1000" />
-
-              <div className={`w-full md:w-3/5 aspect-video rounded-[40px] overflow-hidden border relative shadow-inner flex-shrink-0
-                ${dk ? 'bg-purple-950/40 border-purple-900/40' : 'bg-slate-50/50 border-white/60'}`}>
-                <div className="absolute inset-0 bg-gradient-to-br from-indigo-100/50 via-transparent to-rose-100/50" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className={`text-sm font-bold uppercase tracking-[0.3em] flex items-center gap-2 ${dk ? 'dk-t3' : 'text-slate-400'}`}>
-                    <span className={`w-1.5 h-1.5 rounded-full animate-ping ${dk ? 'bg-purple-500' : 'bg-slate-400'}`} />
-                    High-Fi Prototype
-                  </span>
-                </div>
+          <div className="space-y-16">
+            <div>
+              {groupHeader(T.productGroup)}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {productCards.map(Card)}
               </div>
-
-              <div className="w-full md:w-2/5 flex flex-col justify-center space-y-7">
-                <div className="space-y-2">
-                  <div className={`inline-block px-3 py-1 rounded-full text-sm font-bold uppercase tracking-widest
-                    ${dk ? 'dk-pill-accent' : 'bg-indigo-50 text-indigo-500'}`}>
-                    {T.kinBadge}
-                  </div>
-                  <h3 className={`text-4xl font-semibold tracking-tight leading-none ${dk ? 'dk-t1' : 'text-slate-900'}`}>{T.kinTitle}</h3>
-                  <p className={`text-base font-medium ${dk ? 'dk-t3' : 'text-slate-400'}`}>{T.kinSub}</p>
-                </div>
-                <p className={`leading-relaxed font-light text-xl ${dk ? 'dk-t2' : 'text-slate-500'}`}>{T.kinDesc}</p>
-                <div className="flex flex-wrap gap-2">
-                  {T.kinTags.map(tag => (
-                    <span key={tag} className={`text-sm px-4 py-2 rounded-full font-medium backdrop-blur-md
-                      ${dk ? 'dk-tag' : 'bg-white/60 border border-white/80 text-slate-500'}`}>
-                      {tag}
-                    </span>
-                  ))}
-                </div>
+            </div>
+            <div>
+              {groupHeader(T.researchGroup)}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {researchCards.map(Card)}
               </div>
-            </article>
-
-            {/* Three smaller cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {smallCards.map((card, i) => (
-                <article key={i} className={`group rounded-[40px] border backdrop-blur-xl p-10 transition-all duration-700 shadow-sm flex flex-col justify-between min-h-[340px] cursor-pointer
-                  ${dk ? 'dk-card' : 'border-white/80 bg-white/30 hover:bg-white/55 hover:-translate-y-2 hover:shadow-xl'}`}>
-                  <div className={`w-14 h-14 rounded-3xl flex items-center justify-center group-hover:scale-110 transition-transform ${card.iconBg}`}>
-                    {card.icon}
-                  </div>
-                  <div className="space-y-3 mt-8">
-                    <div>
-                      <h3 className={`text-2xl font-semibold ${dk ? 'dk-t1' : 'text-slate-900'}`}>{card.title}</h3>
-                      <p className={`text-sm font-medium mt-0.5 ${dk ? 'dk-t3' : 'text-slate-400'}`}>{card.sub}</p>
-                    </div>
-                    <p className={`text-lg leading-relaxed font-light ${dk ? 'dk-t2' : 'text-slate-500'}`}>{card.desc}</p>
-                    <div className={`w-full h-px ${dk ? 'dk-divider' : 'bg-slate-200/70'}`} />
-                    <span className={`text-sm font-bold uppercase tracking-widest ${dk ? 'dk-t3' : 'text-slate-400'}`}>{card.tag}</span>
-                  </div>
-                </article>
-              ))}
             </div>
           </div>
         </section>
@@ -795,7 +875,7 @@
       const dk = theme === 'dark';
 
       return (
-        <section id="experience" className="max-w-[1380px] mx-auto px-6 py-48 space-y-24">
+        <section id="experience" className="max-w-[1700px] mx-auto px-6 py-16 sm:py-20 lg:py-28 space-y-24">
           <div className="flex items-end justify-between px-2">
             <div className="space-y-1">
               <h2 className={`text-4xl font-semibold tracking-tight ${dk ? 'dk-t1' : 'text-slate-900'}`}>{T.title}</h2>
@@ -848,8 +928,12 @@
               <div className={`text-sm font-bold uppercase tracking-[0.3em] ${dk ? 'dk-accent' : 'text-indigo-400'}`}>
                 {T.eduTitle}
               </div>
-              <div className="space-y-3 flex-grow flex flex-col justify-center">
-                <div className={`text-4xl font-light italic ${dk ? 'dk-t3' : 'text-slate-300'}`}>USC</div>
+              <div className="space-y-3 flex-grow flex flex-col items-start space-y-3">
+                <img
+                  src={dk ? "assets/usc-logo-yellow.png" : "assets/usc-logo-2.png"}
+                  alt="USC"
+                  className={`h-20 w-auto object-contain ${dk ? 'opacity-100' : 'opacity-100'}`}
+                />
                 <p className={`text-lg font-semibold tracking-tight ${dk ? 'dk-t1' : 'text-slate-900'}`}>{T.edu}</p>
                 <p className={`text-base font-light leading-relaxed ${dk ? 'dk-t2' : 'text-slate-500'}`}>{T.eduSub}</p>
                 <div className={`inline-block mt-2 px-3 py-1 rounded-full text-sm font-bold uppercase tracking-widest w-fit
@@ -878,7 +962,7 @@
       ];
 
       return (
-        <section className="max-w-[1380px] mx-auto px-6 pb-48">
+        <section className="max-w-[1700px] mx-auto px-6 pb-24 sm:pb-32 lg:pb-48">
           <div className={`rounded-[50px] border backdrop-blur-xl p-12 md:p-16 space-y-10
             ${dk ? 'dk-card' : 'border-white/80 bg-white/30'}`}>
             <h2 className={`text-4xl font-semibold tracking-tight ${dk ? 'dk-t1' : 'text-slate-900'}`}>{T.title}</h2>
@@ -917,7 +1001,7 @@
       ];
 
       return (
-        <section id="beyond" className="max-w-[1380px] mx-auto px-6 py-48">
+        <section id="beyond" className="max-w-[1700px] mx-auto px-6 py-16 sm:py-20 lg:py-28">
           <div className={`rounded-[70px] border backdrop-blur-3xl p-14 md:p-24 shadow-2xl relative overflow-hidden
             ${dk ? 'dk-card' : 'border-white/80 bg-white/25'}`}>
             <div className={`pointer-events-none absolute -bottom-20 -left-20 w-96 h-96 blur-[110px] rounded-full
@@ -1001,7 +1085,7 @@
         : 'w-full px-4 py-3 rounded-2xl border border-slate-200/80 bg-white/60 text-slate-800 placeholder-slate-400 text-base outline-none transition-all focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100 focus:bg-white';
 
       return (
-        <section id="contact" className="max-w-[1380px] mx-auto px-6 py-48">
+        <section id="contact" className="max-w-[1700px] mx-auto px-6 py-16 sm:py-20 lg:py-28">
           <div className={`rounded-[70px] border p-14 md:p-20 relative overflow-hidden
             ${dk ? 'dk-contact' : 'border-white/80 bg-white/25 backdrop-blur-3xl shadow-2xl'}`}>
             {/* Decorative glow */}
@@ -1104,7 +1188,7 @@
       return (
         <footer className={`py-24 border-t backdrop-blur-2xl
           ${dk ? 'border-purple-900/30 bg-black/30' : 'border-white/80 bg-white/20'}`}>
-          <div className="max-w-[1380px] mx-auto px-6 flex flex-col md:flex-row justify-between items-end gap-10">
+          <div className="max-w-[1700px] mx-auto px-6 flex flex-col md:flex-row justify-between items-end gap-10">
             <div className="space-y-4">
               <h3 className={`text-4xl font-extralight italic tracking-tighter ${dk ? 'dk-t1' : 'text-slate-900'}`}>
                 Stay <span className="font-semibold not-italic">Curious.</span>

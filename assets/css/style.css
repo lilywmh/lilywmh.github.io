@@ -1,11 +1,16 @@
+/* Load font from Google Fonts – change the family name in the URL to switch fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+
 :root {
-    /* Professional Color Palette */
-    --primary: #1a1a1a;         /* Deep black for main text */
-    --secondary: #f8f9fa;       /* Light gray for backgrounds */
-    --accent: #0066cc;          /* Professional blue for highlights */
-    --subtle: #e9ecef;          /* Subtle gray for borders */
-    
-    /* Neutral Shades */
+    /* Font – change this to use a different font (must match the @import above) */
+    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+    /* Light theme (default) */
+    --primary: #1a1a1a;
+    --secondary: #f8f9fa;
+    --accent: #0066cc;
+    --subtle: #e9ecef;
     --white: #ffffff;
     --gray-100: #f8f9fa;
     --gray-200: #e9ecef;
@@ -16,25 +21,240 @@
     --gray-700: #495057;
     --gray-800: #343a40;
     --gray-900: #212529;
-    
+    --nav-bg: rgba(255, 255, 255, 0.98);
+    --nav-border: #e9ecef;
+    --footer-bg: #212529;
+    --footer-color: #ced4da;
+
     /* Layout */
     --max-width: 1200px;
     --section-padding: 5rem;
     --container-padding: 2rem;
 }
 
-/* Reset & Base Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* Dark theme – scoped to html so it overrides :root */
+html[data-theme="dark"] {
+    --primary: #e9ecef;
+    --secondary: #212529;
+    --accent: #5eb3ff;
+    --subtle: #343a40;
+    --white: #121212;
+    --gray-100: #212529;
+    --gray-200: #343a40;
+    --gray-300: #495057;
+    --gray-400: #6c757d;
+    --gray-500: #adb5bd;
+    --gray-600: #ced4da;
+    --gray-700: #dee2e6;
+    --gray-800: #e9ecef;
+    --gray-900: #f8f9fa;
+    --nav-bg: rgba(26, 26, 26, 0.98);
+    --nav-border: #343a40;
+    --footer-bg: #0d0d0d;
+    --footer-color: #adb5bd;
 }
 
+/* Force dark colors on body and sections when theme is dark (backup for variable inheritance) */
+html[data-theme="dark"] body {
+    background-color: #121212;
+    color: #e9ecef;
+}
+html[data-theme="dark"] .hero,
+html[data-theme="dark"] .page-hero {
+    background-color: #212529;
+}
+html[data-theme="dark"] .nav {
+    background: rgba(26, 26, 26, 0.98);
+    border-bottom-color: #343a40;
+}
+html[data-theme="dark"] .footer {
+    background-color: #0d0d0d;
+    color: #adb5bd;
+}
+html[data-theme="dark"] .logo-text,
+html[data-theme="dark"] .nav-item,
+html[data-theme="dark"] h1,
+html[data-theme="dark"] h2,
+html[data-theme="dark"] h3,
+html[data-theme="dark"] .hero-tagline {
+    color: #e9ecef;
+}
+html[data-theme="dark"] .nav-item:hover,
+html[data-theme="dark"] .nav-item.active {
+    color: #5eb3ff;
+}
+html[data-theme="dark"] .project-card {
+    background-color: #212529;
+    border-color: #343a40;
+}
+html[data-theme="dark"] .social-link {
+    color: #dee2e6;
+}
+html[data-theme="dark"] .social-link:hover {
+    color: #5eb3ff;
+}
+
+/* Apply the variables to the actual page */
 body {
-    font-family: 'Inter', -apple-system, sans-serif;
-    line-height: 1.6;
-    color: var(--primary);
+    background-color: var(--white); /* This changes from #ffffff to #121212 */
+    color: var(--primary);          /* This changes from #1a1a1a to #e9ecef */
+    font-family: var(--font-family);
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+    margin: 0;
+}
+
+/* Update your Navigation */
+.nav {
+    background-color: var(--nav-bg);
+    border-bottom: 1px solid var(--nav-border);
+}
+
+/* Update your Section Backgrounds */
+.section-alt {
+    background-color: var(--gray-100);
+}
+
+/* ========== Accessibility ========== */
+/* Skip link: off-screen until focused (keyboard / screen reader) */
+.skip-link {
+    position: absolute;
+    top: -100px;
+    left: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: var(--accent);
+    color: var(--white);
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 6px;
+    z-index: 10000;
+    transition: top 0.2s ease;
+}
+.skip-link:focus {
+    top: 0.75rem;
+    outline: 3px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* Visible focus for keyboard users (no focus ring on mouse click) */
+a:focus-visible,
+button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+.nav-item:focus-visible,
+.social-link:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+.button:focus-visible {
+    outline: 2px solid var(--white);
+    outline-offset: 2px;
+}
+.project-card:focus-within {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+main:focus {
+    outline: none; /* skip link already moved focus here */
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    .skip-link,
+    .cursor-dot,
+    .cursor-ring,
+    .nav-item::after,
+    .project-card,
+    .button {
+        transition: none !important;
+    }
+    .cursor-dot,
+    .cursor-ring {
+        animation: none !important;
+    }
+}
+
+/* Only hide default cursor when custom cursor is active */
+body.using-cursor {
+    cursor: none;
+}
+
+body.using-cursor .cursor-dot,
+body.using-cursor .cursor-ring {
+    opacity: 1;
+}
+
+/* Interactive custom cursor */
+.cursor-dot,
+.cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+        pointer-events: none;
+    z-index: 10001;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease;
+}
+
+body.using-cursor .cursor-dot,
+body.using-cursor .cursor-ring {
+    visibility: visible;
+}
+
+.cursor-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease-out, width 0.2s ease, height 0.2s ease, background 0.2s ease;
+}
+
+.cursor-ring {
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: transform 0.15s ease-out, width 0.2s ease, height 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+}
+
+/* Cursor hover state on links, buttons, and interactive elements */
+body.using-cursor a,
+body.using-cursor button,
+body.using-cursor .project-card {
+    cursor: none;
+}
+
+body.using-cursor .cursor-dot.cursor-hover {
+    width: 4px;
+    height: 4px;
     background: var(--white);
+}
+
+body.using-cursor .cursor-ring.cursor-hover {
+    width: 56px;
+    height: 56px;
+    border-color: var(--accent);
+    opacity: 0.6;
+}
+
+/* Hide custom cursor on touch devices (no hover) */
+@media (hover: none) {
+    body {
+        cursor: auto;
+    }
+    .cursor-dot,
+    .cursor-ring {
+        display: none;
+    }
+    body.using-cursor a,
+    body.using-cursor button,
+    body.using-cursor .project-card {
+        cursor: pointer;
+    }
 }
 
 /* Layout Components */
@@ -55,10 +275,10 @@ body {
     left: 0;
     right: 0;
     height: 70px;
-    background: rgba(255, 255, 255, 0.98);
+    background: var(--nav-bg);
     backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--gray-200);
-    z-index: 1000;
+    border-bottom: 1px solid var(--nav-border);
+    z-index: 10000;
 }
 
 .nav-container {
@@ -89,6 +309,48 @@ body {
     align-items: center;
 }
 
+/* Dark/Light mode toggle */
+.theme-toggle {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    color: var(--gray-700);
+    cursor: pointer;
+    transition: color 0.2s ease, background 0.2s ease;
+    pointer-events: auto;
+}
+.theme-toggle:hover {
+    color: var(--accent);
+    background: var(--gray-200);
+}
+html[data-theme="dark"] .theme-toggle:hover {
+    background: var(--gray-200);
+}
+.theme-toggle svg {
+    width: 20px;
+    height: 20px;
+}
+.theme-toggle .icon-sun {
+    display: none;
+}
+.theme-toggle .icon-moon {
+    display: block;
+}
+html[data-theme="dark"] .theme-toggle .icon-sun {
+    display: block;
+}
+html[data-theme="dark"] .theme-toggle .icon-moon {
+    display: none;
+}
+
 .nav-item {
     color: var(--gray-700);
     text-decoration: none;
@@ -117,8 +379,31 @@ body {
     width: 100%;
 }
 
+.nav-item.active {
+    color: var(--accent);
+}
+
+.nav-item.active::after {
+    width: 100%;
+}
+
 .nav-toggle {
     display: none;
+}
+
+/* Inner page layout */
+.page-main {
+    padding-top: 70px;
+}
+
+.page-hero {
+    padding: 3rem 0 2rem;
+    background: var(--secondary);
+}
+
+.page-hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0;
 }
 
 /* Responsive Navigation */
@@ -165,9 +450,9 @@ body {
         left: 0;
         right: 0;
         flex-direction: column;
-        background: var(--white);
+        background: var(--nav-bg);
         padding: 1rem 0;
-        border-bottom: 1px solid var(--gray-200);
+        border-bottom: 1px solid var(--nav-border);
         gap: 0;
     }
 
@@ -288,8 +573,8 @@ h3 {
 
 /* Footer */
 .footer {
-    background: var(--gray-900);
-    color: var(--gray-400);
+    background: var(--footer-bg);
+    color: var(--footer-color);
     padding: 3rem 0;
     text-align: center;
 }
@@ -313,3 +598,52 @@ h3 {
         grid-template-columns: 1fr;
     }
 }
+
+/* The button container */
+.nav-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 10px;
+}
+
+/* The Middle Bar */
+.hamburger {
+    width: 24px;
+    height: 2px;
+    background-color: var(--text-primary); /* Uses your theme's text color */
+    position: relative;
+    transition: all 0.3s ease-in-out;
+}
+
+/* The Top and Bottom bars */
+.hamburger::before,
+.hamburger::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 2px;
+    background-color: var(--text-primary);
+    transition: all 0.3s ease-in-out;
+}
+
+/* Position them above and below */
+.hamburger::before { transform: translateY(-8px); }
+.hamburger::after { transform: translateY(8px); }
+
+/* --- THE TRANSFORMATION --- */
+
+/* When .active is added via JS, transform into an 'X' */
+.nav-toggle.active .hamburger {
+    background-color: transparent; /* Hide the middle bar */
+}
+
+.nav-toggle.active .hamburger::before {
+    transform: rotate(45deg);
+}
+
+.nav-toggle.active .hamburger::after {
+    transform: rotate(-45deg);
+}
+
