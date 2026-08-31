@@ -1,0 +1,1763 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>两个人之间会发生什么 · What Happens Between Two People</title>
+<style>
+:root{
+  --panel:#f5f5f8; --panel-2:#eeeef4; --paper:#ffffff;
+  --ink:#171724; --ink-soft:#66677a; --rule:#dddde7;
+  --A:#5f78c9; --B:#c86f8a; --signal:#7868d8; --ok:#4d8b72;
+  --disp:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sans-serif;
+  --body:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',sans-serif;
+  --mono:'SFMono-Regular',Consolas,'Liberation Mono',monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--panel);color:var(--ink);font-family:var(--body);
+     font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.eyebrow{font-family:var(--disp);font-variation-settings:'wdth' 118;font-weight:700;
+         text-transform:uppercase;letter-spacing:.14em;font-size:10px;color:var(--ink-soft)}
+header{border-bottom:1px solid var(--rule);padding:22px 24px 18px;display:flex;
+       flex-wrap:wrap;gap:18px;align-items:flex-end;justify-content:space-between}
+h1{font-family:var(--disp);font-variation-settings:'wdth' 120;font-weight:800;
+   font-size:clamp(19px,2.6vw,30px);letter-spacing:-.01em;margin:6px 0 4px;line-height:1.05}
+.sub{font-size:14.5px;color:var(--ink-soft);max-width:58ch;margin:0}
+.transport{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+button{font-family:var(--disp);font-variation-settings:'wdth' 110;font-weight:600;
+       font-size:11px;letter-spacing:.06em;text-transform:uppercase;background:var(--paper);
+       color:var(--ink);border:1px solid var(--rule);border-radius:2px;padding:7px 11px;
+       cursor:pointer;transition:background .12s,border-color .12s}
+button:hover{background:#fff;border-color:var(--ink-soft)}
+button:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+button.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.presets button.on{background:var(--signal);border-color:var(--signal);color:#fff}
+#btnLang{background:var(--panel-2)}
+
+.shell{display:grid;grid-template-columns:250px 1fr;min-height:60vh}
+nav{border-right:1px solid var(--rule);padding:14px 0}
+.railhead{padding:0 18px 10px}
+.item{display:block;width:100%;text-align:left;border:none;border-left:3px solid transparent;
+      background:transparent;border-radius:0;padding:11px 16px 12px;cursor:pointer;
+      text-transform:none;letter-spacing:0}
+.item:hover{background:var(--panel-2)}
+.item.sel{background:var(--paper);border-left-color:var(--signal)}
+.item .n{font-family:var(--mono);font-size:10px;color:var(--ink-soft);display:block;letter-spacing:.04em}
+.item .zh{font-family:var(--disp);font-variation-settings:'wdth' 105;font-weight:700;
+          font-size:14.5px;display:block;margin-top:1px;line-height:1.25}
+.item .en{font-family:var(--body);font-size:12px;color:var(--ink-soft);display:block;
+          margin-top:2px;line-height:1.35}
+.item.info{border-bottom:1px solid var(--rule);margin-bottom:8px;padding-bottom:14px}
+main{padding:18px 24px 40px;min-width:0}
+
+.stage{background:var(--paper);border:1px solid var(--rule);border-radius:3px;
+       position:relative;overflow:hidden}
+canvas{display:block;width:100%;height:100%}
+.stagewrap{position:relative;height:472px}
+.stagehead{display:flex;flex-wrap:wrap;gap:10px 26px;align-items:flex-start;
+           justify-content:space-between;margin-bottom:11px}
+.what{margin:0;font-size:15px;max-width:60ch;line-height:1.55}
+.keys{display:flex;flex-wrap:wrap;gap:7px 15px;font-family:var(--mono);font-size:10px;
+      color:var(--ink-soft);letter-spacing:.02em;padding-top:2px}
+.keys i{font-style:normal;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.keys b{width:9px;height:9px;border-radius:50%;display:inline-block;flex:0 0 auto}
+.keys b.bar{width:14px;height:7px;border-radius:1px}
+
+.rolegend{display:flex;gap:16px;align-items:center;flex-wrap:wrap;
+          font-family:var(--mono);font-size:10px;color:var(--ink-soft);
+          padding:8px 2px 7px;letter-spacing:.02em}
+.rolegend i{font-style:normal;display:inline-flex;align-items:center;gap:5px}
+.rolegend b{display:inline-block;width:9px;height:9px;border-radius:50%}
+.readouts{display:flex;flex-wrap:wrap;border:1px solid var(--rule);background:var(--panel-2)}
+.ro{flex:1 1 148px;min-width:148px;padding:10px 14px 11px;border-right:1px solid var(--rule)}
+.ro:last-child{border-right:none}
+.ro.est{background:rgba(198,137,46,.12)}
+.ro.est .lab{color:#8A6520}
+.ro .lab{font-family:var(--mono);font-size:9px;text-transform:uppercase;
+         letter-spacing:.08em;color:var(--ink-soft);display:block;line-height:1.5}
+.ro .val{font-family:var(--disp);font-variation-settings:'wdth' 112;font-weight:700;
+         font-size:22px;line-height:1.2;margin-top:3px;font-variant-numeric:tabular-nums}
+.ro .val.est{color:var(--signal)}
+.ro .val.ok{color:var(--ok)}
+.ro .foot{font-family:var(--mono);font-size:9.5px;color:var(--ink-soft);
+          margin-top:1px;display:block;line-height:1.5}
+
+.controls{margin-top:18px;display:grid;grid-template-columns:1fr 320px;gap:24px}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:15px}
+.sliders{display:grid;gap:12px}
+.sl label{display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+          font-family:var(--mono);font-size:10.5px;color:var(--ink-soft);margin-bottom:3px}
+.sl label span.name{color:var(--ink);font-family:var(--body);font-size:13.5px}
+.sl label b{font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap}
+input[type=range]{width:100%;height:18px;margin:0;background:transparent;
+                  -webkit-appearance:none;appearance:none;cursor:pointer}
+input[type=range]::-webkit-slider-runnable-track{height:2px;background:var(--rule)}
+input[type=range]::-moz-range-track{height:2px;background:var(--rule)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;
+       border-radius:50%;background:var(--ink);margin-top:-5.5px;border:none}
+input[type=range]::-moz-range-thumb{width:13px;height:13px;border-radius:50%;
+       background:var(--ink);border:none}
+input[type=range]:focus-visible{outline:2px solid var(--signal);outline-offset:3px}
+
+.note{border-left:2px solid var(--signal);padding:2px 0 2px 15px;font-size:15px}
+.note p{margin:0 0 11px}
+.note p:last-child{margin-bottom:0}
+.cite{font-family:var(--mono);font-size:10px;line-height:1.75;color:var(--ink-soft);
+      margin-top:14px;padding-top:12px;border-top:1px solid var(--rule)}
+.cite em{font-style:normal;text-transform:uppercase;letter-spacing:.09em;display:block;margin-bottom:4px}
+
+#about{display:none;max-width:760px;padding:6px 0 10px}
+body.about .stagehead,body.about .stagewrap,body.about .rolegend,body.about .readouts,body.about .controls{display:none}
+body.about #about{display:block}
+#about h2{font-family:var(--disp);font-variation-settings:'wdth' 112;font-weight:700;
+          font-size:17px;margin:30px 0 8px}
+#about h2:first-of-type{margin-top:8px}
+#about p{margin:0 0 12px;font-size:15.5px}
+#about ul{margin:0 0 12px;padding-left:20px}
+#about li{margin-bottom:7px;font-size:15.5px}
+.swatch{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;
+        vertical-align:baseline}
+.gloss{width:100%;border-collapse:collapse;margin-top:6px;font-size:13px}
+.gloss td{border-top:1px solid var(--rule);padding:7px 10px 7px 0;vertical-align:top}
+.gloss td:last-child{font-family:var(--mono);font-size:11px;color:var(--ink-soft);
+                     width:44%;padding-right:0}
+.callout{background:var(--paper);border:1px solid var(--rule);border-radius:3px;
+         padding:14px 16px;margin:0 0 14px}
+.callout p:last-child{margin-bottom:0}
+kbd{font-family:var(--mono);font-size:11px;background:var(--panel-2);border:1px solid var(--rule);
+    border-radius:2px;padding:1px 5px}
+footer{border-top:1px solid var(--rule);padding:16px 24px 30px;font-family:var(--mono);
+       font-size:10px;color:var(--ink-soft);line-height:1.9}
+@media (max-width:880px){
+  .shell{grid-template-columns:1fr}
+  nav{border-right:none;border-bottom:1px solid var(--rule);padding:10px 0 12px;
+      display:flex;overflow-x:auto;scrollbar-width:thin}
+  .railhead{display:none}
+  .item{flex:0 0 auto;border-left:none;border-bottom:3px solid transparent;padding:8px 14px;
+        max-width:190px}
+  .item.sel{border-left-color:transparent;border-bottom-color:var(--signal)}
+  .item.info{border-bottom:3px solid transparent;margin-bottom:0;padding-bottom:8px}
+  .item.info.sel{border-bottom-color:var(--signal)}
+  .item .en{display:none}
+  main{padding:14px 14px 30px}
+  .stagewrap{height:370px}
+  .what{font-size:14px}
+  .controls{grid-template-columns:1fr;gap:20px}
+  header{padding:16px 14px 14px}
+  footer{padding:14px 14px 26px}
+  .gloss td:last-child{width:40%}
+}
+
+/* Portfolio-aligned research instrument */
+html{background:var(--panel);scroll-behavior:smooth;color-scheme:light}
+body{min-height:100vh;font-size:16px;line-height:1.55;letter-spacing:0}
+header,.shell,footer{width:min(calc(100% - 40px),1480px);margin-inline:auto}
+header{margin-top:20px;padding:22px 26px;border:1px solid var(--rule);border-radius:26px;
+       background:rgba(255,255,255,.72);box-shadow:0 16px 50px rgba(35,35,60,.06);
+       align-items:center;backdrop-filter:blur(18px)}
+.eyebrow{font-size:11px;letter-spacing:.16em;font-weight:700}
+h1{font-size:clamp(27px,3vw,42px);line-height:1.08;letter-spacing:0;margin:7px 0 8px}
+.sub{font-size:15px;line-height:1.55;max-width:66ch}
+.transport{gap:7px}
+button,.home-link{min-height:38px;border-radius:10px;padding:8px 12px;font-family:var(--disp);
+       font-size:12px;font-weight:650;letter-spacing:0;text-transform:none;text-decoration:none;
+       display:inline-flex;align-items:center;justify-content:center;transition:transform .18s ease,background .18s ease,border-color .18s ease}
+button:hover,.home-link:hover{transform:translateY(-1px);background:#fff;border-color:#c9c9d8}
+.home-link{color:var(--ink-soft);border:1px solid var(--rule);background:var(--paper)}
+button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.presets button.on{background:var(--signal);border-color:var(--signal)}
+#btnLang,#btnTheme{background:var(--panel-2)}
+.shell{margin-top:18px;margin-bottom:18px;grid-template-columns:264px minmax(0,1fr);min-height:690px;
+       border:1px solid var(--rule);border-radius:26px;overflow:hidden;background:rgba(255,255,255,.5);
+       box-shadow:0 20px 65px rgba(35,35,60,.06)}
+nav{background:rgba(245,245,248,.82);padding:18px 0}
+.railhead{padding:2px 20px 13px}
+.item{padding:12px 18px 13px;border-left-width:2px}
+.item .n{font-size:10px}
+.item .zh{font-size:15px;letter-spacing:0;margin-top:3px}
+.item .en{font-family:var(--body);font-size:12px;margin-top:3px}
+.item.sel{background:rgba(255,255,255,.9)}
+main{padding:25px 28px 34px}
+.stagehead{margin-bottom:15px;gap:12px 30px}
+.what{font-size:15px;line-height:1.6}
+.keys,.rolegend{font-size:11px}
+.stage{border-radius:18px;box-shadow:inset 0 1px 0 rgba(255,255,255,.8)}
+.stagewrap{height:500px}
+.readouts{gap:1px;border-radius:15px;overflow:hidden;background:var(--rule)}
+.ro{border:0;background:var(--paper);padding:13px 15px}
+.ro.est{background:rgba(120,104,216,.09)}
+.ro .lab{font-size:10px;letter-spacing:.06em}
+.ro .val{font-size:23px;letter-spacing:0}
+.ro .foot{font-size:10px}
+.controls{margin-top:22px;grid-template-columns:minmax(0,1fr) minmax(280px,340px);gap:30px}
+.presets{gap:8px;margin-bottom:18px}
+.sliders{gap:15px}
+.sl label{font-size:11px;margin-bottom:5px}
+.sl label span.name{font-family:var(--body);font-size:14px}
+.note{border-left-width:3px;border-radius:0 12px 12px 0;padding:10px 16px;background:rgba(120,104,216,.06);font-size:14px}
+.cite{font-size:10px;line-height:1.65}
+.callout{border-radius:14px;padding:16px 18px}
+#about{max-width:820px}
+#about h2{font-size:20px;letter-spacing:0}
+#about p,#about li{font-size:15px}
+footer{margin-bottom:24px;padding:17px 6px 28px;border-top:0;font-size:10px}
+
+html.dark{color-scheme:dark;--panel:#08070f;--panel-2:#12101e;--paper:#171425;
+  --ink:#f0edff;--ink-soft:#aaa2c2;--rule:#2c2742;--signal:#a78bfa;--ok:#6dc69c}
+html.dark header,html.dark .shell{background:rgba(15,12,27,.84);box-shadow:0 20px 70px rgba(0,0,0,.34)}
+html.dark nav{background:rgba(10,8,18,.7)}
+html.dark .item.sel{background:rgba(35,28,58,.78)}
+html.dark button:hover,html.dark .home-link:hover{background:#221c37;border-color:#534873}
+html.dark button.on{background:#ede9ff;color:#171226;border-color:#ede9ff}
+html.dark .ro{background:#151221}
+html.dark .stage{box-shadow:inset 0 1px 0 rgba(255,255,255,.035)}
+
+@media (max-width:880px){
+  header,.shell,footer{width:min(calc(100% - 24px),1480px)}
+  header{margin-top:12px;padding:18px;border-radius:20px;align-items:flex-start}
+  .transport{width:100%}
+  .shell{grid-template-columns:1fr;border-radius:20px;margin-top:12px}
+  nav{padding:9px 0 11px}
+  main{padding:18px 16px 28px}
+  .stagewrap{height:410px}
+  .controls{grid-template-columns:1fr;gap:22px}
+}
+@media (max-width:520px){
+  h1{font-size:26px}
+  .sub{font-size:14px}
+  button,.home-link{font-size:11px;padding:7px 9px}
+  .stagewrap{height:350px}
+  .readouts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ro{min-width:0}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <span class="eyebrow" id="hEyebrow"></span>
+    <h1 id="hTitle"></h1>
+    <p class="sub" id="hSub"></p>
+  </div>
+  <div class="transport">
+    <a class="home-link" id="homeLink" href="index.html#work">← Portfolio</a>
+    <button id="btnTheme" aria-label="Toggle color theme" title="Toggle color theme">◐</button>
+    <button id="btnLang">EN</button>
+    <button id="btnPlay" class="on"></button>
+    <button id="btnReset"></button>
+    <button id="btnSpeed">1×</button>
+  </div>
+</header>
+
+<div class="shell">
+  <nav id="rail"><div class="railhead"><span class="eyebrow" id="railHead"></span></div></nav>
+  <main>
+    <div id="about"></div>
+    <div class="stagehead" id="stagehead">
+      <p class="what" id="what"></p>
+      <div class="keys" id="keys"></div>
+    </div>
+    <div class="stagewrap stage"><canvas id="cv"></canvas></div>
+    <div class="rolegend" id="rolegend"></div>
+    <div class="readouts" id="ro"></div>
+    <div class="controls">
+      <div>
+        <div class="presets" id="presets"></div>
+        <div class="sliders" id="sliders"></div>
+      </div>
+      <div class="note" id="note"></div>
+    </div>
+  </main>
+</div>
+
+<footer id="foot"></footer>
+
+<script>
+"use strict";
+
+/* ═══════════════════ language ═══════════════════ */
+const requestedLang = new URLSearchParams(window.location.search).get('lang');
+const savedLanguage = localStorage.getItem('site-language');
+let LANG = requestedLang === 'zh' || requestedLang === 'en'
+  ? requestedLang
+  : (savedLanguage === 'zh' || savedLanguage === 'en' ? savedLanguage : 'en');
+const D = {};
+function def(k, zh, en){ D[k] = { zh, en }; }
+function t(k){ const e = D[k]; return e ? e[LANG] : k; }
+
+/* — chrome — */
+def('eyebrow','互动小实验','An interactive demo');
+def('home','← 返回主页','← Portfolio');
+def('title','两个人之间会发生什么','What Happens Between Two People');
+def('sub',
+ '六个小模型，讲的都是同一件事：人在一起的时候会互相影响。拉动滑块，看两边的状态怎么跟着变。不用懂公式。',
+ 'Six small models of one idea: when people are together, they change each other. Drag the sliders and watch what happens. No maths needed.');
+def('play','播放','Play'); def('pause','暂停','Pause');
+def('reset','重来','Restart');
+def('railhead','选一个','Pick one');
+def('foot',
+ '这些是简化的模型，用来建立感觉，不是真实数据的复现。键盘：<kbd>空格</kbd> 播放/暂停 · <kbd>R</kbd> 重来 · <kbd>1</kbd>–<kbd>6</kbd> 换一个',
+ 'These are simplified models, meant to build intuition — not reproductions of real data. Keys: <kbd>Space</kbd> play/pause · <kbd>R</kbd> restart · <kbd>1</kbd>–<kbd>6</kbd> switch');
+def('legTruth','你设定的','What you set');
+def('legMeas','量出来的','What gets measured');
+def('sources','来源','Sources');
+
+/* — rail — */
+def('nav_about','先看这里','Start here');
+def('nav_about_sub','这是什么，怎么玩','What this is, how to use it');
+def('n1','心情会传染','Moods rub off');
+def('n1s','两个人的情绪怎么互相带动','How two people pull each other up and down');
+def('n2','对方突然不理你','When someone goes blank');
+def('n2s','一场经典的婴儿实验','A classic experiment with babies');
+def('n3','不知不觉学对方','Copying without noticing');
+def('n3s','模仿怎么变成好感','How mimicking turns into liking');
+def('n4','说话怎么轮流','Taking turns');
+def('n4s','那半秒不到的停顿','The tiny pause between speakers');
+def('n5','一群人怎么分裂','How a group splits');
+def('n5s','只要不听差太远的人','What happens if you only listen to people near you');
+def('n6','看着很像，其实无关','Looks connected, isn\'t');
+def('n6s','为什么数字会骗人','Why the numbers can fool you');
+
+
+/* — axis labels, shared across panels — */
+def('ax_time','时间 →','time →');
+def('ax_time60','时间（一整段约 60 秒，会重播）','time (one 60 s run, loops)');
+def('ax_time14','时间（最近 14 秒）','time (last 14 seconds)');
+def('ax_mood','心情','mood');
+def('ax_good','好','good'); def('ax_bad','差','bad');
+def('ax_moodA','A 的心情 →','A\'s mood →');
+def('ax_moodB','B 的心情 →','B\'s mood →');
+def('ax_tense','身体紧张程度','body tension');
+def('ax_hi','紧张','tense'); def('ax_lo','放松','relaxed');
+def('ax_move','动作大小','size of movement');
+def('ax_copy','B 学得有多像 →','how much B copies →');
+def('ax_like','B 对 A 的好感 →','B\'s liking for A →');
+def('ax_who','谁在说话','who is talking');
+def('ax_pause','停顿长度（毫秒）','pause length (milliseconds)');
+def('ax_count','出现次数','how often');
+def('ax_stance','立场','opinion');
+def('ax_people','人数 →','number of people →');
+def('ax_value','数值','value');
+def('ax_sim','看起来有多像','how alike they look');
+def('ax_ovl','← 抢话','← overlap'); def('ax_pau','停顿 →','pause →');
+def('ax_pos','一起动 +1','together +1');
+def('ax_zero','没关系  0','no link  0');
+def('ax_neg','反着动 −1','opposite −1');
+
+/* — one-line "what am I looking at" per panel — */
+def('what1','两个人的心情随时间起伏。左图是两条心情曲线；右图把同一时刻的两个人画成一个点——点走成右上斜线，就是两人在一起动。',
+ 'Two people\'s moods over time. Left: their two mood lines. Right: the same instant plotted as a single dot — if the dot traces a rising diagonal, they are moving together.');
+def('what2','一段约 60 秒的实验，会自动重播。粉色那段是大人完全不回应的时候。上图是两人的心情，下图是宝宝身体的紧张程度。',
+ 'A 60-second experiment on loop. The pink stretch is when the adult stops responding. Top: both moods. Bottom: the baby\'s body tension.');
+def('what3','A 随意做动作，B 隔一会儿跟着做。跟得越像，B 越喜欢 A；越喜欢，就跟得越像。右边那张小图就是这个循环在转圈。',
+ 'A moves freely; B copies a moment later. The closer the match, the more B likes A — and the more B copies. The small chart on the right is that loop going round.');
+def('what4','两个人轮流说话。上图是谁在什么时候说；下图统计每次换人时中间那个停顿有多长。绿色是真人对话常见的范围。',
+ 'Two people taking turns. Top: who is talking when. Bottom: how long the pause is at each handover. Green marks where real conversations land.');
+def('what5','70 个人，每人有一个立场。他们只跟立场够接近的人聊，聊完各自挪一点。看看最后会聚成几团。',
+ '70 people, each holding an opinion. They only talk with people close enough to them, and each shifts a little afterwards. Watch how many clumps form.');
+def('what6','两条彼此完全无关的线。中间那条带子是"它们看起来有多像"。右边是把其中一条打乱几百次的结果，拿来当对照。',
+ 'Two completely unrelated lines. The band in the middle shows how alike they look. On the right, one line is scrambled hundreds of times as a benchmark.');
+
+/* — colour keys — */
+def('k_A','A（蓝）','A (blue)'); def('k_B','B（红）','B (red)');
+def('k_now','现在的位置','where they are now');
+def('k_adult','大人','the adult'); def('k_baby','宝宝','the baby');
+def('k_tense','宝宝身体的紧张','the baby\'s body tension');
+def('k_amove','A 的动作','A\'s movement'); def('k_bmove','B 的动作','B\'s movement');
+def('k_ghost','淡蓝＝A 延后之后的样子','faint blue = A, time-shifted');
+def('k_spA','说话人 A','speaker A'); def('k_spB','说话人 B','speaker B');
+def('k_band','真人常见的范围','where real people land');
+def('k_over','抢话','talking over each other');
+def('k_line','每条细线＝一个人','each thin line = one person');
+def('k_l1','线 1','line 1'); def('k_l2','线 2','line 2');
+def('k_null','打乱之后的结果','what scrambling alone gives');
+
+/* — slider units — */
+def('u_ms','毫秒','ms'); def('u_s','秒','s'); def('u_pt','个点','points');
+
+/* ═══════════════════ utilities ═══════════════════ */
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+let W = 0, H = 0, DPR = 1;
+function resize(){
+  const r = cv.parentElement.getBoundingClientRect();
+  DPR = Math.min(window.devicePixelRatio || 1, 2);
+  W = r.width; H = r.height;
+  cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+}
+window.addEventListener('resize', resize);
+
+const CSS = getComputedStyle(document.documentElement);
+const C = {
+  ink:CSS.getPropertyValue('--ink').trim()||'#16211C',
+  soft:CSS.getPropertyValue('--ink-soft').trim()||'#4A574F',
+  rule:CSS.getPropertyValue('--rule').trim()||'#B6BDB4',
+  A:CSS.getPropertyValue('--A').trim()||'#1B4D8F',
+  B:CSS.getPropertyValue('--B').trim()||'#B33A5E',
+  sig:CSS.getPropertyValue('--signal').trim()||'#C6892E',
+  ok:CSS.getPropertyValue('--ok').trim()||'#3E7A5E',
+  paper:CSS.getPropertyValue('--paper').trim()||'#F3F5F1',
+  pan2:CSS.getPropertyValue('--panel-2').trim()||'#D2D7D1'
+};
+
+let _g = null;
+function gauss(){
+  if (_g !== null){ const g = _g; _g = null; return g; }
+  let u = 0, v = 0;
+  while (u === 0) u = Math.random();
+  while (v === 0) v = Math.random();
+  const m = Math.sqrt(-2 * Math.log(u));
+  _g = m * Math.sin(2 * Math.PI * v);
+  return m * Math.cos(2 * Math.PI * v);
+}
+const clamp = (x,a,b) => x<a?a:x>b?b:x;
+const lerp  = (a,b,t) => a + (b-a)*t;
+function mean(a){ let s=0; for(let i=0;i<a.length;i++) s+=a[i]; return s/(a.length||1); }
+function corr(a,b){
+  const n = Math.min(a.length,b.length); if(n<8) return 0;
+  const oa=a.length-n, ob=b.length-n;
+  let ma=0,mb=0; for(let i=0;i<n;i++){ ma+=a[oa+i]; mb+=b[ob+i]; }
+  ma/=n; mb/=n;
+  let sa=0,sb=0,sab=0;
+  for(let i=0;i<n;i++){ const da=a[oa+i]-ma, db=b[ob+i]-mb; sa+=da*da; sb+=db*db; sab+=da*db; }
+  if(sa<=1e-12||sb<=1e-12) return 0;
+  return sab/Math.sqrt(sa*sb);
+}
+function xcorrPeak(a,b,maxLag){
+  let best={lag:0,r:0};
+  for(let L=-maxLag;L<=maxLag;L++){
+    let x,y;
+    if(L>=0){ x=a.slice(0,a.length-L); y=b.slice(L); }
+    else    { x=a.slice(-L);           y=b.slice(0,b.length+L); }
+    const r=corr(x,y);
+    if(Math.abs(r)>Math.abs(best.r)) best={lag:L,r};
+  }
+  return best;
+}
+function push(arr,v,cap){ arr.push(v); if(arr.length>cap) arr.shift(); }
+
+/* ═══════════════════ drawing helpers ═══════════════════ */
+/* margins leave room for axis labels on every side */
+function MG(){ return W<560 ? {l:34,r:12,t:26,b:30,g:16} : {l:48,r:18,t:28,b:36,g:26}; }
+
+function rr(x,y,w,h,rad){
+  ctx.beginPath();
+  if(ctx.roundRect) ctx.roundRect(x,y,w,h,rad); else ctx.rect(x,y,w,h);
+}
+/* a labelled chart frame: title above, rotated y-axis label left, x-axis label below */
+function chart(r,o){
+  o=o||{};
+  ctx.fillStyle='#FCFDFB'; rr(r.x,r.y,r.w,r.h,3); ctx.fill();
+  ctx.strokeStyle=C.rule; ctx.lineWidth=1; rr(r.x+.5,r.y+.5,r.w-1,r.h-1,3); ctx.stroke();
+  if(o.title){
+    ctx.font='700 10px "Chivo Mono", monospace';
+    ctx.fillStyle=C.ink; ctx.textAlign='left'; ctx.textBaseline='alphabetic';
+    const T=o.title.toUpperCase();
+    ctx.fillText(T, r.x, r.y-8);
+    if(o.sub){
+      const w=ctx.measureText(T).width;
+      ctx.font='400 10px "Chivo Mono", monospace';
+      if(w+10+ctx.measureText(o.sub).width <= r.w){
+        ctx.fillStyle=C.rule; ctx.fillText(o.sub, r.x+w+10, r.y-8);
+      }
+    }
+  }
+  if(o.y){
+    ctx.save();
+    ctx.translate(r.x-(W<560?24:30), r.y+r.h/2); ctx.rotate(-Math.PI/2);
+    ctx.font='600 9.5px "Chivo Mono", monospace';
+    ctx.fillStyle=C.soft; ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText(o.y,0,0); ctx.restore();
+  }
+  if(o.x){
+    ctx.font='600 9.5px "Chivo Mono", monospace';
+    ctx.fillStyle=C.soft; ctx.textAlign='center'; ctx.textBaseline='top';
+    ctx.fillText(o.x, r.x+r.w/2, r.y+r.h+17);
+    ctx.textAlign='left';
+  }
+}
+function gridY(r,n){
+  ctx.strokeStyle='rgba(22,33,28,.055)'; ctx.lineWidth=1;
+  for(let i=1;i<n;i++){
+    const y=Math.round(r.y+r.h*i/n)+.5;
+    ctx.beginPath(); ctx.moveTo(r.x+1,y); ctx.lineTo(r.x+r.w-1,y); ctx.stroke();
+  }
+}
+/* y tick by fraction (0 = top) or by absolute pixel y */
+function ytick(r,frac,txt,col){ ytickY(r, r.y+frac*r.h, txt, col); }
+function ytickY(r,y,txt,col){
+  ctx.font='500 9px "Chivo Mono", monospace';
+  ctx.fillStyle=col||C.soft; ctx.textAlign='right'; ctx.textBaseline='middle';
+  ctx.fillText(txt, r.x-6, clamp(y, r.y+5, r.y+r.h-5));
+  ctx.textAlign='left';
+  ctx.strokeStyle=C.rule; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(r.x-3.5, y); ctx.lineTo(r.x-.5, y); ctx.stroke();
+}
+function xtickX(r,x,txt,col){
+  ctx.font='500 9px "Chivo Mono", monospace';
+  ctx.fillStyle=col||C.soft; ctx.textAlign='center'; ctx.textBaseline='top';
+  ctx.fillText(txt, clamp(x, r.x+10, r.x+r.w-10), r.y+r.h+5);
+  ctx.textAlign='left';
+  ctx.strokeStyle=C.rule; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(x, r.y+r.h+.5); ctx.lineTo(x, r.y+r.h+3.5); ctx.stroke();
+}
+function well(r,title,sub){
+  ctx.fillStyle='#fff'; ctx.fillRect(r.x,r.y,r.w,r.h);
+  ctx.strokeStyle=C.rule; ctx.lineWidth=1;
+  ctx.strokeRect(r.x+.5,r.y+.5,r.w-1,r.h-1);
+  if(title){
+    ctx.font='600 9px "Chivo Mono", monospace';
+    ctx.fillStyle=C.soft; ctx.textAlign='left'; ctx.textBaseline='alphabetic';
+    ctx.fillText(title.toUpperCase(), r.x+8, r.y-6);
+    if(sub){
+      const w=ctx.measureText(title.toUpperCase()).width;
+      ctx.fillStyle=C.rule; ctx.fillText(sub, r.x+14+w, r.y-6);
+    }
+  }
+}
+function clipWell(r){ ctx.save(); ctx.beginPath(); ctx.rect(r.x+1,r.y+1,r.w-2,r.h-2); ctx.clip(); }
+function midline(r){
+  ctx.strokeStyle=C.pan2; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(r.x+1,Math.round(r.y+r.h/2)+.5);
+  ctx.lineTo(r.x+r.w-1,Math.round(r.y+r.h/2)+.5); ctx.stroke();
+}
+function trace(r,data,lim,color,width,cap){
+  if(data.length<2) return;
+  const n=cap||data.length;
+  ctx.strokeStyle=color; ctx.lineWidth=width||1.6;
+  ctx.lineJoin='round'; ctx.lineCap='round'; ctx.beginPath();
+  for(let i=0;i<data.length;i++){
+    const x=r.x+(i/(n-1))*r.w;
+    const y=r.y+r.h/2-clamp(data[i]/lim,-1.15,1.15)*(r.h/2-4);
+    i?ctx.lineTo(x,y):ctx.moveTo(x,y);
+  }
+  ctx.stroke();
+}
+function tag(x,y,txt,color,align){
+  ctx.font='600 9.5px "Chivo Mono", monospace';
+  ctx.fillStyle=color; ctx.textAlign=align||'left'; ctx.textBaseline='middle';
+  ctx.fillText(txt,x,y); ctx.textAlign='left';
+}
+function label(x,y,txt,color,size){
+  ctx.font=`600 ${size||9}px "Chivo Mono", monospace`;
+  ctx.fillStyle=color; ctx.textBaseline='alphabetic'; ctx.fillText(txt,x,y);
+}
+
+/* ═══════════════════ phenomena ═══════════════════ */
+const PH = [];
+
+/* ─── 1. moods rub off ─── */
+def('p1w','心情起伏的快慢','How fast moods swing');
+def('p1a','A 自己平静下来的速度','How fast A calms down alone');
+def('p1b','B 自己平静下来的速度','How fast B calms down alone');
+def('p1ab','A 受 B 影响多少','How much B affects A');
+def('p1ba','B 受 A 影响多少','How much A affects B');
+def('p1n','随机波动','Random ups and downs');
+def('q1a','一起高一起低','Rise and fall together');
+def('q1b','一个高一个低','One up, one down');
+def('q1c','越滚越大','Spiralling up');
+def('q1d','只有一个人在跟','Only one is following');
+def('q1e','互不相干','Doing their own thing');
+def('r1a','设定：B 对 A 的影响','Set: B\'s effect on A');
+def('r1b','设定：A 对 B 的影响','Set: A\'s effect on B');
+def('r1c','量出来：两条线有多像','Measured: how alike the lines are');
+def('r1cf','直接对齐着比','compared side by side');
+def('r1d','量出来：错开时间再比','Measured: after shifting in time');
+def('r1e','设定：谁影响谁更多','Set: who influences whom more');
+def('r1f','起伏有多大','How big the swings are');
+def('r1big','越滚越大','spiralling'); def('r1ok','稳定','steady');
+def('c1a','心情随时间','Mood over time');
+def('c1b','两人对照','A against B');
+def('c1up','↗ 一起动','↗ together');
+def('c1dn','↘ 反着动','↘ opposite');
+def('lag1','错开 ','shifted ');
+def('pts','个点','points');
+def('note1',
+`<p>每个人的心情同时被三件事拉扯：慢慢回到自己平常的样子、被对方带着走、还有一些说不清的随机波动。三个滑块调的就是这三件事的强弱。</p>
+<p>先点<b>「一起高一起低」</b>，两条线会渐渐贴在一起。再点<b>「越滚越大」</b>——这时"自己平静下来的速度"是负的，意思是这个人不但静不下来，还会把自己推得更激动。两个人这么互相推，情绪就停不下来了。</p>
+<p>最值得玩的是<b>「只有一个人在跟」</b>。这时只有 A 在追着 B 跑，B 完全不受 A 影响。可是底下量出来的"两条线有多像"照样很高。<em>两条线很像，不等于你知道是谁在影响谁。</em></p>
+<div class="cite"><em>${t('sources')}</em>Butler (2011) Personality and Social Psychology Review 15, 367–393 · Chow, Ram, Boker, Fujita &amp; Clore (2005) Emotion 5, 208–225 · Butler &amp; Randall (2013) Emotion Review 5, 202–210</div>`,
+`<p>Each person's mood is pulled by three things at once: drifting back to their own normal, getting tugged along by the other person, and random noise. The sliders set how strong each pull is.</p>
+<p>Try <b>"Rise and fall together"</b> first — the two lines slowly stick to each other. Then try <b>"Spiralling up"</b>. Here "how fast they calm down" is negative, meaning the person doesn't settle at all; they wind themselves up further. Two people doing that to each other never come down.</p>
+<p>The interesting one is <b>"Only one is following"</b>. A chases B, while B ignores A completely. Yet the measured "how alike the lines are" is still high. <em>Two lines looking alike doesn't tell you who is affecting whom.</em></p>
+<div class="cite"><em>Sources</em>Butler (2011) Personality and Social Psychology Review 15, 367–393 · Chow, Ram, Boker, Fujita &amp; Clore (2005) Emotion 5, 208–225 · Butler &amp; Randall (2013) Emotion Review 5, 202–210</div>`);
+
+PH.push({
+  id:'coreg', navKey:'n1', subKey:'n1s', what:'what1',
+  keys:[['A','k_A'],['B','k_B'],['sig','k_now']],
+  params:[
+    {k:'w',   n:'p1w',  min:.15, max:1.6, step:.05, d:.55},
+    {k:'gA',  n:'p1a',  min:-.12,max:.55, step:.01, d:.16},
+    {k:'gB',  n:'p1b',  min:-.12,max:.55, step:.01, d:.16},
+    {k:'cAB', n:'p1ab', min:-1,  max:1,   step:.02, d:.40},
+    {k:'cBA', n:'p1ba', min:-1,  max:1,   step:.02, d:.40},
+    {k:'sig', n:'p1n',  min:0,   max:.5,  step:.01, d:.10}
+  ],
+  presets:[
+    {n:'q1a', v:{w:.55,gA:.16,gB:.16,cAB:.70,cBA:.70,sig:.10}},
+    {n:'q1b', v:{w:.80,gA:.16,gB:.16,cAB:-.26,cBA:-.26,sig:.08}},
+    {n:'q1c', v:{w:.60,gA:-.05,gB:-.05,cAB:.90,cBA:.90,sig:.06}},
+    {n:'q1d', v:{w:.55,gA:.16,gB:.16,cAB:.90,cBA:.03,sig:.10}},
+    {n:'q1e', v:{w:.55,gA:.22,gB:.14,cAB:0,cBA:0,sig:.10}}
+  ],
+  CAP:800, CLK:4.0,
+  init(s){
+    s.xa=1.0; s.va=0; s.xb=-.7; s.vb=0;
+    s.ta=[]; s.tb=[]; s.trail=[]; s.r=0; s.pk={lag:0,r:0}; s.tick=0;
+  },
+  step(s,p,dt){
+    const sub=5, h=dt*this.CLK/sub, sq=Math.sqrt(h);
+    for(let i=0;i<sub;i++){
+      const dA = 2*(p.gA + .035*s.xa*s.xa), dB = 2*(p.gB + .035*s.xb*s.xb);
+      const aa = -p.w*p.w*s.xa - dA*s.va + p.cAB*(s.xb-s.xa);
+      const ab = -p.w*p.w*s.xb - dB*s.vb + p.cBA*(s.xa-s.xb);
+      s.va += aa*h + p.sig*4.5*gauss()*sq;
+      s.vb += ab*h + p.sig*4.5*gauss()*sq;
+      s.xa = clamp(s.xa + s.va*h, -4, 4);
+      s.xb = clamp(s.xb + s.vb*h, -4, 4);
+    }
+    push(s.ta,s.xa,this.CAP); push(s.tb,s.xb,this.CAP);
+    push(s.trail,[s.xa,s.xb],300);
+    s.tick++;
+    if(s.tick%6===0 && s.ta.length>200){
+      s.r = lerp(s.r, corr(s.ta,s.tb), .10);
+      if(s.tick%42===0){
+        const dec=[],deb=[];
+        for(let i=0;i<s.ta.length;i+=3){ dec.push(s.ta[i]); deb.push(s.tb[i]); }
+        s.pk = xcorrPeak(dec,deb,30);
+      }
+    }
+  },
+  draw(s,p){
+    const m=MG(), availH=H-m.t-m.b;
+    const pw=Math.min(availH,(W-m.l*2-m.g-m.r)*.36);
+    const tw=W-m.l*2-m.g-m.r-pw;
+    const rT={x:m.l,y:m.t,w:tw,h:availH};
+    const rP={x:m.l*2+tw+m.g,y:m.t+Math.max(0,(availH-pw)/2),w:pw,h:pw};
+
+    chart(rT,{title:t('c1a'),y:t('ax_mood'),x:t('ax_time')});
+    gridY(rT,4);
+    ytick(rT,.07,t('ax_good'),C.ok); ytick(rT,.5,'0'); ytick(rT,.93,t('ax_bad'),C.B);
+    clipWell(rT); midline(rT);
+    trace(rT,s.ta,3.0,C.A,1.7,this.CAP);
+    trace(rT,s.tb,3.0,C.B,1.7,this.CAP);
+    ctx.restore();
+
+    chart(rP,{title:t('c1b'),y:t('ax_moodB'),x:t('ax_moodA')});
+    clipWell(rP);
+    ctx.strokeStyle='rgba(22,33,28,.09)'; ctx.lineWidth=1; ctx.beginPath();
+    ctx.moveTo(rP.x+3,rP.y+rP.h-3); ctx.lineTo(rP.x+rP.w-3,rP.y+3);
+    ctx.moveTo(rP.x+3,rP.y+3);      ctx.lineTo(rP.x+rP.w-3,rP.y+rP.h-3);
+    ctx.stroke();
+    ctx.strokeStyle='rgba(22,33,28,.14)';
+    ctx.beginPath();
+    ctx.moveTo(rP.x+1,rP.y+rP.h/2); ctx.lineTo(rP.x+rP.w-1,rP.y+rP.h/2);
+    ctx.moveTo(rP.x+rP.w/2,rP.y+1); ctx.lineTo(rP.x+rP.w/2,rP.y+rP.h-1);
+    ctx.stroke();
+    const L=3.2, cxp=rP.x+rP.w/2, cyp=rP.y+rP.h/2, sc=(rP.w/2-6)/L;
+    for(let i=1;i<s.trail.length;i++){
+      const a=i/s.trail.length;
+      ctx.strokeStyle=`rgba(22,33,28,${a*a*.55})`; ctx.lineWidth=1+a*1.7;
+      ctx.beginPath();
+      ctx.moveTo(cxp+s.trail[i-1][0]*sc, cyp-s.trail[i-1][1]*sc);
+      ctx.lineTo(cxp+s.trail[i][0]*sc,   cyp-s.trail[i][1]*sc);
+      ctx.stroke();
+    }
+    ctx.fillStyle=C.sig; ctx.beginPath();
+    ctx.arc(cxp+s.xa*sc, cyp-s.xb*sc, 4.2, 0, 7); ctx.fill();
+    ctx.strokeStyle='#fff'; ctx.lineWidth=1.2; ctx.stroke();
+    ctx.restore();
+    ytick(rP,.07,t('ax_good'),C.rule); ytick(rP,.93,t('ax_bad'),C.rule);
+    tag(rP.x+rP.w-7, rP.y+13, t('c1up'), C.soft, 'right');
+    tag(rP.x+rP.w-7, rP.y+rP.h-11, t('c1dn'), C.soft, 'right');
+  },
+  read(s,p){
+    const r0=s.r, pk=s.pk;
+    const env=Math.max(...s.ta.slice(-200).map(Math.abs),0);
+    const asym=p.cBA-p.cAB;
+    return [
+      {id:'setAB', lab:t('r1a'), val:p.cAB.toFixed(2)},
+      {id:'setBA', lab:t('r1b'), val:p.cBA.toFixed(2)},
+      {id:'r0',    lab:t('r1c'), val:r0.toFixed(2), est:true, foot:t('r1cf')},
+      {id:'peak',  lab:t('r1d'), val:pk.r.toFixed(2), est:true,
+       foot:`${t('lag1')}${pk.lag>0?'+':''}${pk.lag*3} ${t('pts')}`},
+      {id:'asym',  lab:t('r1e'), val:(asym>=0?'+':'')+asym.toFixed(2)},
+      {id:'env',   lab:t('r1f'), val:env.toFixed(2), ok:env<2.2,
+       foot:env>=2.2?t('r1big'):t('r1ok')}
+    ];
+  },
+  note:'note1'
+});
+
+/* ─── 2. still face ─── */
+def('p2s','大人平时回应得多好','How responsive the adult usually is');
+def('p2r','宝宝自己安抚自己的能力','How well the baby soothes itself');
+def('p2c','身体平静下来有多慢','How slowly the body settles');
+def('p2n','随机波动','Random ups and downs');
+def('q2a','平时回应很好','Usually very responsive');
+def('q2b','平时很少回应','Usually not responsive');
+def('q2c','再看一遍','Play it again');
+def('r2a','现在演到哪一段','Which stage now');
+def('r2b','宝宝心情 · 正常玩时','Baby\'s mood · while playing');
+def('r2c','宝宝心情 · 被无视时','Baby\'s mood · while ignored');
+def('r2d','宝宝心情 · 和好后','Baby\'s mood · after making up');
+def('r2e','身体平静下来了吗','Has the body settled');
+def('r2f','设定：大人平时的回应','Set: adult\'s usual responsiveness');
+def('r2wait','等和好那段','wait for the last stage');
+def('r2no','还没回到原样','not back to normal');
+def('r2yes','已经平复','back to normal');
+def('st0','正常玩','PLAYING');
+def('st1','大人不理','ADULT GOES BLANK');
+def('st2','和好','MAKING UP');
+def('st3','—','—');
+def('c2a','两人的心情','Both moods');
+def('c2as','大人 与 宝宝','adult and baby');
+def('c2b','身体的紧张程度','Body tension');
+def('c2adult','大人','adult'); def('c2baby','宝宝','baby');
+def('note2',
+`<p>这是心理学里一个很有名的实验，做了快五十年。分三段：大人和宝宝正常玩 → 大人突然板着脸、完全不回应 → 大人再恢复正常。</p>
+<p>中间那段（粉色）宝宝会先努力"召唤"大人，笑、发声、伸手，就是图上那些往上戳的小尖峰。召唤没用之后就开始难受、别过头去。拖动<b>「大人平时回应得多好」</b>：平时被好好回应的宝宝会多试几次、心情掉得慢；平时很少被回应的宝宝很快就放弃了。</p>
+<p>特别看下面那条线——宝宝身体的紧张程度。它在被无视时冲上去，可是在大人恢复正常之后<em>不一定跟着降回来</em>。研究里也是这样：互动看起来修复了，身体还没有。把"身体平静下来有多慢"拖到 0，才会看到干净的恢复，而现实里往往看不到。</p>
+<div class="cite"><em>来源</em>Tronick, Als, Adamson, Wise &amp; Brazelton (1978) · Mesman, van IJzendoorn &amp; Bakermans-Kranenburg (2009) Developmental Review</div>`,
+`<p>This is a famous psychology experiment, run for nearly fifty years. It has three stages: the adult and baby play normally → the adult suddenly goes still and stops responding → the adult goes back to normal.</p>
+<p>In the middle stage (pink) the baby first tries hard to call the adult back — smiling, reaching, making noises. Those are the little upward spikes. When that fails, the baby gets upset and looks away. Drag <b>"How responsive the adult usually is"</b>: a baby used to warm responses keeps trying longer and drops more slowly; a baby used to little response gives up fast.</p>
+<p>Watch the bottom line especially — the baby's body tension. It shoots up while the baby is ignored, and it does <em>not</em> reliably come back down once the adult returns. Studies find the same thing: the interaction looks repaired, the body isn't yet. Set "how slowly the body settles" to 0 and you get a clean recovery — which is often not what real data shows.</p>
+<div class="cite"><em>Sources</em>Tronick, Als, Adamson, Wise &amp; Brazelton (1978) · Mesman, van IJzendoorn &amp; Bakermans-Kranenburg (2009) Developmental Review</div>`);
+
+PH.push({
+  id:'sf', navKey:'n2', subKey:'n2s', what:'what2',
+  keys:[['A','k_adult'],['B','k_baby'],['sig','k_tense']],
+  params:[
+    {k:'sens', n:'p2s', min:0,  max:1,  step:.02, d:.75},
+    {k:'reg',  n:'p2r', min:.05,max:.6, step:.01, d:.22},
+    {k:'carry',n:'p2c', min:0,  max:1,  step:.02, d:.60},
+    {k:'sig',  n:'p2n', min:0,  max:.4, step:.01, d:.12}
+  ],
+  presets:[
+    {n:'q2a', v:{sens:.85,reg:.28,carry:.45,sig:.12}},
+    {n:'q2b', v:{sens:.15,reg:.12,carry:.85,sig:.12}},
+    {n:'q2c', v:{}}
+  ],
+  init(s){
+    s.t=0; s.xa=.8; s.va=0; s.xb=.6; s.vb=0; s.ar=.25;
+    s.N=760; s.T=62;
+    s.ta=new Array(s.N).fill(null); s.tb=new Array(s.N).fill(null);
+    s.tar=new Array(s.N).fill(null); s.ep=new Array(s.N).fill(null);
+    s.fill=-1;
+  },
+  phase(t){ return t<20?0 : t<35?1 : t<58?2 : 3; },
+  step(s,p,dt){
+    s.t += dt; if (s.t > 62) { this.init(s); }
+    const ph = this.phase(s.t);
+    const w = .95, sub = 4, h = dt/sub;
+    for(let i=0;i<sub;i++){
+      if (ph === 1){
+        s.xa += (0 - s.xa) * 3.0 * h; s.va *= .85;
+      } else {
+        const aa = -w*w*s.xa - 2*.22*s.va + .45*(s.xb - s.xa);
+        s.va += aa*h + p.sig*4.0*gauss()*Math.sqrt(h);
+        s.xa = clamp(s.xa + s.va*h, -2.6, 2.6);
+      }
+      let cB = ph===1 ? 0 : .55;
+      let drive = cB * (s.xa - s.xb);
+      if (ph === 1){
+        const into = (s.t - 20) / 15;
+        const bid = p.sens * 1.5 * Math.exp(-into*2.2) * Math.max(0, Math.sin((s.t-20)*2.6));
+        const distress = (1 - p.sens) * 1.25 * (1 - Math.exp(-into*3));
+        drive += bid - distress - 0.55*into;
+      }
+      const ab = -w*w*s.xb - 2*p.reg*s.vb + drive;
+      s.vb += ab*h + p.sig*4.0*gauss()*Math.sqrt(h);
+      s.xb = clamp(s.xb + s.vb*h, -2.6, 2.6);
+      const mismatch = ph===1 ? 1.5 : Math.abs(s.xa - s.xb)*.55;
+      const floor = ph>=2 ? p.carry*0.42 : 0;
+      s.ar += ((mismatch - s.ar) * (mismatch > s.ar ? 1.6 : 0.30))*h;
+      s.ar = Math.max(s.ar, floor*(ph>=2?1:0));
+    }
+    const idx = clamp(Math.floor(s.t / s.T * s.N), 0, s.N-1);
+    for(let k=s.fill+1; k<=idx; k++){
+      s.ta[k]=s.xa; s.tb[k]=s.xb; s.tar[k]=s.ar; s.ep[k]=ph;
+    }
+    s.fill = Math.max(s.fill, idx);
+  },
+  draw(s,p){
+    const m=MG(), top=m.t+24;
+    const gy=26, hh=(H-top-m.b-gy)/2;
+    const rA={x:m.l,y:top,w:W-m.l-m.r,h:hh};
+    const rB={x:m.l,y:top+hh+gy,w:W-m.l-m.r,h:hh};
+    const X=(i)=> rA.x + (i/(s.N-1))*rA.w;
+
+    const shade=(r)=>{
+      clipWell(r);
+      const put=(a,b,col)=>{
+        ctx.fillStyle=col;
+        const x0=r.x+(a/s.T)*r.w, x1=r.x+(b/s.T)*r.w;
+        ctx.fillRect(x0,r.y+1,x1-x0,r.h-2);
+      };
+      put(20,35,'rgba(179,58,94,0.12)');
+      put(35,58,'rgba(62,122,94,0.075)');
+      ctx.restore();
+    };
+    const line=(r,arr,lim,col,w,baseline)=>{
+      ctx.strokeStyle=col; ctx.lineWidth=w; ctx.lineJoin='round'; ctx.lineCap='round';
+      ctx.beginPath(); let started=false;
+      for(let i=0;i<=s.fill;i++){
+        if(arr[i]===null) continue;
+        const v = baseline ? clamp(arr[i]/lim,0,1) : clamp(arr[i]/lim,-1.12,1.12);
+        const y = baseline ? r.y+r.h-4-v*(r.h-8) : r.y+r.h/2-v*(r.h/2-4);
+        started ? ctx.lineTo(X(i),y) : (ctx.moveTo(X(i),y), started=true);
+      }
+      ctx.stroke();
+    };
+
+    chart(rA,{title:t('c2a'),sub:t('c2as'),y:t('ax_mood')});
+    ytick(rA,.09,t('ax_good'),C.ok); ytick(rA,.5,'0'); ytick(rA,.91,t('ax_bad'),C.B);
+    shade(rA); clipWell(rA); gridY(rA,2); midline(rA);
+    line(rA,s.ta,2.2,C.A,1.6,false);
+    line(rA,s.tb,2.2,C.B,2.1,false);
+    ctx.restore();
+
+    chart(rB,{title:t('c2b'),y:t('ax_tense'),x:t('ax_time60')});
+    ytick(rB,.09,t('ax_hi'),C.B); ytick(rB,.91,t('ax_lo'),C.ok);
+    shade(rB); clipWell(rB);
+    if(s.fill>1){
+      ctx.fillStyle='rgba(198,137,46,0.18)';
+      ctx.beginPath(); ctx.moveTo(X(0),rB.y+rB.h);
+      for(let i=0;i<=s.fill;i++){
+        if(s.tar[i]===null) continue;
+        ctx.lineTo(X(i), rB.y+rB.h-4-clamp(s.tar[i]/2.0,0,1)*(rB.h-8));
+      }
+      ctx.lineTo(X(s.fill),rB.y+rB.h); ctx.closePath(); ctx.fill();
+    }
+    line(rB,s.tar,2.0,C.sig,1.8,true);
+    ctx.restore();
+
+    const names=[t('st0'),t('st1'),t('st2')];
+    const bounds=[[0,20],[20,35],[35,58]];
+    ctx.font='700 9px "Chivo Mono", monospace'; ctx.textBaseline='alphabetic';
+    const ry=rA.y-22;
+    for(let i=0;i<3;i++){
+      const x0=rA.x+(bounds[i][0]/s.T)*rA.w, x1=rA.x+(bounds[i][1]/s.T)*rA.w;
+      const on=this.phase(s.t)===i;
+      if(on){ ctx.fillStyle='rgba(198,137,46,.18)'; ctx.fillRect(x0,ry-11,x1-x0,14); }
+      ctx.strokeStyle=C.rule; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(x0+.5,ry+3); ctx.lineTo(x0+.5,ry+8); ctx.stroke();
+      ctx.fillStyle=on?C.ink:C.rule;
+      ctx.fillText(names[i], x0+5, ry);
+      if(i===2){ ctx.beginPath(); ctx.moveTo(x1+.5,ry+3); ctx.lineTo(x1+.5,ry+8); ctx.stroke(); }
+    }
+    const px=rA.x+(Math.min(s.t,s.T)/s.T)*rA.w;
+    ctx.strokeStyle=C.ink; ctx.lineWidth=1; ctx.setLineDash([2,3]);
+    ctx.beginPath(); ctx.moveTo(px,rA.y); ctx.lineTo(px,rB.y+rB.h); ctx.stroke();
+    ctx.setLineDash([]);
+  },
+  read(s,p){
+    const ph=this.phase(s.t);
+    const seg=(arr,a,b)=>{
+      const i0=Math.floor(a/s.T*s.N), i1=Math.min(Math.floor(b/s.T*s.N), s.fill+1);
+      const out=[]; for(let i=i0;i<i1;i++) if(arr[i]!==null) out.push(arr[i]);
+      return out;
+    };
+    const play=seg(s.tb,5,20), sf=seg(s.tb,22,35), re=seg(s.tb,45,58);
+    const arPlay=seg(s.tar,5,20), arRe=seg(s.tar,45,58);
+    const d=(x)=> x.length? mean(x).toFixed(2) : '—';
+    const dr=(arPlay.length&&arRe.length)? (mean(arRe)-mean(arPlay)) : null;
+    return [
+      {id:'stage', lab:t('r2a'), val:[t('st0'),t('st1'),t('st2'),t('st3')][ph]},
+      {id:'play',  lab:t('r2b'), val:d(play)},
+      {id:'sf',    lab:t('r2c'), val:d(sf), est:true},
+      {id:'re',    lab:t('r2d'), val:d(re), est:true},
+      {id:'carry', lab:t('r2e'), val: dr===null?'—':((dr>=0?'+':'')+dr.toFixed(2)),
+       ok: dr!==null && dr<.12,
+       foot: dr===null?t('r2wait'):(dr>.12?t('r2no'):t('r2yes'))},
+      {id:'sens',  lab:t('r2f'), val:p.sens.toFixed(2)}
+    ];
+  },
+  note:'note2'
+});
+
+/* ─── 3. copying ─── */
+def('p3l','隔多久才跟着做','Delay before copying');
+def('p3k1','动作越像 → 越有好感','More matching → more liking');
+def('p3k2','越有好感 → 越会跟着做','More liking → more copying');
+def('p3t','学到多明显才会被发现','How obvious before it gets noticed');
+def('p3g','被发现的代价','Cost of being caught');
+def('p3n','B 自己的随机动作','B\'s own random movement');
+def('q3a','自然的模仿','Natural copying');
+def('q3b','学得太明显','Copying too obviously');
+def('q3c','对方是外人','The other person is an outsider');
+def('q3d','没兴趣交朋友','No interest in bonding');
+def('r3a','量出来：B 学得有多像','Measured: how much B copies');
+def('r3b','量出来：B 有多喜欢 A','Measured: how much B likes A');
+def('r3c','量出来：对准时间再比','Measured: after lining up the delay');
+def('r3d','量出来：不对时间直接比','Measured: without lining up the delay');
+def('r3df','会低估','underestimates');
+def('r3e','有没有被发现','Has it been noticed');
+def('r3f','事情在往哪走','Where this is heading');
+def('det_y','已经被发现','Noticed'); def('det_n','还没被发现','Not noticed');
+def('w3','越来越好','Warming up'); def('b3','起反效果','Backfiring'); def('m3','没什么变化','Flat');
+def('c3a','A 的动作','A\'s movements');
+def('c3b','B 的动作','B\'s movements');
+def('c3bs','= 学到的程度 × 隔一会儿的 A + 随机','= copying × delayed A + noise');
+def('c3c','循环','The loop');
+def('c3cs','学得越像 → 越有好感 → 学得更像','copy → like → copy more');
+def('c3up','好感 ↑','liking ↑'); def('c3rt','学得越像 →','copying →');
+def('c3det','被发现了','noticed');
+def('note3',
+`<p>人跟人聊天的时候，会不自觉地学对方：对方翘腿你也翘腿，对方摸脸你也摸脸。当事人两边都没察觉。心理学家做过实验，安排一个人偷偷模仿受试者，结果受试者觉得这场对话更顺、更喜欢对方。</p>
+<p>所以这里是个循环：学得越像 → 越喜欢 → 学得更像。右下角那张图就是这个循环在转。</p>
+<p>但它有个上限。把<b>「学到多明显才会被发现」</b>往下拖，让粉色区域变大——一旦学得太露骨被对方察觉，好感会掉下来，甚至变成反感。对方要是个外人，掉得更狠。后来的研究也说这个效应比最初想的小，而且很挑条件。</p>
+<p>顺带一个小把戏：底下同时给了"对准时间再比"和"不对时间直接比"两个数。把延迟拖大，后者会明显掉下来，可是画面上的行为一点没变。<em>同一件事，量的方式不同，结论就不同。</em></p>
+<div class="cite"><em>来源</em>Chartrand &amp; Bargh (1999) Journal of Personality and Social Psychology 76, 893–910 · Lakin, Jefferis, Cheng &amp; Chartrand (2003) Journal of Nonverbal Behavior · Cracco, Genschow 等 (2018) Psychological Bulletin</div>`,
+`<p>When people talk, they copy each other without meaning to: you cross your legs, so do they; you touch your face, so do they. Neither person notices. In a classic experiment, someone was secretly instructed to mirror the participant — and the participant reported the conversation went more smoothly and liked the other person more.</p>
+<p>So there's a loop here: copy more → like more → copy more still. The small chart on the right is that loop going round.</p>
+<p>But it has a ceiling. Drag <b>"How obvious before it gets noticed"</b> down so the pink zone grows. Once the copying becomes obvious enough to be spotted, liking falls, and can turn negative. If the other person is an outsider, it falls harder. Later research found the effect is smaller than first thought, and quite picky about conditions.</p>
+<p>One extra trick: the readouts show both "after lining up the delay" and "without lining up the delay". Drag the delay up and the second one drops noticeably — while the behaviour on screen hasn't changed at all. <em>Same event, different measurement, different story.</em></p>
+<div class="cite"><em>Sources</em>Chartrand &amp; Bargh (1999) Journal of Personality and Social Psychology 76, 893–910 · Lakin, Jefferis, Cheng &amp; Chartrand (2003) Journal of Nonverbal Behavior · Cracco, Genschow et al. (2018) Psychological Bulletin</div>`);
+
+PH.push({
+  id:'cham', navKey:'n3', subKey:'n3s', what:'what3',
+  keys:[['A','k_amove'],['B','k_bmove'],['ghost','k_ghost']],
+  params:[
+    {k:'lag', n:'p3l',  min:2,  max:60, step:1,  d:18, u:'u_pt'},
+    {k:'k1',  n:'p3k1', min:0,  max:1.2,step:.02,d:.55},
+    {k:'k2',  n:'p3k2', min:0,  max:1.2,step:.02,d:.50},
+    {k:'thr', n:'p3t',  min:.3, max:1.4,step:.02,d:.85},
+    {k:'grp', n:'p3g',  min:0,  max:2,  step:.05,d:.35},
+    {k:'sig', n:'p3n',  min:.02,max:.6, step:.02,d:.18}
+  ],
+  presets:[
+    {n:'q3a', v:{lag:18,k1:.55,k2:.50,thr:.95,grp:.15,sig:.18}},
+    {n:'q3b', v:{lag:8,k1:.9,k2:1.05,thr:.45,grp:.6,sig:.10}},
+    {n:'q3c', v:{lag:18,k1:.55,k2:.55,thr:.6,grp:1.7,sig:.18}},
+    {n:'q3d', v:{lag:18,k1:.06,k2:.06,thr:.9,grp:.3,sig:.35}}
+  ],
+  init(s){
+    s.a=0; s.av=0; s.m=.12; s.L=0; s.det=0;
+    s.ha=[]; s.hb=[]; s.hm=[]; s.hL=[]; s.buf=[]; s.loop=[];
+  },
+  step(s,p,dt){
+    s.av += (-1.0*s.a - 1.1*s.av)*dt*2.2 + gauss()*3.2*Math.sqrt(dt);
+    s.a = clamp(s.a + s.av*dt*2.2, -2.4, 2.4);
+    s.buf.push(s.a); if(s.buf.length>140) s.buf.shift();
+    const li = Math.max(0, s.buf.length-1-Math.round(p.lag));
+    const aLag = s.buf[li] || 0;
+    const b = s.m*aLag + p.sig*gauss()*1.2;
+    push(s.ha,s.a,420); push(s.hb,b,420);
+
+    let sync = 0;
+    if(s.ha.length>90){
+      const A=s.ha.slice(-160), B=s.hb.slice(-160);
+      const L=Math.round(p.lag);
+      sync = corr(A.slice(0,A.length-L), B.slice(L));
+    }
+    const over = Math.max(0, s.m - p.thr);
+    s.det = lerp(s.det, over>0?1:0, .05);
+    const penalty = over * (0.6 + p.grp) * 2.2;
+    s.L += ((p.k1*sync - s.L)*0.8 - penalty)*dt;
+    s.L = clamp(s.L, -1.2, 1.4);
+    s.m += ((p.k2*Math.max(0,s.L) + .10 - s.m)*0.9)*dt;
+    s.m = clamp(s.m, 0, 1.6);
+    push(s.hm,s.m,420); push(s.hL,s.L,420);
+    push(s.loop,[s.m,s.L],200);
+    s.sync = sync;
+  },
+  draw(s,p){
+    const m=MG(), availH=H-m.t-m.b;
+    const pw=Math.min(availH,(W-m.l*2-m.g-m.r)*.34);
+    const tw=W-m.l*2-m.g-m.r-pw;
+    const gy=30, h1=(availH-gy)/2;
+    const rA={x:m.l,y:m.t,w:tw,h:h1};
+    const rB={x:m.l,y:m.t+h1+gy,w:tw,h:h1};
+    const rL={x:m.l*2+tw+m.g,y:m.t+Math.max(0,(availH-pw)/2),w:pw,h:pw};
+
+    chart(rA,{title:t('c3a'),y:t('ax_move')});
+    clipWell(rA); midline(rA); trace(rA,s.ha,2.4,C.A,1.7,420); ctx.restore();
+
+    chart(rB,{title:t('c3b'),sub:t('c3bs'),y:t('ax_move'),x:t('ax_time')});
+    clipWell(rB); midline(rB);
+    const L=Math.round(p.lag);
+    if(s.ha.length>L){
+      const g=s.ha.slice(0,s.ha.length-L);
+      ctx.save(); ctx.globalAlpha=.30;
+      ctx.strokeStyle=C.A; ctx.lineWidth=1.3; ctx.beginPath();
+      for(let i=0;i<g.length;i++){
+        const x=rB.x+((i+L)/419)*rB.w;
+        const y=rB.y+rB.h/2-clamp(g[i]*s.m/2.4,-1.1,1.1)*(rB.h/2-4);
+        i?ctx.lineTo(x,y):ctx.moveTo(x,y);
+      }
+      ctx.stroke(); ctx.restore();
+    }
+    trace(rB,s.hb,2.4,C.B,1.7,420); ctx.restore();
+
+    chart(rL,{title:t('c3c'),y:t('ax_like'),x:t('ax_copy')});
+    clipWell(rL);
+    const mx=(v)=>rL.x+6+(v/1.6)*(rL.w-12);
+    const my=(v)=>rL.y+rL.h-6-((v+1.2)/2.6)*(rL.h-12);
+    ctx.fillStyle='rgba(179,58,94,.09)';
+    ctx.fillRect(mx(p.thr),rL.y+1,rL.x+rL.w-1-mx(p.thr),rL.h-2);
+    ctx.strokeStyle='rgba(179,58,94,.6)'; ctx.setLineDash([3,3]); ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(mx(p.thr),rL.y+2); ctx.lineTo(mx(p.thr),rL.y+rL.h-2); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.strokeStyle='rgba(22,33,28,.14)'; ctx.beginPath();
+    ctx.moveTo(rL.x+1,my(0)); ctx.lineTo(rL.x+rL.w-1,my(0)); ctx.stroke();
+    for(let i=1;i<s.loop.length;i++){
+      const a=i/s.loop.length;
+      ctx.strokeStyle=`rgba(22,33,28,${a*a*.6})`; ctx.lineWidth=.8+a*1.6;
+      ctx.beginPath();
+      ctx.moveTo(mx(s.loop[i-1][0]),my(s.loop[i-1][1]));
+      ctx.lineTo(mx(s.loop[i][0]),  my(s.loop[i][1]));
+      ctx.stroke();
+    }
+    ctx.fillStyle=s.m>p.thr?C.B:C.ok;
+    ctx.beginPath(); ctx.arc(mx(s.m),my(s.L),4.4,0,7); ctx.fill();
+    ctx.strokeStyle='#fff'; ctx.lineWidth=1.2; ctx.stroke();
+    ctx.restore();
+    ytickY(rL,my(0),'0');
+    if(s.m>p.thr) tag(rL.x+rL.w-7, rL.y+13, t('c3det'), C.B, 'right');
+  },
+  read(s,p){
+    return [
+      {id:'m',    lab:t('r3a'), val:s.m.toFixed(2), est:true},
+      {id:'L',    lab:t('r3b'), val:(s.L>=0?'+':'')+s.L.toFixed(2), est:true, ok:s.L>.15},
+      {id:'sync', lab:t('r3c'), val:(s.sync||0).toFixed(2), est:true},
+      {id:'zero', lab:t('r3d'), val:corr(s.ha.slice(-160),s.hb.slice(-160)).toFixed(2),
+       est:true, foot:t('r3df')},
+      {id:'det',  lab:t('r3e'), val:s.m>p.thr?t('det_y'):t('det_n'), ok:s.m<=p.thr},
+      {id:'loop', lab:t('r3f'), val:s.L>.15?t('w3'):(s.L<-.15?t('b3'):t('m3'))}
+    ];
+  },
+  note:'note3'
+});
+
+/* ─── 4. turn taking ─── */
+def('p4p','猜对方什么时候讲完，准不准','How well you predict when they\'ll stop');
+def('p4a','你想留多长的停顿','The pause you aim for');
+def('p4l','想好要说什么要多久','How long it takes to think of a reply');
+def('p4t','线路多花的时间','Extra delay from the connection');
+def('p4d','每段话大概多长','Roughly how long each turn is');
+def('q4a','面对面','Face to face');
+def('q4b','视频通话','Video call');
+def('q4c','语音 AI','Voice AI');
+def('q4d','猜不准对方','Bad at predicting');
+def('r4a','量出来：一般停多久','Measured: typical pause');
+def('r4b','量出来：最常见的停顿','Measured: most common pause');
+def('r4c','量出来：落在真人范围内','Measured: inside the human range');
+def('r4d','量出来：抢话的比例','Measured: how often they overlap');
+def('r4e','数了多少次换人','Handovers counted');
+def('r4f','要靠猜补上的时间差','Time gap you must predict away');
+def('c4a','谁在说话','Who is talking');
+def('c4b','停顿有多长','How long the pauses are');
+def('c4bs','左边＝抢话　右边＝停顿','left = overlap, right = pause');
+def('c4band','真人常见范围','typical human range');
+def('c4sa','说话人 A','speaker A'); def('c4sb','说话人 B','speaker B');
+def('ms','毫秒','ms');
+def('note4',
+`<p>两个人聊天，一个人讲完到另一个人开口，中间那个停顿有多长？答案出奇地一致：大约五分之一秒。研究者查了十种差别很大的语言，从荷兰语到日语到墨西哥的原住民语言，全都落在这个范围附近。</p>
+<p>但这里有个说不通的地方。人从"想说一句话"到"嘴巴发出声音"，至少要半秒多。既然如此，怎么可能只停五分之一秒就接上？答案是：听的人根本没等对方讲完，而是一边听一边<em>猜</em>对方什么时候会讲完，提前把话准备好。底下最后一格就是这个必须靠猜补上的差额。</p>
+<p>把<b>「猜对方什么时候讲完，准不准」</b>拖大，分布会摊平，往左边溢出——抢话变多。把<b>「线路多花的时间」</b>拖到 600 毫秒（语音 AI 那个预设），整片分布会整体移出绿色带。对话内容一点没坏，但那种"接不上"的别扭感就是从这儿来的。</p>
+<div class="cite"><em>来源</em>Stivers 等 (2009) PNAS 106, 10587–10592 · Levinson &amp; Torreira (2015) Frontiers in Psychology · Sacks, Schegloff &amp; Jefferson (1974)</div>`,
+`<p>When two people talk, how long is the pause between one finishing and the other starting? The answer is surprisingly consistent: about a fifth of a second. Researchers checked ten very different languages, from Dutch to Japanese to an indigenous language of Mexico, and they all cluster around the same range.</p>
+<p>Which doesn't add up. Going from "I want to say this" to actually making a sound takes a person over half a second. So how can the pause be only a fifth of a second? Because the listener isn't waiting for the end at all. They're <em>predicting</em> when you'll finish and getting their reply ready in advance. The last readout is exactly that shortfall you have to predict away.</p>
+<p>Drag <b>"How well you predict when they'll stop"</b> up and the distribution flattens and spills to the left — more talking over each other. Drag <b>"Extra delay from the connection"</b> to 600 ms (the Voice AI preset) and the whole distribution slides out of the green band. Nothing about the words is broken, but that's exactly where the awkward, out-of-step feeling comes from.</p>
+<div class="cite"><em>Sources</em>Stivers et al. (2009) PNAS 106, 10587–10592 · Levinson &amp; Torreira (2015) Frontiers in Psychology · Sacks, Schegloff &amp; Jefferson (1974)</div>`);
+
+PH.push({
+  id:'turn', navKey:'n4', subKey:'n4s', what:'what4',
+  keys:[['A','k_spA'],['B','k_spB'],['okbar','k_band'],['Bbar','k_over']],
+  params:[
+    {k:'proj', n:'p4p', min:20, max:600, step:10, d:150, u:'u_ms'},
+    {k:'aim',  n:'p4a', min:-100,max:500,step:10, d:120, u:'u_ms'},
+    {k:'plan', n:'p4l', min:200,max:1200,step:25,d:600, u:'u_ms'},
+    {k:'lat',  n:'p4t', min:0,  max:800, step:10, d:0, u:'u_ms'},
+    {k:'turn', n:'p4d', min:.8, max:5,   step:.1, d:2.0, u:'u_s'}
+  ],
+  presets:[
+    {n:'q4a', v:{proj:150,aim:120,plan:600,lat:0,turn:2.0}},
+    {n:'q4b', v:{proj:150,aim:120,plan:600,lat:230,turn:2.2}},
+    {n:'q4c', v:{proj:150,aim:120,plan:600,lat:600,turn:2.2}},
+    {n:'q4d', v:{proj:520,aim:120,plan:600,lat:0,turn:2.0}}
+  ],
+  init(s){
+    s.t=0; s.sp=0; s.end=1.6; s.launch=null; s.turns=[{sp:0,a:0,b:1.6}];
+    s.gaps=[]; s.bins=new Array(38).fill(0); s.n=0; s.ov=0;
+  },
+  step(s,p,dt){
+    s.t += dt;
+    if(s.launch===null && s.t > s.end - 1.2){
+      const err = gauss()*(p.proj/1000);
+      s.launch = s.end + err + p.aim/1000 + p.lat/1000;
+      const earliest = s.t + Math.max(0, p.plan/1000 - 1.2);
+      if(s.launch < earliest) s.launch = earliest;
+    }
+    if(s.launch!==null && s.t >= s.launch){
+      const gap = (s.launch - s.end)*1000;
+      s.gaps.push(gap); if(s.gaps.length>400) s.gaps.shift();
+      const bi = clamp(Math.floor((gap+700)/50),0,37);
+      s.bins[bi]++; s.n++;
+      if(gap<0) s.ov++;
+      const st = s.launch;
+      s.sp = 1-s.sp;
+      s.end = st + Math.max(.5, p.turn + gauss()*p.turn*.4);
+      s.turns.push({sp:s.sp,a:st,b:s.end});
+      if(s.turns.length>60) s.turns.shift();
+      s.launch=null;
+    }
+  },
+  draw(s,p){
+    const m=MG();
+    const gy=48, rasterH=Math.min(84,(H-m.t-m.b-gy)*.38);
+    const rR={x:m.l,y:m.t,w:W-m.l-m.r,h:rasterH};
+    const rH={x:m.l,y:m.t+rasterH+gy,w:W-m.l-m.r,h:H-m.t-m.b-rasterH-gy};
+
+    chart(rR,{title:t('c4a'),y:t('ax_who'),x:t('ax_time14')});
+    clipWell(rR);
+    const win=14, t0=s.t-win;
+    const lane=(sp)=> rR.y+8+sp*(rR.h-16)/2;
+    const lh=(rR.h-16)/2-5;
+    ctx.fillStyle='rgba(22,33,28,.035)';
+    ctx.fillRect(rR.x+1,lane(0),rR.w-2,lh); ctx.fillRect(rR.x+1,lane(1),rR.w-2,lh);
+    for(const T of s.turns){
+      if(T.b<t0) continue;
+      const x0=rR.x+clamp((T.a-t0)/win,0,1)*rR.w;
+      const x1=rR.x+clamp((Math.min(T.b,s.t)-t0)/win,0,1)*rR.w;
+      ctx.fillStyle=T.sp===0?C.A:C.B;
+      ctx.fillRect(x0,lane(T.sp),Math.max(1.5,x1-x0),lh);
+    }
+    ctx.restore();
+    ytickY(rR,lane(0)+lh/2,'A',C.A);
+    ytickY(rR,lane(1)+lh/2,'B',C.B);
+
+    chart(rH,{title:t('c4b'),y:t('ax_count'),x:t('ax_pause')});
+    clipWell(rH);
+    const bx=(ms)=>rH.x+((ms+700)/1900)*rH.w;
+    ctx.fillStyle='rgba(62,122,94,0.11)';
+    ctx.fillRect(bx(0),rH.y+1,bx(200)-bx(0),rH.h-2);
+    ctx.fillStyle='rgba(179,58,94,0.05)';
+    ctx.fillRect(rH.x+1,rH.y+1,bx(0)-rH.x-1,rH.h-2);
+    ctx.strokeStyle='rgba(62,122,94,.55)'; ctx.setLineDash([3,3]);
+    ctx.beginPath(); ctx.moveTo(bx(0),rH.y+1); ctx.lineTo(bx(0),rH.y+rH.h-1);
+    ctx.moveTo(bx(200),rH.y+1); ctx.lineTo(bx(200),rH.y+rH.h-1); ctx.stroke();
+    ctx.setLineDash([]);
+    const mxb=Math.max(1,...s.bins), bw=rH.w/38;
+    for(let i=0;i<38;i++){
+      if(!s.bins[i]) continue;
+      const hgt=(s.bins[i]/mxb)*(rH.h-16);
+      const lo=i*50-700;
+      ctx.fillStyle= lo<0 ? 'rgba(179,58,94,.78)' : 'rgba(27,77,143,.75)';
+      ctx.fillRect(rH.x+i*bw+.5,rH.y+rH.h-hgt-1,bw-1,hgt);
+    }
+    ctx.restore();
+    xtickX(rH,bx(-600),'−600'); xtickX(rH,bx(0),'0');
+    xtickX(rH,bx(200),'200',C.ok); xtickX(rH,bx(1000),'+1000');
+    tag(rH.x+8,rH.y+12,t('ax_ovl'),C.B);
+    tag(bx(215),rH.y+12,t('c4band'),C.ok);
+  },
+  read(s,p){
+    const g=s.gaps.slice(); g.sort((a,b)=>a-b);
+    const med=g.length? g[Math.floor(g.length/2)] : 0;
+    let modeI=0; for(let i=0;i<38;i++) if(s.bins[i]>s.bins[modeI]) modeI=i;
+    const modeLo=modeI*50-700;
+    const inband = s.gaps.filter(x=>x>=0&&x<=200).length/(s.gaps.length||1);
+    return [
+      {id:'med',  lab:t('r4a'), val:Math.round(med)+' '+t('ms'), est:true,
+       ok:Math.abs(med-150)<120},
+      {id:'mode', lab:t('r4b'), val:modeLo+'–'+(modeLo+50), est:true, foot:t('ms')},
+      {id:'band', lab:t('r4c'), val:Math.round(inband*100)+'%', est:true, ok:inband>.35},
+      {id:'ov',   lab:t('r4d'), val:Math.round(s.ov/(s.n||1)*100)+'%', est:true,
+       ok:s.ov/(s.n||1)<.15},
+      {id:'n',    lab:t('r4e'), val:s.n},
+      {id:'gap',  lab:t('r4f'), val:Math.round(p.plan-p.aim)+' '+t('ms')}
+    ];
+  },
+  note:'note4'
+});
+
+/* ─── 5. group splits ─── */
+def('p5e','跟你差多远就不听了','How different before you stop listening');
+def('p5m','每次聊完靠近多少','How much they move closer each time');
+def('p5r','每轮聊几次','Conversations per round');
+def('p5n','随机变心','Random drift');
+def('q5a','最后大家一致','Everyone ends up agreeing');
+def('q5b','分成两派','Splits into two camps');
+def('q5c','碎成很多小圈','Breaks into many small groups');
+def('q5d','一直有人变心','Constant churn');
+def('r5a','设定：愿意听的范围','Set: how open they are');
+def('r5b','量出来：最后分成几派','Measured: groups at the end');
+def('r5c','量出来：最远的两人差多少','Measured: spread between extremes');
+def('r5d','量出来：有多分散','Measured: how spread out');
+def('r5e','一共几个人','How many people');
+def('r5f','教科书的预测','The textbook guess');
+def('g1','一致','all agree'); def('g2','两派','two camps'); def('gN','多派','many groups');
+def('c5a','想法怎么变','How opinions move');
+def('c5as','每条线＝一个人','one line = one person');
+def('c5b','现在的分布','Where they are now');
+def('c5bs','纵轴同左图','same axis as left');
+def('c5top','这一端','one side'); def('c5bot','另一端','other side');
+def('note5',
+`<p>规则只有一条：如果另一个人的想法跟你差得不太远，你们聊完会各自往对方挪一点点；差得太远，你就完全不受影响。没有任何人被设定成"想吵架"或"想极端"。</p>
+<p>然后把<b>「跟你差多远就不听了」</b>从大慢慢拖到小，会依次看到：大家最后聊到一块儿 → 分成两派 → 碎成一堆小圈子。<em>分裂不需要谁有恶意，只需要大家的耐心有限。</em></p>
+<p>还有一点：同样的规则、同样的设定，重跑一次结果可能不一样。中间那段区域尤其明显——最后分成几派，很大程度上取决于一开始大家碰巧站在哪儿。</p>
+<div class="cite"><em>来源</em>Deffuant, Neau, Amblard &amp; Weisbuch (2000) · Hegselmann &amp; Krause (2002) Journal of Artificial Societies and Social Simulation</div>`,
+`<p>There is one rule: if another person's view isn't too far from yours, you each shift slightly towards the other after talking. If it's too far, you're unaffected. Nobody is programmed to argue or to become extreme.</p>
+<p>Now drag <b>"How different before you stop listening"</b> from large down to small. You'll see, in order: everyone converges → two camps form → the group shatters into small clusters. <em>Splitting doesn't need anyone to be malicious. It only needs limited patience.</em></p>
+<p>One more thing: same rule, same settings, run it again and you can get a different outcome. That's clearest in the middle range — how many camps you end up with depends a lot on where people happened to start.</p>
+<div class="cite"><em>Sources</em>Deffuant, Neau, Amblard &amp; Weisbuch (2000) · Hegselmann &amp; Krause (2002) Journal of Artificial Societies and Social Simulation</div>`);
+
+PH.push({
+  id:'bc', navKey:'n5', subKey:'n5s', what:'what5',
+  keys:[['ink','k_line'],['sig','k_now']],
+  params:[
+    {k:'eps', n:'p5e', min:.03, max:.5, step:.005, d:.22},
+    {k:'mu',  n:'p5m', min:.02, max:.5, step:.01,  d:.22},
+    {k:'rate',n:'p5r', min:1,   max:60,  step:1,    d:18},
+    {k:'sig', n:'p5n', min:0,   max:.02, step:.001, d:.002}
+  ],
+  presets:[
+    {n:'q5a', v:{eps:.34,mu:.22,rate:18,sig:.002}},
+    {n:'q5b', v:{eps:.17,mu:.22,rate:18,sig:.002}},
+    {n:'q5c', v:{eps:.07,mu:.22,rate:18,sig:.002}},
+    {n:'q5d', v:{eps:.15,mu:.22,rate:18,sig:.014}}
+  ],
+  init(s){
+    s.N=70; s.x=[]; for(let i=0;i<s.N;i++) s.x.push(Math.random());
+    s.hist=[]; s.k=0;
+  },
+  step(s,p,dt){
+    for(let it=0; it<Math.round(p.rate); it++){
+      const i=(Math.random()*s.N)|0, j=(Math.random()*s.N)|0;
+      if(i===j) continue;
+      if(Math.abs(s.x[i]-s.x[j]) < p.eps){
+        const d=p.mu*(s.x[j]-s.x[i]);
+        s.x[i]=clamp(s.x[i]+d,0,1);
+        s.x[j]=clamp(s.x[j]-d,0,1);
+      }
+    }
+    if(p.sig>0) for(let i=0;i<s.N;i++) s.x[i]=clamp(s.x[i]+gauss()*p.sig,0,1);
+    s.k++;
+    if(s.k%2===0){ s.hist.push(s.x.slice()); if(s.hist.length>320) s.hist.shift(); }
+  },
+  clusters(s,p){
+    const y=s.x.slice().sort((a,b)=>a-b);
+    let c=1;
+    for(let i=1;i<y.length;i++) if(y[i]-y[i-1] > Math.max(p.eps*.5,.03)) c++;
+    return c;
+  },
+  draw(s,p){
+    const m=MG();
+    const hw=Math.min(116,(W-m.l-m.g-m.r)*.22);
+    const rT={x:m.l,y:m.t,w:W-m.l-m.g-m.r-hw,h:H-m.t-m.b};
+    const rH={x:m.l+rT.w+m.g,y:m.t,w:hw,h:rT.h};
+
+    chart(rT,{title:t('c5a'),sub:t('c5as'),y:t('ax_stance'),x:t('ax_time')});
+    ytick(rT,.06,t('c5top')); ytick(rT,.94,t('c5bot'));
+    clipWell(rT); gridY(rT,4);
+    if(s.hist.length>1){
+      for(let a=0;a<s.N;a++){
+        ctx.strokeStyle='rgba(22,33,28,.40)'; ctx.lineWidth=1; ctx.beginPath();
+        for(let tt=0;tt<s.hist.length;tt++){
+          const x=rT.x+(tt/319)*rT.w;
+          const y=rT.y+rT.h-4-s.hist[tt][a]*(rT.h-8);
+          tt?ctx.lineTo(x,y):ctx.moveTo(x,y);
+        }
+        ctx.stroke();
+      }
+    }
+    const cx=rT.x+((s.hist.length-1)/319)*rT.w;
+    for(let a=0;a<s.N;a++){
+      ctx.fillStyle=C.sig;
+      ctx.beginPath(); ctx.arc(cx, rT.y+rT.h-4-s.x[a]*(rT.h-8), 2.1,0,7); ctx.fill();
+    }
+    ctx.restore();
+
+    chart(rH,{title:t('c5b'),sub:t('c5bs'),x:t('ax_people')});
+    clipWell(rH);
+    const nb=34, bins=new Array(nb).fill(0);
+    for(const v of s.x) bins[clamp(Math.floor(v*nb),0,nb-1)]++;
+    const mxb=Math.max(1,...bins);
+    for(let i=0;i<nb;i++){
+      if(!bins[i]) continue;
+      const y=rH.y+rH.h-4-((i+1)/nb)*(rH.h-8);
+      const w=(bins[i]/mxb)*(rH.w-10);
+      ctx.fillStyle='rgba(198,137,46,.82)';
+      ctx.fillRect(rH.x+4,y,w,Math.max(2,(rH.h-8)/nb-1));
+    }
+    ctx.restore();
+    ctx.strokeStyle=C.B; ctx.lineWidth=2.5;
+    const e0=rH.y+rH.h-6, e1=e0-p.eps*(rH.h-8);
+    ctx.beginPath(); ctx.moveTo(rH.x+rH.w+5,e0); ctx.lineTo(rH.x+rH.w+5,e1); ctx.stroke();
+    tag(rH.x+rH.w+9,(e0+e1)/2,'ε',C.B);
+  },
+  read(s,p){
+    const c=this.clusters(s,p);
+    const y=s.x.slice().sort((a,b)=>a-b);
+    const spread=y[y.length-1]-y[0];
+    const m=mean(s.x);
+    let v=0; for(const q of s.x) v+=(q-m)*(q-m); v/=s.N;
+    return [
+      {id:'eps',  lab:t('r5a'), val:p.eps.toFixed(3)},
+      {id:'clus', lab:t('r5b'), val:c, est:true, ok:c===1,
+       foot: c===1?t('g1'):(c===2?t('g2'):t('gN'))},
+      {id:'spr',  lab:t('r5c'), val:spread.toFixed(2), est:true},
+      {id:'var',  lab:t('r5d'), val:v.toFixed(3), est:true},
+      {id:'n',    lab:t('r5e'), val:s.N},
+      {id:'pred', lab:t('r5f'), val:(1/(2*p.eps)).toFixed(1)}
+    ];
+  },
+  note:'note5'
+});
+
+/* ─── 6. spurious ─── */
+def('p6p','每条线变化得多慢','How slowly each line drifts');
+def('p6w','一次看多长一段','How long a stretch you look at');
+def('p6d','有没有共同的外部影响','A shared outside influence');
+def('p6n','随机的大小','How much randomness');
+def('q6a','两条毫无关系的线','Two unrelated lines');
+def('q6b','加上共同影响','Add a shared influence');
+def('q6c','只看很短一段','Look at a tiny stretch');
+def('q6d','变化很快的线','Fast-changing lines');
+def('q6run','做一次运气对照','Run the luck test');
+def('r6a','真相：两条线的关系','Truth: how related they are');
+def('r6af','完全无关','not related at all');
+def('r6b','量出来：现在有多像','Measured: how alike right now');
+def('r6c','量出来：出现过的最高值','Measured: highest it ever got');
+def('r6d','量出来：多少时间看着很像','Measured: time it looked connected');
+def('r6e','光靠运气也能这么像的概率','Chance of this happening by luck');
+def('r6ew','还没做对照','test not run yet');
+def('r6ey','运气解释不了','luck can\'t explain it');
+def('r6en','运气就能解释','luck explains it');
+def('r6f','其实只有几个独立的点','Really independent points');
+def('c6a','两条线','Two lines');
+def('c6as','彼此无关','unrelated');
+def('c6b','量出来的相似度','Measured similarity');
+def('c6c','打乱之后的结果','What luck alone gives');
+def('c6hint1','点「做一次运气对照」','Press "Run the luck test"');
+def('c6hint2','看现在这个值落在哪','and see where today\'s value lands');
+def('c6now','现在的值','right now');
+def('note6',
+`<p>这一格里，两条线之间<em>完全没有关系</em>。它们各自随机生成，唯一的共同点是都变得很慢。可是量出来的相似度照样会飘到 0.8，而且一待就是好几秒。</p>
+<p>为什么？因为变得慢的线，相邻的点几乎一样，等于没提供新信息。你以为自己看了几百个点，其实真正独立的信息只有两三个。最后一格就是这个数。用两三个点算出来的"相似度"，本来就应该忽上忽下。</p>
+<p>点<b>「做一次运气对照」</b>：程序会把其中一条线在时间上打乱几百次，看纯靠运气能得到多像。现在这个值（橙线）会落在那堆运气结果的正中间。<em>换句话说，你什么都没测到。</em></p>
+<p>再把<b>「有没有共同的外部影响」</b>拖上去。现在两个人真的被同一个东西影响了——同一部电影、同一个房间的温度、同一段流程。相似度会更高更稳，但那依然不是<em>他们之间</em>的关系。</p>
+<div class="cite"><em>来源</em>这一格是方法演示，不对应某一篇论文。相关讨论见 Gordon &amp; Bartsch (2026) Nature Reviews Psychology；打乱对照的标准做法见 Theiler 等 (1992)。</div>`,
+`<p>In this one the two lines are <em>completely unrelated</em>. Each is generated on its own; the only thing they share is that both drift slowly. And yet the measured similarity still wanders up to 0.8 and stays there for seconds at a time.</p>
+<p>Why? Because in a slow-drifting line, each point is nearly identical to the one before it, so it carries almost no new information. You think you looked at hundreds of points; the genuinely independent information amounts to two or three. That's the last readout. A "similarity" computed from two or three points is supposed to swing wildly.</p>
+<p>Press <b>"Run the luck test"</b>: the program scrambles one line in time a few hundred times and checks how alike you get from luck alone. Today's value (the orange line) lands right in the middle of that pile. <em>Which means you measured nothing.</em></p>
+<p>Now drag <b>"A shared outside influence"</b> up. The two are genuinely being pushed by the same thing — the same film, the same room temperature, the same schedule. Similarity gets higher and steadier. But it still isn't a relationship <em>between them</em>.</p>
+<div class="cite"><em>Sources</em>This panel is a methods demonstration, not a specific paper. See Gordon &amp; Bartsch (2026) Nature Reviews Psychology for discussion; scrambling tests follow Theiler et al. (1992).</div>`);
+
+PH.push({
+  id:'spur', navKey:'n6', subKey:'n6s', what:'what6',
+  keys:[['A','k_l1'],['B','k_l2'],['greybar','k_null']],
+  params:[
+    {k:'phi',  n:'p6p', min:.5,  max:.995,step:.005,d:.965},
+    {k:'win',  n:'p6w', min:20,  max:300, step:5,   d:90, u:'u_pt'},
+    {k:'drive',n:'p6d', min:0,   max:1,   step:.02, d:0},
+    {k:'sig',  n:'p6n', min:.05, max:.6,  step:.01, d:.22}
+  ],
+  presets:[
+    {n:'q6a', v:{phi:.965,win:90,drive:0,sig:.22}},
+    {n:'q6b', v:{phi:.9,win:90,drive:.7,sig:.22}},
+    {n:'q6c', v:{phi:.99,win:25,drive:0,sig:.18}},
+    {n:'q6d', v:{phi:.55,win:90,drive:0,sig:.35}}
+  ],
+  action:'q6run',
+  init(s){ s.a=0;s.b=0;s.d=0;s.dv=0; s.ha=[];s.hb=[];s.hr=[];s.null=null;s.t=0; },
+  step(s,p,dt){
+    s.t+=dt;
+    s.dv += (-.35*s.d - .5*s.dv)*dt*4 + gauss()*.5*dt*4;
+    s.d = clamp(s.d + s.dv*dt*4, -2.5, 2.5);
+    s.a = p.phi*s.a + p.sig*gauss();
+    s.b = p.phi*s.b + p.sig*gauss();
+    const A = s.a + p.drive*s.d*.5;
+    const B = s.b + p.drive*s.d*.5;
+    push(s.ha,A,600); push(s.hb,B,600);
+    const w=Math.round(p.win);
+    if(s.ha.length>w) push(s.hr, corr(s.ha.slice(-w), s.hb.slice(-w)), 600);
+  },
+  surrogate(s,p){
+    const w=Math.round(p.win);
+    const A=s.ha.slice(), B=s.hb.slice();
+    if(A.length<w+40) return;
+    const out=[];
+    for(let k=0;k<400;k++){
+      const sh=40+((Math.random()*(B.length-80))|0);
+      const Bs=B.slice(sh).concat(B.slice(0,sh));
+      const i=(Math.random()*(A.length-w))|0;
+      out.push(corr(A.slice(i,i+w), Bs.slice(i,i+w)));
+    }
+    out.sort((x,y)=>x-y);
+    s.null=out;
+  },
+  draw(s,p){
+    const m=MG();
+    const hw=Math.min(132,(W-m.l-m.g-m.r)*.25);
+    const cw=W-m.l-m.g-hw-m.r;
+    const gy=36, totalH=H-m.t-m.b;
+    const h1=(totalH-gy)*.50, h2=(totalH-gy)*.50;
+    const rT={x:m.l,y:m.t,w:cw,h:h1};
+    const rR={x:m.l,y:m.t+h1+gy,w:cw,h:h2};
+    const rN={x:m.l+cw+m.g,y:m.t,w:hw,h:h1+gy+h2};
+
+    chart(rT,{title:t('c6a'),sub:t('c6as'),y:t('ax_value')});
+    clipWell(rT); midline(rT);
+    const lim=Math.max(1.2,...s.ha.slice(-300).map(Math.abs),...s.hb.slice(-300).map(Math.abs));
+    trace(rT,s.ha,lim,C.A,1.6,600);
+    trace(rT,s.hb,lim,C.B,1.6,600);
+    ctx.restore();
+
+    chart(rR,{title:t('c6b'),y:t('ax_sim'),x:t('ax_time')});
+    ytick(rR,.06,t('ax_pos'),C.B); ytick(rR,.5,t('ax_zero')); ytick(rR,.94,t('ax_neg'),C.B);
+    clipWell(rR);
+    const zy=rR.y+rR.h/2;
+    ctx.strokeStyle='rgba(22,33,28,.18)'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(rR.x+1,zy); ctx.lineTo(rR.x+rR.w-1,zy); ctx.stroke();
+    ctx.strokeStyle='rgba(179,58,94,.32)'; ctx.setLineDash([3,3]);
+    [.5,-.5].forEach(v=>{
+      const y=zy-v*(rR.h/2-3);
+      ctx.beginPath(); ctx.moveTo(rR.x+1,y); ctx.lineTo(rR.x+rR.w-1,y); ctx.stroke();
+    });
+    ctx.setLineDash([]);
+    for(let i=0;i<s.hr.length;i++){
+      const x=rR.x+(i/599)*rR.w;
+      const y=zy-s.hr[i]*(rR.h/2-3);
+      ctx.strokeStyle = Math.abs(s.hr[i])>.5 ? 'rgba(179,58,94,.8)' : 'rgba(27,77,143,.5)';
+      ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(x,zy); ctx.lineTo(x,y); ctx.stroke();
+    }
+    ctx.restore();
+
+    chart(rN,{title:t('c6c'),x:t('ax_count')});
+    clipWell(rN);
+    if(s.null){
+      const nb=30, bins=new Array(nb).fill(0);
+      for(const v of s.null) bins[clamp(Math.floor((v+1)/2*nb),0,nb-1)]++;
+      const mxb=Math.max(1,...bins);
+      for(let i=0;i<nb;i++){
+        const y=rN.y+4+(i/nb)*(rN.h-8);
+        const w=(bins[i]/mxb)*(rN.w-14);
+        ctx.fillStyle='rgba(74,87,79,.32)';
+        ctx.fillRect(rN.x+6,y,w,Math.max(2,(rN.h-8)/nb-1));
+      }
+      const cur=s.hr[s.hr.length-1]||0;
+      const y=rN.y+4+((cur+1)/2)*(rN.h-8);
+      ctx.strokeStyle=C.sig; ctx.lineWidth=2.5;
+      ctx.beginPath(); ctx.moveTo(rN.x+4,y); ctx.lineTo(rN.x+rN.w-4,y); ctx.stroke();
+      ctx.restore();
+      tag(rN.x+rN.w-6,y-10,t('c6now'),C.sig,'right');
+    } else {
+      ctx.restore();
+      ctx.font='400 10px "Chivo Mono", monospace';
+      ctx.fillStyle=C.soft; ctx.textAlign='center';
+      ctx.fillText(t('c6hint1'), rN.x+rN.w/2, rN.y+rN.h/2-6);
+      ctx.fillText(t('c6hint2'), rN.x+rN.w/2, rN.y+rN.h/2+9);
+      ctx.textAlign='left';
+    }
+    tag(rN.x+7,rN.y+13,t('ax_neg'),C.rule);
+    tag(rN.x+7,rN.y+rN.h/2,t('ax_zero'),C.rule);
+    tag(rN.x+7,rN.y+rN.h-11,t('ax_pos'),C.rule);
+  },
+  read(s,p){
+    const cur=s.hr[s.hr.length-1]||0;
+    const big=s.hr.filter(x=>Math.abs(x)>.5).length/(s.hr.length||1);
+    const mxr=s.hr.length?Math.max(...s.hr.map(Math.abs)):0;
+    let pv='—';
+    if(s.null){
+      let k=0; for(const v of s.null) if(Math.abs(v)>=Math.abs(cur)) k++;
+      pv=(k/s.null.length).toFixed(2);
+    }
+    return [
+      {id:'truth', lab:t('r6a'), val:'0.00', foot:t('r6af')},
+      {id:'cur',   lab:t('r6b'), val:(cur>=0?'+':'')+cur.toFixed(2), est:true},
+      {id:'max',   lab:t('r6c'), val:mxr.toFixed(2), est:true, ok:mxr<.5},
+      {id:'big',   lab:t('r6d'), val:Math.round(big*100)+'%', est:true},
+      {id:'p',     lab:t('r6e'), val:pv, ok: pv!=='—' && +pv<.05,
+       foot: pv==='—'?t('r6ew'):(+pv<.05?t('r6ey'):t('r6en'))},
+      {id:'df',    lab:t('r6f'),
+       val:(()=>{const d=Math.round(p.win)*(1-p.phi*p.phi)/(1+p.phi*p.phi);
+                 return d<1.5?'≈1':Math.round(d);})()}
+    ];
+  },
+  note:'note6'
+});
+
+/* ═══════════════════ about page ═══════════════════ */
+def('about', `
+<h2>这是什么</h2>
+<p>六个小模拟，讲的都是同一件事：人跟人在一起的时候，会互相影响。每一个背后都有真实的心理学研究，但你不需要看懂任何公式——拉滑块就行。</p>
+
+<h2>怎么玩</h2>
+<ul>
+<li>左边选一个现象。中间是动画，会一直跑。</li>
+<li>下面那排彩色按钮是<b>预设</b>。先点它们，最快看出区别。</li>
+<li>再往下是<b>滑块</b>，可以自己调。旁边有一段文字解释这一格在讲什么、值得试什么。</li>
+<li>上面的按钮可以暂停、重来、调快慢，也可以切换中英文。</li>
+</ul>
+
+<h2>中间那排数字，注意看颜色</h2>
+<div class="callout">
+<p><span class="swatch" style="background:#16211C"></span><b>黑色</b>＝<b>你设定的</b>。这是"真相"，因为是你亲手调的。</p>
+<p><span class="swatch" style="background:#C6892E"></span><b>橙色</b>＝<b>量出来的</b>。这是从画面上的数据算出来的，也就是一个研究者能看到的东西。</p>
+</div>
+<p>很多时候这两组数字对不上。这正是整个小工具想让你看到的事：<b>真实发生了什么，和我们能量到什么，不一定是一回事。</b>第一格和最后一格把这个问题讲得最清楚。</p>
+
+<h2>几句提醒</h2>
+<ul>
+<li>这些是简化过的模型，用来建立直觉，不是真实数据的重现。数字不能拿去引用。</li>
+<li>每一格底下都列了来源，想深入可以顺着查。</li>
+<li>有些格子（比如"越滚越大""对方突然不理你"）讲的是让人不舒服的情境。它们是心理学里正经的研究课题，这里只是把机制画出来。</li>
+</ul>
+
+<h2>如果你想知道学术上怎么叫（可跳过）</h2>
+<table class="gloss">
+<tr><td>心情会传染</td><td>coupled oscillator model / emotional coregulation</td></tr>
+<tr><td>对方突然不理你</td><td>still-face paradigm</td></tr>
+<tr><td>不知不觉学对方</td><td>the chameleon effect / nonconscious mimicry</td></tr>
+<tr><td>说话怎么轮流</td><td>turn-taking, transition timing</td></tr>
+<tr><td>一群人怎么分裂</td><td>bounded confidence model</td></tr>
+<tr><td>看着很像其实无关</td><td>spurious synchrony</td></tr>
+<tr><td>两条线有多像</td><td>Pearson correlation r</td></tr>
+<tr><td>错开时间再比</td><td>lagged cross-correlation</td></tr>
+<tr><td>打乱之后的结果</td><td>surrogate / permutation null</td></tr>
+<tr><td>其实只有几个独立的点</td><td>effective degrees of freedom</td></tr>
+</table>
+`, `
+<h2>What this is</h2>
+<p>Six small simulations of one idea: when people are together, they change each other. Each one is built on real psychology research, but you don't need to follow any maths — just drag the sliders.</p>
+
+<h2>How to use it</h2>
+<ul>
+<li>Pick a topic on the left. The animation in the middle runs continuously.</li>
+<li>The row of buttons underneath are <b>presets</b>. Start with those — they show the differences fastest.</li>
+<li>Below that are the <b>sliders</b>. Next to them is a short explanation of what the panel shows and what's worth trying.</li>
+<li>The buttons up top pause, restart, change speed, and switch between English and Chinese.</li>
+</ul>
+
+<h2>The numbers in the middle — watch the colours</h2>
+<div class="callout">
+<p><span class="swatch" style="background:#16211C"></span><b>Black</b> = <b>what you set</b>. This is the truth, because you set it yourself.</p>
+<p><span class="swatch" style="background:#C6892E"></span><b>Orange</b> = <b>what gets measured</b>. This is calculated from the data on screen — what a researcher would actually be able to see.</p>
+</div>
+<p>Often the two don't match. That's the whole point of this thing: <b>what really happened and what we can measure are not always the same.</b> The first and last panels make this clearest.</p>
+
+<h2>A few notes</h2>
+<ul>
+<li>These are simplified models for building intuition, not reproductions of real data. Don't quote the numbers.</li>
+<li>Every panel lists its sources if you want to read further.</li>
+<li>Some panels ("Spiralling up", "When someone goes blank") describe uncomfortable situations. They're serious research topics; this just draws the mechanism.</li>
+</ul>
+
+<h2>The academic names, if you want them (skippable)</h2>
+<table class="gloss">
+<tr><td>Moods rub off</td><td>coupled oscillator model / emotional coregulation</td></tr>
+<tr><td>When someone goes blank</td><td>still-face paradigm</td></tr>
+<tr><td>Copying without noticing</td><td>the chameleon effect / nonconscious mimicry</td></tr>
+<tr><td>Taking turns</td><td>turn-taking, transition timing</td></tr>
+<tr><td>How a group splits</td><td>bounded confidence model</td></tr>
+<tr><td>Looks connected, isn't</td><td>spurious synchrony</td></tr>
+<tr><td>How alike the lines are</td><td>Pearson correlation r</td></tr>
+<tr><td>After shifting in time</td><td>lagged cross-correlation</td></tr>
+<tr><td>What luck alone gives</td><td>surrogate / permutation null</td></tr>
+<tr><td>Really independent points</td><td>effective degrees of freedom</td></tr>
+</table>
+`);
+
+/* ═══════════════════ engine ═══════════════════ */
+let cur = -1, playing = true, speed = 1;
+const S = PH.map(() => ({}));
+const Pv = PH.map(ph => { const o={}; ph.params.forEach(q => o[q.k]=q.d); return o; });
+PH.forEach((ph,i) => ph.init(S[i]));
+
+const rail = document.getElementById('rail');
+function buildRail(){
+  [...rail.querySelectorAll('.item')].forEach(el => el.remove());
+  const mk = (idx, num, main, sub, isInfo) => {
+    const b = document.createElement('button');
+    b.className = 'item' + (isInfo?' info':'') + (cur===idx?' sel':'');
+    b.innerHTML = `<span class="n">${num}</span><span class="zh">${main}</span>` +
+                  `<span class="en">${sub}</span>`;
+    b.onclick = () => select(idx);
+    rail.appendChild(b);
+  };
+  mk(-1, '?', t('nav_about'), t('nav_about_sub'), true);
+  PH.forEach((ph,i) => mk(i, '0'+(i+1), t(ph.navKey), t(ph.subKey), false));
+}
+
+function select(i){
+  cur = i;
+  document.body.classList.toggle('about', i < 0);
+  buildRail();
+  if (i < 0){ document.getElementById('about').innerHTML = t('about'); return; }
+  buildHead();
+  buildControls();
+  document.getElementById('note').innerHTML = t(PH[i].note);
+  document.getElementById('ro').innerHTML = '';
+}
+
+const KEYC = () => ({
+  A:{c:C.A}, B:{c:C.B}, sig:{c:C.sig}, ink:{c:C.ink},
+  ghost:{c:C.A, a:.3}, okbar:{c:'rgba(62,122,94,.35)', bar:true},
+  Bbar:{c:'rgba(179,58,94,.35)', bar:true}, greybar:{c:'rgba(74,87,79,.4)', bar:true}
+});
+function buildHead(){
+  const ph = PH[cur];
+  document.getElementById('what').textContent = t(ph.what);
+  const cm = KEYC();
+  document.getElementById('keys').innerHTML = (ph.keys||[]).map(([ck,lk])=>{
+    const d = cm[ck] || {c:C.ink};
+    return `<i><b class="${d.bar?'bar':''}" style="background:${d.c};` +
+           `${d.a?`opacity:${d.a};`:''}"></b>${t(lk)}</i>`;
+  }).join('');
+}
+
+let activePreset = PH.map(() => -1);
+
+function buildControls(){
+  const ph = PH[cur], p = Pv[cur];
+  const sl = document.getElementById('sliders');
+  sl.innerHTML = '';
+  ph.params.forEach(q => {
+    const d = document.createElement('div');
+    d.className = 'sl';
+    const un = q.u ? ' '+t(q.u) : '';
+    d.innerHTML = `<label><span class="name">${t(q.n)}</span>` +
+                  `<b id="v_${q.k}">${fmt(p[q.k], q.step)}${un}</b></label>`;
+    const inp = document.createElement('input');
+    inp.type='range'; inp.min=q.min; inp.max=q.max; inp.step=q.step; inp.value=p[q.k];
+    inp.oninput = () => {
+      p[q.k] = +inp.value;
+      document.getElementById('v_'+q.k).textContent = fmt(p[q.k], q.step)+un;
+      if(activePreset[cur] !== -1){
+        activePreset[cur] = -1;
+        [...document.querySelectorAll('#presets button')].forEach(b=>b.classList.remove('on'));
+      }
+    };
+    d.appendChild(inp);
+    sl.appendChild(d);
+  });
+
+  const pr = document.getElementById('presets');
+  pr.innerHTML = '';
+  (ph.presets || []).forEach((ps, idx) => {
+    const b = document.createElement('button');
+    b.textContent = t(ps.n);
+    if (activePreset[cur] === idx) b.classList.add('on');
+    b.onclick = () => {
+      Object.assign(p, ps.v); ph.init(S[cur]);
+      activePreset[cur] = idx; buildControls();
+    };
+    pr.appendChild(b);
+  });
+  if (ph.action){
+    const b = document.createElement('button');
+    b.textContent = t(ph.action);
+    b.onclick = () => ph.surrogate(S[cur], p);
+    pr.appendChild(b);
+  }
+
+  const lg = document.getElementById('rolegend');
+  lg.innerHTML =
+    `<i><b style="background:${C.ink}"></b>${t('legTruth')}</i>` +
+    `<i><b style="background:${C.sig}"></b>${t('legMeas')}</i>`;
+}
+function fmt(v, step){
+  const dec = step>=1 ? 0 : step>=.1 ? 1 : step>=.01 ? 2 : 3;
+  return v.toFixed(dec);
+}
+
+function drawReadouts(){
+  if (cur < 0) return;
+  const rows = PH[cur].read(S[cur], Pv[cur]) || [];
+  const host = document.getElementById('ro');
+  if (host.children.length !== rows.length){
+    host.innerHTML = rows.map(() =>
+      `<div class="ro"><span class="lab"></span><span class="val"></span><span class="foot"></span></div>`
+    ).join('');
+  }
+  rows.forEach((r,i) => {
+    const el = host.children[i];
+    el.querySelector('.lab').textContent = r.lab;
+    const v = el.querySelector('.val');
+    v.textContent = r.val;
+    v.className = 'val' + (r.ok===true ? ' ok' : (r.est ? ' est' : ''));
+    el.querySelector('.foot').textContent = r.foot || '';
+  });
+}
+
+function applyLang(){
+  document.documentElement.lang = LANG === 'zh' ? 'zh' : 'en';
+  localStorage.setItem('site-language', LANG);
+  const url = new URL(window.location.href);
+  url.searchParams.set('lang', LANG);
+  window.history.replaceState(null, '', url);
+  document.getElementById('hEyebrow').textContent = t('eyebrow');
+  document.getElementById('hTitle').textContent = t('title');
+  document.getElementById('hSub').textContent = t('sub');
+  document.getElementById('railHead').textContent = t('railhead');
+  document.getElementById('btnPlay').textContent = playing ? t('pause') : t('play');
+  document.getElementById('btnReset').textContent = t('reset');
+  document.getElementById('btnLang').textContent = LANG === 'zh' ? 'EN' : '中文';
+  document.getElementById('homeLink').textContent = t('home');
+  document.getElementById('homeLink').href = `index.html?lang=${LANG}#work`;
+  document.getElementById('foot').innerHTML = t('foot');
+  select(cur);
+}
+
+let last = performance.now(), acc = 0;
+function frame(now){
+  const raw = Math.min(.06, (now-last)/1000);
+  last = now;
+  if (cur >= 0){
+    if (playing) PH[cur].step(S[cur], Pv[cur], raw*speed);
+    if (W !== cv.parentElement.getBoundingClientRect().width) resize();
+    ctx.clearRect(0,0,W,H);
+    PH[cur].draw(S[cur], Pv[cur]);
+    acc += raw;
+    if (acc > .12){ acc = 0; drawReadouts(); }
+  }
+  requestAnimationFrame(frame);
+}
+
+document.getElementById('btnLang').onclick = () => {
+  LANG = LANG === 'zh' ? 'en' : 'zh';
+  applyLang();
+};
+const themeButton = document.getElementById('btnTheme');
+const savedTheme = localStorage.getItem('dyad-theme');
+if (savedTheme === 'dark' || (!savedTheme && matchMedia('(prefers-color-scheme: dark)').matches)) {
+  document.documentElement.classList.add('dark');
+}
+themeButton.onclick = () => {
+  const dark = document.documentElement.classList.toggle('dark');
+  localStorage.setItem('dyad-theme', dark ? 'dark' : 'light');
+};
+document.getElementById('btnPlay').onclick = e => {
+  playing = !playing;
+  e.target.textContent = playing ? t('pause') : t('play');
+  e.target.classList.toggle('on', playing);
+};
+document.getElementById('btnReset').onclick = () => { if (cur>=0) PH[cur].init(S[cur]); };
+document.getElementById('btnSpeed').onclick = e => {
+  speed = speed===1 ? 2 : speed===2 ? .35 : 1;
+  e.target.textContent = speed===.35 ? '0.35×' : speed+'×';
+};
+window.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT') return;
+  if (e.code === 'Space'){ e.preventDefault(); document.getElementById('btnPlay').click(); }
+  if (e.key === 'r' || e.key === 'R'){ if (cur>=0) PH[cur].init(S[cur]); }
+  const n = parseInt(e.key, 10);
+  if (n >= 1 && n <= PH.length) select(n-1);
+});
+
+resize();
+applyLang();
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

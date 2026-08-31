@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Personal restaurant notes and food stories from Los Angeles, Shenzhen, and beyond.">
+  <title>Bites & Notes — Meihui (Lily) Wu</title>
+  <style>
+    :root {
+      --bg: #f5f7f4;
+      --surface: rgba(255, 255, 255, .78);
+      --surface-strong: #ffffff;
+      --ink: #18211c;
+      --muted: #667169;
+      --line: rgba(27, 48, 36, .13);
+      --leaf: #54735e;
+      --leaf-soft: #dfe9e1;
+      --tomato: #bd604c;
+      --gold: #c49a4d;
+      --shadow: 0 18px 55px rgba(45, 62, 50, .11);
+      --radius: 22px;
+    }
+    html.dark {
+      --bg: #0d120f;
+      --surface: rgba(21, 29, 24, .82);
+      --surface-strong: #172019;
+      --ink: #eff5f0;
+      --muted: #a2afa6;
+      --line: rgba(196, 222, 201, .16);
+      --leaf: #9bc2a4;
+      --leaf-soft: #26382b;
+      --tomato: #e28a74;
+      --gold: #dec07e;
+      --shadow: 0 24px 70px rgba(0, 0, 0, .34);
+      color-scheme: dark;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px),
+        var(--bg);
+      background-size: 72px 72px;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", system-ui, sans-serif;
+      transition: background-color .3s ease, color .3s ease;
+    }
+    button, a { font: inherit; }
+    button { color: inherit; }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; }
+    .shell { width: min(88vw, 1380px); margin: 0 auto; }
+    .topbar {
+      position: sticky;
+      top: 18px;
+      z-index: 20;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      min-height: 66px;
+      margin-top: 18px;
+      padding: 0 22px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: color-mix(in srgb, var(--surface-strong) 82%, transparent);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(22px);
+    }
+    .brand { font-size: 12px; font-weight: 750; letter-spacing: .24em; text-transform: uppercase; }
+    .back, .icon-button {
+      border: 0;
+      background: transparent;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .back { justify-self: start; display: inline-flex; gap: 9px; align-items: center; font-size: 14px; color: var(--muted); }
+    .back:hover { color: var(--ink); }
+    .controls { justify-self: end; display: flex; gap: 8px; }
+    .icon-button {
+      min-width: 42px;
+      height: 42px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--surface);
+      font-size: 12px;
+      font-weight: 750;
+      letter-spacing: .08em;
+    }
+    .icon-button:hover { border-color: var(--leaf); transform: translateY(-1px); }
+    .hero {
+      min-height: min(760px, calc(100vh - 110px));
+      display: grid;
+      grid-template-columns: 1.02fr .98fr;
+      gap: clamp(36px, 7vw, 110px);
+      align-items: center;
+      padding: clamp(70px, 9vw, 132px) 0 76px;
+    }
+    .eyebrow, .story-kicker { color: var(--tomato); font-size: 12px; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; }
+    h1 {
+      max-width: 700px;
+      margin: 18px 0 22px;
+      font-family: Georgia, "Songti SC", serif;
+      font-size: clamp(56px, 7vw, 108px);
+      font-weight: 500;
+      line-height: .93;
+      letter-spacing: 0;
+    }
+    .hero-copy { max-width: 600px; margin: 0; color: var(--muted); font-size: clamp(17px, 1.35vw, 22px); line-height: 1.7; }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 10px 24px; margin-top: 34px; color: var(--muted); font-size: 13px; }
+    .hero-collage { position: relative; height: clamp(430px, 45vw, 650px); }
+    .hero-photo {
+      position: absolute;
+      overflow: hidden;
+      border: 8px solid var(--surface-strong);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      background: var(--leaf-soft);
+      animation: arrive .8s cubic-bezier(.2,.75,.25,1) both;
+    }
+    .hero-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform .7s cubic-bezier(.2,.7,.2,1); }
+    .hero-photo:hover img { transform: scale(1.045); }
+    .hero-photo:nth-child(1) { inset: 2% 25% 29% 0; transform: rotate(-3deg); }
+    .hero-photo:nth-child(2) { inset: 18% 0 7% 48%; transform: rotate(2.5deg); animation-delay: .12s; }
+    .hero-photo:nth-child(3) { inset: 61% 47% 0 12%; transform: rotate(1deg); animation-delay: .24s; }
+    @keyframes arrive { from { opacity: 0; translate: 0 20px; } to { opacity: 1; translate: 0 0; } }
+    .content-band { border-top: 1px solid var(--line); background: color-mix(in srgb, var(--bg) 87%, transparent); }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 30px; padding: 70px 0 34px; }
+    .section-head h2 { margin: 8px 0 0; font-family: Georgia, "Songti SC", serif; font-size: clamp(38px, 4vw, 62px); font-weight: 500; }
+    .filters { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+    .filter {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 10px 15px;
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .filter[aria-pressed="true"] { color: #fff; border-color: var(--leaf); background: var(--leaf); }
+    .stories { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 24px; padding-bottom: 100px; }
+    .story {
+      grid-column: span 4;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: 0 5px 22px rgba(35, 51, 40, .05);
+      opacity: 0;
+      translate: 0 22px;
+      transition: opacity .55s ease, translate .55s ease, transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+    }
+    .story.visible { opacity: 1; translate: 0 0; }
+    .story:hover { transform: translateY(-6px); border-color: color-mix(in srgb, var(--leaf) 55%, var(--line)); box-shadow: var(--shadow); }
+    .story.featured { grid-column: span 8; display: grid; grid-template-columns: 1.08fr .92fr; }
+    .story-media { aspect-ratio: 4 / 5; overflow: hidden; background: var(--leaf-soft); }
+    .featured .story-media { aspect-ratio: auto; min-height: 520px; }
+    .story-media img { width: 100%; height: 100%; object-fit: cover; transition: transform .7s cubic-bezier(.2,.7,.2,1); }
+    .story:hover .story-media img { transform: scale(1.035); }
+    .story-body { display: flex; flex: 1; flex-direction: column; gap: 16px; padding: 24px; }
+    .featured .story-body { justify-content: center; padding: clamp(28px, 4vw, 58px); }
+    .story-loc { display: flex; align-items: center; justify-content: space-between; gap: 14px; color: var(--muted); font-size: 12px; }
+    .story-loc span:first-child { letter-spacing: .12em; text-transform: uppercase; }
+    .story h3 { margin: 0; font-family: Georgia, "Songti SC", serif; font-size: 27px; font-weight: 500; line-height: 1.15; }
+    .featured h3 { font-size: clamp(34px, 3.1vw, 52px); }
+    .story-summary { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.65; }
+    .story-actions { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: auto; padding-top: 8px; }
+    .read-button, .source-link { border: 0; background: transparent; cursor: pointer; text-decoration: none; font-size: 13px; font-weight: 750; }
+    .read-button { color: var(--leaf); padding: 0; }
+    .source-link { color: var(--muted); }
+    .read-button:hover, .source-link:hover { color: var(--tomato); }
+    .empty { grid-column: 1 / -1; color: var(--muted); padding: 50px 0; }
+    dialog {
+      width: min(92vw, 720px);
+      max-height: min(86vh, 900px);
+      padding: 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      color: var(--ink);
+      background: var(--surface-strong);
+      box-shadow: 0 30px 100px rgba(0,0,0,.32);
+    }
+    dialog::backdrop { background: rgba(10, 16, 12, .58); backdrop-filter: blur(8px); }
+    .modal-scroll { max-height: min(86vh, 900px); overflow-y: auto; }
+    .modal-image { width: 100%; height: min(44vh, 440px); object-fit: cover; }
+    .modal-body { padding: clamp(26px, 5vw, 52px); }
+    .modal-top { display: flex; justify-content: space-between; gap: 20px; align-items: start; }
+    .modal-body h2 { margin: 9px 0 14px; font-family: Georgia, "Songti SC", serif; font-size: clamp(32px, 5vw, 50px); font-weight: 500; line-height: 1.08; }
+    .close {
+      flex: 0 0 auto;
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 20px;
+    }
+    .modal-summary { color: var(--muted); font-size: 17px; line-height: 1.75; }
+    .pick-label { margin: 30px 0 12px; color: var(--tomato); font-size: 11px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
+    .picks { display: flex; flex-wrap: wrap; gap: 9px; margin: 0; padding: 0; list-style: none; }
+    .picks li { padding: 10px 13px; border-radius: 10px; background: var(--leaf-soft); color: var(--leaf); font-size: 13px; font-weight: 700; }
+    .modal-footer { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-top: 34px; padding-top: 22px; border-top: 1px solid var(--line); }
+    .verdict { color: var(--muted); font-size: 13px; }
+    .original { padding: 12px 17px; border-radius: 12px; color: #fff; background: var(--leaf); text-decoration: none; font-size: 13px; font-weight: 750; }
+    .original:hover { background: var(--tomato); }
+    footer { padding: 34px 0 70px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+    .footer-row { display: flex; justify-content: space-between; gap: 20px; }
+    @media (max-width: 1000px) {
+      .shell { width: min(calc(100% - 40px), 900px); }
+      .hero { grid-template-columns: 1fr; min-height: 0; }
+      .hero-copy { max-width: 720px; }
+      .hero-collage { height: 540px; }
+      .story { grid-column: span 6; }
+      .story.featured { grid-column: 1 / -1; }
+    }
+    @media (max-width: 680px) {
+      .shell { width: calc(100% - 24px); }
+      .topbar { top: 8px; margin-top: 8px; min-height: 58px; padding: 0 12px; grid-template-columns: 1fr auto; }
+      .brand { display: none; }
+      .controls { grid-column: 2; }
+      .hero { gap: 34px; padding: 64px 0 48px; }
+      h1 { font-size: clamp(52px, 18vw, 76px); }
+      .hero-collage { height: 420px; }
+      .hero-photo { border-width: 5px; }
+      .section-head { align-items: start; flex-direction: column; padding-top: 52px; }
+      .filters { justify-content: flex-start; }
+      .stories { gap: 16px; }
+      .story, .story.featured { grid-column: 1 / -1; display: flex; }
+      .featured .story-media { min-height: 0; aspect-ratio: 4 / 5; }
+      .story-body, .featured .story-body { padding: 22px; }
+      .featured h3 { font-size: 32px; }
+      .modal-footer, .footer-row { align-items: flex-start; flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+      .story { opacity: 1; translate: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="shell topbar">
+    <a class="back" id="back-link" href="index.html#beyond"><span aria-hidden="true">←</span><span data-copy="back">All projects</span></a>
+    <div class="brand">Bites & Notes</div>
+    <div class="controls">
+      <button class="icon-button" id="language" type="button" aria-label="Switch language">中</button>
+      <button class="icon-button" id="theme" type="button" aria-label="Toggle theme">◐</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="shell hero">
+      <div>
+        <div class="eyebrow" data-copy="eyebrow">Personal food journal</div>
+        <h1>Bites<br>&amp; Notes</h1>
+        <p class="hero-copy" data-copy="intro">Meals remembered by texture, context, and the people across the table. A growing collection from Los Angeles, Shenzhen, and wherever I happen to be hungry.</p>
+        <div class="hero-meta">
+          <span data-copy="count">10 field notes</span>
+          <span data-copy="cities">4 cities</span>
+          <span data-copy="source">Selected from my Xiaohongshu journal</span>
+        </div>
+      </div>
+      <div class="hero-collage" aria-hidden="true">
+        <figure class="hero-photo"><img src="assets/bites-notes/bavel.webp" alt=""></figure>
+        <figure class="hero-photo"><img src="assets/bites-notes/golden-leaf.webp" alt=""></figure>
+        <figure class="hero-photo"><img src="assets/bites-notes/hailaer.webp" alt=""></figure>
+      </div>
+    </section>
+
+    <section class="content-band">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow" data-copy="collectionEyebrow">The collection</div>
+            <h2 data-copy="collectionTitle">Notes from the table</h2>
+          </div>
+          <div class="filters" id="filters" aria-label="Filter by city"></div>
+        </div>
+        <div class="stories" id="stories"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell footer-row">
+      <span>Meihui (Lily) Wu © 2026</span>
+      <span data-copy="footer">Eat curiously.</span>
+    </div>
+  </footer>
+
+  <dialog id="story-dialog" aria-labelledby="modal-title">
+    <div class="modal-scroll">
+      <img class="modal-image" id="modal-image" src="" alt="">
+      <div class="modal-body">
+        <div class="modal-top">
+          <div>
+            <div class="story-kicker" id="modal-city"></div>
+            <h2 id="modal-title"></h2>
+          </div>
+          <button class="close" id="modal-close" type="button" aria-label="Close">×</button>
+        </div>
+        <p class="modal-summary" id="modal-summary"></p>
+        <div class="pick-label" data-copy="order">What I would order</div>
+        <ul class="picks" id="modal-picks"></ul>
+        <div class="modal-footer">
+          <span class="verdict" id="modal-verdict"></span>
+          <a class="original" id="modal-source" href="#" target="_blank" rel="noopener noreferrer" data-copy="original">Read the original note ↗</a>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="assets/bites-notes/data.js"></script>
+  <script>
+    const COPY = {
+      en: {
+        back: 'All projects', eyebrow: 'Personal food journal',
+        intro: 'Meals remembered by texture, context, and the people across the table. A growing collection from Los Angeles, Shenzhen, and wherever I happen to be hungry.',
+        count: '10 field notes', cities: '4 cities', source: 'Selected from my Xiaohongshu journal',
+        collectionEyebrow: 'The collection', collectionTitle: 'Notes from the table',
+        footer: 'Eat curiously.', order: 'What I would order', original: 'Read the original note ↗',
+        filters: { all: 'All notes', 'los-angeles': 'Los Angeles', shenzhen: 'Shenzhen', 'north-china': 'North China' },
+        read: 'Open note', sourceLink: 'Original ↗', likes: 'likes'
+      },
+      zh: {
+        back: '返回主页', eyebrow: '个人美食手记',
+        intro: '记住一顿饭的口感、当时的情境，还有坐在桌子对面的人。从洛杉矶、深圳，到每一个刚好饿着抵达的城市。',
+        count: '10 篇实测', cities: '4 个城市', source: '精选自我的小红书美食日志',
+        collectionEyebrow: '手记合集', collectionTitle: '餐桌边的记录',
+        footer: '保持好奇，也保持胃口。', order: '我会点这些', original: '查看小红书原文 ↗',
+        filters: { all: '全部', 'los-angeles': '洛杉矶', shenzhen: '深圳', 'north-china': '内蒙古' },
+        read: '打开手记', sourceLink: '查看原文 ↗', likes: '赞'
+      }
+    };
+
+    const params = new URLSearchParams(location.search);
+    const requested = params.get('lang');
+    let lang = requested === 'zh' || requested === 'en' ? requested : (localStorage.getItem('site-language') || 'en');
+    let filter = 'all';
+    let theme = localStorage.getItem('bites-theme') || 'light';
+    const stories = document.getElementById('stories');
+    const filters = document.getElementById('filters');
+    const dialog = document.getElementById('story-dialog');
+
+    function setTheme(next) {
+      theme = next;
+      document.documentElement.classList.toggle('dark', theme === 'dark');
+      localStorage.setItem('bites-theme', theme);
+      document.getElementById('theme').setAttribute('aria-label', theme === 'dark' ? 'Use light theme' : 'Use dark theme');
+    }
+
+    function updateLanguage() {
+      const t = COPY[lang];
+      document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+      localStorage.setItem('site-language', lang);
+      params.set('lang', lang);
+      history.replaceState(null, '', `${location.pathname}?${params.toString()}${location.hash}`);
+      document.getElementById('back-link').href = `index.html?lang=${lang}#beyond`;
+      document.getElementById('language').textContent = lang === 'en' ? '中' : 'EN';
+      document.querySelectorAll('[data-copy]').forEach(node => {
+        const value = t[node.dataset.copy];
+        if (typeof value === 'string') node.textContent = value;
+      });
+      renderFilters();
+      renderStories();
+    }
+
+    function renderFilters() {
+      const t = COPY[lang];
+      filters.innerHTML = '';
+      Object.entries(t.filters).forEach(([key, label]) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'filter';
+        button.textContent = label;
+        button.setAttribute('aria-pressed', String(filter === key));
+        button.addEventListener('click', () => { filter = key; renderFilters(); renderStories(); });
+        filters.appendChild(button);
+      });
+    }
+
+    function renderStories() {
+      const t = COPY[lang];
+      const notes = window.BITES_NOTES.filter(note => filter === 'all' || note.city === filter);
+      stories.innerHTML = '';
+      notes.forEach((note, index) => {
+        const article = document.createElement('article');
+        article.className = `story${filter === 'all' && index === 0 ? ' featured' : ''}`;
+
+        const media = document.createElement('div');
+        media.className = 'story-media';
+        const image = document.createElement('img');
+        image.src = note.image;
+        image.alt = note.title[lang];
+        image.loading = index < 3 ? 'eager' : 'lazy';
+        media.appendChild(image);
+
+        const body = document.createElement('div');
+        body.className = 'story-body';
+        const loc = document.createElement('div');
+        loc.className = 'story-loc';
+        loc.innerHTML = `<span>${note.cityLabel[lang]}</span><span>${note.likes} ${t.likes}</span>`;
+        const title = document.createElement('h3');
+        title.textContent = note.title[lang];
+        const summary = document.createElement('p');
+        summary.className = 'story-summary';
+        summary.textContent = note.summary[lang];
+        const actions = document.createElement('div');
+        actions.className = 'story-actions';
+        const read = document.createElement('button');
+        read.type = 'button';
+        read.className = 'read-button';
+        read.textContent = `${t.read} →`;
+        read.addEventListener('click', () => openStory(note));
+        const source = document.createElement('a');
+        source.className = 'source-link';
+        source.href = note.source;
+        source.target = '_blank';
+        source.rel = 'noopener noreferrer';
+        source.textContent = t.sourceLink;
+        actions.append(read, source);
+        body.append(loc, title, summary, actions);
+        article.append(media, body);
+        stories.appendChild(article);
+      });
+      requestAnimationFrame(() => document.querySelectorAll('.story').forEach((card, i) => {
+        card.style.transitionDelay = `${Math.min(i, 5) * 55}ms`;
+        card.classList.add('visible');
+      }));
+    }
+
+    function openStory(note) {
+      document.getElementById('modal-image').src = note.image;
+      document.getElementById('modal-image').alt = note.title[lang];
+      document.getElementById('modal-city').textContent = `${note.cityLabel[lang]} · ${note.place}`;
+      document.getElementById('modal-title').textContent = note.title[lang];
+      document.getElementById('modal-summary').textContent = note.summary[lang];
+      document.getElementById('modal-verdict').textContent = note.verdict[lang];
+      document.getElementById('modal-source').href = note.source;
+      const picks = document.getElementById('modal-picks');
+      picks.innerHTML = '';
+      note.picks[lang].forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        picks.appendChild(li);
+      });
+      dialog.showModal();
+    }
+
+    document.getElementById('language').addEventListener('click', () => { lang = lang === 'en' ? 'zh' : 'en'; updateLanguage(); });
+    document.getElementById('theme').addEventListener('click', () => setTheme(theme === 'light' ? 'dark' : 'light'));
+    document.getElementById('modal-close').addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
+
+    setTheme(theme);
+    updateLanguage();
+  </script>
+</body>
+</html>

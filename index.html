@@ -277,10 +277,16 @@
           quoteeSub: 'Save Quotes. Reflect Later.',
           quoteeDesc: 'A calm iOS reading companion, designed and built solo in SwiftUI. Snap a page, highlight the lines you love, and watch your own quote shelf grow — with on-device OCR in English and Chinese, and no tracking, ever.',
           quoteeTag: 'iOS · Product Design',
+          dyadTitle: 'Dyad Lab',
+          dyadSub: 'What Happens Between Two People',
+          dyadDesc: 'A hands-on playground for six ideas from social and relationship science. Adjust the conditions and watch coordination, repair, mimicry, turn-taking, and influence unfold between two people.',
+          dyadTag: 'Interactive Models · Bilingual',
           viewCase: 'View case study',
+          openExperiment: 'Open experiment',
           comingSoon: 'Coming soon',
           productGroup: 'Product & Design',
           researchGroup: 'Research',
+          experimentGroup: 'Experiments',
         },
         experience: {
           title: 'Experience & Education',
@@ -311,7 +317,7 @@
           desc: "Outside the lab, I'm chasing good food, new cities, and the occasional Six Flags adrenaline fix — three times last year, personal record. I take my LA coffee spots very seriously.",
           coffee: 'Current favorite: Stagger Lee\'s matcha latte',
           item1: 'Food Map — LA & beyond',
-          item2: 'Travel log',
+          item2: 'Bites & Notes',
           mapTitle: 'Explore My Map',
           mapSub: 'Curated Spots Across Continents',
           mapBtn: 'Launch Map',
@@ -364,10 +370,16 @@
           quoteeSub: '摘录佳句，静心回味',
           quoteeDesc: '一款安静的 iOS 阅读伴侣，从设计到开发均独立完成。拍下书页，像荧光笔一样选中喜欢的句子，看着自己的书架慢慢生长——中英文离线识别，全程无追踪。',
           quoteeTag: 'iOS · 产品设计',
+          dyadTitle: 'Dyad Lab',
+          dyadSub: '两个人之间会发生什么',
+          dyadDesc: '一个把六个社会与关系科学概念变成可操作模型的小实验室。调整条件，观察两个人之间的协调、修复、模仿、轮流与相互影响如何展开。',
+          dyadTag: '互动模型 · 中英双语',
           viewCase: '查看案例',
+          openExperiment: '打开实验',
           comingSoon: '敬请期待',
           productGroup: '产品与设计',
           researchGroup: '研究',
+          experimentGroup: '小实验',
         },
         experience: {
           title: '经历与学历',
@@ -398,7 +410,7 @@
           desc: '下班后的我在追好吃的、新城市，还有六旗的过山车——去年去了三次，个人记录。我对 LA 的咖啡馆有很高标准。',
           coffee: '目前最爱：Stagger Lee 的抹茶拿铁',
           item1: '美食地图 — 洛杉矶及以外',
-          item2: '旅行记录',
+          item2: '一口一记',
           mapTitle: '探索我的地图',
           mapSub: '精选地点，横跨多大洲',
           mapBtn: '打开地图',
@@ -787,6 +799,13 @@
           tags: [T.cvsTag], link: 'project-cvs.html',
         },
       ];
+      const experiment = {
+        title: T.dyadTitle,
+        sub: T.dyadSub,
+        desc: T.dyadDesc,
+        tag: T.dyadTag,
+        link: `dyad-lab.html?lang=${lang}`,
+      };
 
       const Card = (card, i) => {
         const Tag = card.link ? 'a' : 'div';
@@ -859,6 +878,29 @@
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {researchCards.map(Card)}
               </div>
+            </div>
+            <div>
+              {groupHeader(T.experimentGroup)}
+              <a href={experiment.link}
+                className={`group grid gap-8 md:grid-cols-[minmax(0,1fr)_minmax(280px,0.72fr)] items-center rounded-[28px] border px-8 py-9 md:px-11 md:py-10 transition-all duration-500 shadow-sm
+                  ${dk ? 'dk-card hover:-translate-y-1' : 'border-white/80 bg-white/30 hover:bg-white/55 hover:-translate-y-1 hover:shadow-xl'}`}>
+                <div className="min-w-0">
+                  <div className={`text-xs font-semibold uppercase tracking-[0.18em] ${dk ? 'dk-accent' : 'text-indigo-500'}`}>{experiment.tag}</div>
+                  <h3 className={`mt-3 text-2xl md:text-3xl font-semibold ${dk ? 'dk-t1' : 'text-slate-900'}`}>{experiment.title}</h3>
+                  <p className={`mt-1 text-sm font-medium ${dk ? 'dk-t3' : 'text-slate-400'}`}>{experiment.sub}</p>
+                  <p className={`mt-4 max-w-3xl text-base leading-relaxed font-light ${dk ? 'dk-t2' : 'text-slate-500'}`}>{experiment.desc}</p>
+                  <span className={`mt-6 inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold shadow-sm transition-all group-hover:gap-3 group-hover:shadow-md
+                    ${dk ? 'dk-send-btn' : 'bg-slate-900 text-white group-hover:bg-indigo-600'}`}>
+                    {T.openExperiment}<ArrowUpRight size={16} className="group-hover:rotate-45 transition-transform" />
+                  </span>
+                </div>
+                <div aria-hidden="true" className={`relative h-44 overflow-hidden rounded-[20px] border ${dk ? 'border-purple-900/30 bg-[#0d0a18]' : 'border-white/80 bg-white/50'}`}>
+                  <div className={`absolute left-[18%] top-1/2 h-px w-[64%] ${dk ? 'bg-purple-400/30' : 'bg-indigo-300/60'}`} />
+                  <div className="absolute left-[18%] top-[38%] h-16 w-16 rounded-full border-[5px] border-blue-300/70 bg-blue-100/70 transition-transform duration-700 group-hover:translate-x-3" />
+                  <div className="absolute right-[18%] top-[38%] h-16 w-16 rounded-full border-[5px] border-rose-300/70 bg-rose-100/70 transition-transform duration-700 group-hover:-translate-x-3" />
+                  <div className={`absolute bottom-4 left-5 text-[11px] font-semibold uppercase tracking-[0.16em] ${dk ? 'dk-t3' : 'text-slate-400'}`}>A ↔ B · live model</div>
+                </div>
+              </a>
             </div>
           </div>
         </section>
@@ -994,10 +1036,12 @@
       const { lang, theme } = React.useContext(window.AppContext);
       const T = window.TRANSLATIONS[lang].beyond;
       const dk = theme === 'dark';
+      const foodMapUrl = 'https://lilywmh.github.io/food_map/foodmapA.html';
+      const bitesNotesUrl = `bites-notes.html?lang=${lang}`;
 
       const items = [
-        { key: 'item1', iconBg: dk ? 'dk-icon-rose' : 'bg-rose-100/60', icon: <MapPin size={18} className="text-rose-400" /> },
-        { key: 'item2', iconBg: dk ? 'dk-icon-indigo' : 'bg-indigo-100/60', icon: <Utensils size={18} className="text-indigo-400" /> },
+        { key: 'item1', href: foodMapUrl, external: true, iconBg: dk ? 'dk-icon-rose' : 'bg-rose-100/60', icon: <MapPin size={18} className="text-rose-400" /> },
+        { key: 'item2', href: bitesNotesUrl, external: false, iconBg: dk ? 'dk-icon-indigo' : 'bg-indigo-100/60', icon: <Utensils size={18} className="text-indigo-400" /> },
       ];
 
       return (
@@ -1018,24 +1062,27 @@
                 </div>
 
                 <div className="space-y-5">
-                  {items.map(item => (
-                    <div key={item.key}
-                      className={`flex items-center justify-between p-6 rounded-[30px] border cursor-pointer group shadow-sm transition-all
-                        ${dk ? 'dk-social-link' : 'bg-white/55 border-white/80 hover:bg-white/85 hover:shadow-md'}`}>
+                  {items.map(item => {
+                    const ItemTag = item.href ? 'a' : 'div';
+                    return (
+                    <ItemTag key={item.key} href={item.href} target={item.external ? '_blank' : undefined} rel={item.external ? 'noopener noreferrer' : undefined}
+                      className={`flex items-center justify-between p-6 rounded-[30px] border group shadow-sm transition-all
+                        ${item.href ? 'cursor-pointer' : 'cursor-default'} ${dk ? 'dk-social-link' : 'bg-white/55 border-white/80 hover:bg-white/85 hover:shadow-md'}`}>
                       <div className="flex items-center gap-5">
                         <div className={`w-12 h-12 rounded-2xl ${item.iconBg} flex items-center justify-center transition-all group-hover:scale-110`}>
                           {item.icon}
                         </div>
                         <span className={`text-base font-semibold ${dk ? 'dk-t2' : 'text-slate-700'}`}>{T[item.key]}</span>
                       </div>
-                      <ArrowUpRight size={16} className="opacity-0 group-hover:opacity-50 transition-all" />
-                    </div>
-                  ))}
+                      {item.href && <ArrowUpRight size={16} className="opacity-40 group-hover:opacity-80 transition-all" />}
+                    </ItemTag>
+                  )})}
                 </div>
               </div>
 
               <div className="lg:col-span-7 flex flex-col justify-center">
-                <div className={`aspect-square rounded-[60px] border shadow-2xl overflow-hidden relative group
+                <a href={foodMapUrl} target="_blank" rel="noopener noreferrer" aria-label={T.mapBtn}
+                  className={`aspect-square rounded-[60px] border shadow-2xl overflow-hidden relative group block
                   ${dk ? 'dk-card border-purple-900/40' : 'bg-white/40 border-white/60'}`}>
                   <div className={`absolute inset-0 flex flex-col items-center justify-center space-y-6
                     ${dk ? 'bg-gradient-to-br from-purple-950/40 to-slate-950/60' : 'bg-gradient-to-br from-slate-50/50 to-white/50'}`}>
@@ -1050,12 +1097,12 @@
                       <p className={`text-base font-bold uppercase tracking-[0.3em] ${dk ? 'dk-t1' : 'text-slate-800'}`}>{T.mapTitle}</p>
                       <p className={`text-sm uppercase tracking-widest font-medium italic ${dk ? 'dk-t3' : 'text-slate-400'}`}>{T.mapSub}</p>
                     </div>
-                    <button className={`mt-2 px-10 py-4 rounded-full text-sm font-bold uppercase tracking-widest shadow-2xl transition-all active:scale-95
+                    <span className={`mt-2 px-10 py-4 rounded-full text-sm font-bold uppercase tracking-widest shadow-2xl transition-all active:scale-95
                       ${dk ? 'dk-send-btn' : 'bg-slate-900 text-white hover:bg-indigo-600'}`}>
                       {T.mapBtn}
-                    </button>
+                    </span>
                   </div>
-                </div>
+                </a>
               </div>
             </div>
           </div>
@@ -1274,11 +1321,24 @@
       const initial = (window.__TWEAKS__ && window.__TWEAKS__.palette) || 'monet';
       const [palette, setPaletteState] = React.useState(PALETTES[initial] ? initial : 'monet');
       const [tweaksOpen, setTweaksOpen] = React.useState(false);
-      const [lang, setLang] = React.useState('en');
+      const [lang, setLang] = React.useState(() => {
+        const requested = new URLSearchParams(window.location.search).get('lang');
+        if (requested === 'en' || requested === 'zh') return requested;
+        const saved = localStorage.getItem('site-language');
+        return saved === 'zh' || saved === 'en' ? saved : 'en';
+      });
       const [theme, setTheme] = React.useState('light');
       const dk = theme === 'dark';
 
       React.useEffect(() => { applyPalette(palette, dk); }, [palette]);
+
+      React.useEffect(() => {
+        document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+        localStorage.setItem('site-language', lang);
+        const url = new URL(window.location.href);
+        url.searchParams.set('lang', lang);
+        window.history.replaceState(null, '', url);
+      }, [lang]);
 
       React.useEffect(() => {
         const html = document.documentElement;
