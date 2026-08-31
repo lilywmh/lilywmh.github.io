@@ -220,6 +220,107 @@
     background: rgba(88, 28, 135, 0.45);
     color: #a78bfa;
   }
+
+  body.home-scale {
+    background:
+      radial-gradient(circle at 80% 8%, rgba(16,185,129,0.08), transparent 28%),
+      linear-gradient(135deg, #fbfdfb 0%, #f6faf7 52%, #eef7f1 100%) !important;
+  }
+  body.home-scale::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+      linear-gradient(rgba(6,95,70,0.032) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(6,95,70,0.032) 1px, transparent 1px);
+    background-size: 46px 46px;
+    mask-image: linear-gradient(to bottom, black, transparent 76%);
+  }
+  body.home-scale > :not(.fixed) {
+    position: relative;
+    z-index: 1;
+  }
+  html.dark body.home-scale {
+    background:
+      radial-gradient(circle at 78% 10%, rgba(16,185,129,0.16), transparent 30%),
+      linear-gradient(135deg, #020617 0%, #04110d 50%, #06130f 100%) !important;
+  }
+  html.dark body.home-scale::before {
+    background-image:
+      linear-gradient(rgba(52,211,153,0.055) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(52,211,153,0.055) 1px, transparent 1px);
+  }
+  html.dark .dk-t1 { color: #eafff5; }
+  html.dark .dk-t2 { color: #b7d8c8; }
+  html.dark .dk-t3 { color: #739181; }
+  html.dark .dk-accent { color: #34d399; }
+  html.dark .dk-accent2 { color: #5eead4; }
+  html.dark .dk-card {
+    background: rgba(3, 18, 15, 0.78);
+    border-color: rgba(45, 212, 191, 0.18);
+    box-shadow: 0 4px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(167,243,208,0.05);
+  }
+  html.dark .dk-card::before {
+    background: linear-gradient(90deg, transparent, rgba(52,211,153,0.28), transparent);
+  }
+  html.dark .dk-card:hover {
+    background: rgba(5, 32, 24, 0.88);
+    border-color: rgba(52,211,153,0.34);
+    box-shadow: 0 8px 60px rgba(0,0,0,0.62), 0 0 40px rgba(16,185,129,0.12), inset 0 1px 0 rgba(167,243,208,0.06);
+  }
+  html.dark .dk-contact {
+    background: linear-gradient(135deg, rgba(3,18,15,0.95), rgba(2,6,23,0.98));
+    border-color: rgba(45,212,191,0.22);
+    box-shadow: 0 0 80px rgba(16,185,129,0.1), inset 0 1px 0 rgba(167,243,208,0.05);
+  }
+  html.dark .dk-divider { background: rgba(45,212,191,0.16) !important; }
+  html.dark .dk-tag,
+  html.dark .dk-pill-accent {
+    background: rgba(6,95,70,0.24);
+    border-color: rgba(52,211,153,0.24);
+    color: #a7f3d0;
+  }
+  html.dark .dk-nav-scrolled {
+    background: rgba(2,12,10,0.88) !important;
+    border-color: rgba(45,212,191,0.22) !important;
+  }
+  html.dark .dk-nav-link { color: #8fbea8; }
+  html.dark .dk-nav-link:hover { color: #bbf7d0; }
+  html.dark .dk-toggle,
+  html.dark .dk-social-link,
+  html.dark .dk-input {
+    border-color: rgba(45,212,191,0.24);
+    background: rgba(3,18,15,0.64);
+    color: #8fbea8;
+  }
+  html.dark .dk-toggle:hover,
+  html.dark .dk-social-link:hover {
+    border-color: rgba(52,211,153,0.48);
+    background: rgba(5,46,34,0.82);
+    color: #bbf7d0;
+    box-shadow: 0 0 20px rgba(16,185,129,0.14);
+  }
+  html.dark .dk-input:focus {
+    border-color: rgba(52,211,153,0.48);
+    background: rgba(5,46,34,0.72);
+    box-shadow: 0 0 0 3px rgba(16,185,129,0.14);
+  }
+  html.dark .dk-resume,
+  html.dark .dk-send-btn {
+    background: linear-gradient(135deg, #059669, #0f766e);
+    color: #ecfdf5;
+    box-shadow: 0 4px 24px rgba(5,150,105,0.34);
+  }
+  html.dark .dk-resume:hover,
+  html.dark .dk-send-btn:hover {
+    box-shadow: 0 4px 38px rgba(16,185,129,0.46);
+  }
+  html.dark .dk-social-icon {
+    background: rgba(6,95,70,0.45);
+    color: #6ee7b7;
+  }
 </style>
 </head>
 <body class="home-scale min-h-screen bg-[#FBFBFD] text-[#1D1D1F] selection:bg-indigo-100 overflow-x-hidden">
@@ -271,22 +372,16 @@
           neuroTag: 'Medical Device · Regulatory',
           cvsTitle: 'Co-Viewing Study',
           cvsSub: 'How, Not What, We Say',
-          cvsDesc: 'First-authored study on social connection in dyadic co-viewing, measuring linguistic, vocal, and visual coordination in the same conversations. Connection tracks how partners interact — and the vocal channel specifically — not what they say. Presented at SANS.',
+          cvsDesc: 'First-authored study on social connection in dyadic co-viewing, analyzed across linguistic, acoustic, and (planned) video streams. Connection is predicted by how partners interact, not what they say. Presented at SANS.',
           cvsTag: 'Social Neuroscience · Research',
           quoteeTitle: 'Quotee',
-          quoteeSub: 'Save Quotes. Reflect Later.',
-          quoteeDesc: 'A calm iOS reading companion, designed and built solo in SwiftUI. Snap a page, highlight the lines you love, and watch your own quote shelf grow — with on-device OCR in English and Chinese, and no tracking, ever.',
-          quoteeTag: 'iOS · Product Design',
-          dyadTitle: 'Dyad Lab',
-          dyadSub: 'What Happens Between Two People',
-          dyadDesc: 'A hands-on playground for six ideas from social and relationship science. Adjust the conditions and watch coordination, repair, mimicry, turn-taking, and influence unfold between two people.',
-          dyadTag: 'Interactive Models · Bilingual',
+          quoteeSub: 'Coming Soon',
+          quoteeDesc: 'A new project in the works. Case study coming soon — check back shortly.',
+          quoteeTag: 'In Progress',
           viewCase: 'View case study',
-          openExperiment: 'Open experiment',
           comingSoon: 'Coming soon',
           productGroup: 'Product & Design',
           researchGroup: 'Research',
-          experimentGroup: 'Experiments',
         },
         experience: {
           title: 'Experience & Education',
@@ -317,7 +412,7 @@
           desc: "Outside the lab, I'm chasing good food, new cities, and the occasional Six Flags adrenaline fix — three times last year, personal record. I take my LA coffee spots very seriously.",
           coffee: 'Current favorite: Stagger Lee\'s matcha latte',
           item1: 'Food Map — LA & beyond',
-          item2: 'Bites & Notes',
+          item2: 'Travel log',
           mapTitle: 'Explore My Map',
           mapSub: 'Curated Spots Across Continents',
           mapBtn: 'Launch Map',
@@ -364,22 +459,16 @@
           neuroTag: '医疗器械 · 法规',
           cvsTitle: '共同观看研究',
           cvsSub: '关键在“如何说”',
-          cvsDesc: '第一作者研究，在同一批对话中测量语言、声音与视觉三个通道的协调。社交连接取决于双方如何互动——尤其是声音通道——而非谈话内容本身。在SANS学术会议上发表。',
+          cvsDesc: '第一作者研究，探究共同观看中的社交连接，涵盖语言、声学与（计划中的）视频三个分析维度。社交连接取决于双方如何互动，而非谈话内容本身。在SANS学术会议上发表。',
           cvsTag: '社会神经科学 · 研究',
           quoteeTitle: 'Quotee',
-          quoteeSub: '摘录佳句，静心回味',
-          quoteeDesc: '一款安静的 iOS 阅读伴侣，从设计到开发均独立完成。拍下书页，像荧光笔一样选中喜欢的句子，看着自己的书架慢慢生长——中英文离线识别，全程无追踪。',
-          quoteeTag: 'iOS · 产品设计',
-          dyadTitle: 'Dyad Lab',
-          dyadSub: '两个人之间会发生什么',
-          dyadDesc: '一个把六个社会与关系科学概念变成可操作模型的小实验室。调整条件，观察两个人之间的协调、修复、模仿、轮流与相互影响如何展开。',
-          dyadTag: '互动模型 · 中英双语',
+          quoteeSub: '敬请期待',
+          quoteeDesc: '正在进行中的新项目，案例研究即将上线，敬请关注。',
+          quoteeTag: '进行中',
           viewCase: '查看案例',
-          openExperiment: '打开实验',
           comingSoon: '敬请期待',
           productGroup: '产品与设计',
           researchGroup: '研究',
-          experimentGroup: '小实验',
         },
         experience: {
           title: '经历与学历',
@@ -410,7 +499,7 @@
           desc: '下班后的我在追好吃的、新城市，还有六旗的过山车——去年去了三次，个人记录。我对 LA 的咖啡馆有很高标准。',
           coffee: '目前最爱：Stagger Lee 的抹茶拿铁',
           item1: '美食地图 — 洛杉矶及以外',
-          item2: '一口一记',
+          item2: '旅行记录',
           mapTitle: '探索我的地图',
           mapSub: '精选地点，横跨多大洲',
           mapBtn: '打开地图',
@@ -652,10 +741,11 @@
               </button>
 
               {/* Resume */}
-              <button className={`px-5 py-2 rounded-full text-sm font-semibold hover:scale-105 active:scale-95 transition-all shadow-sm
+              <a href="assets/Meihui_Wu_CV.pdf" target="_blank" rel="noopener"
+                className={`px-5 py-2 rounded-full text-sm font-semibold hover:scale-105 active:scale-95 transition-all shadow-sm
                 ${dk ? 'dk-resume' : 'bg-slate-900 text-white hover:bg-slate-700'}`}>
                 Resume
-              </button>
+              </a>
             </div>
 
           </div>
@@ -715,7 +805,7 @@
       const dk = theme === 'dark';
 
       return (
-        <section className="min-h-[88vh] flex flex-col justify-center px-6 max-w-[1700px] mx-auto pt-28">
+        <section className="min-h-[88vh] flex flex-col justify-center px-6 max-w-[1700px] mx-auto pt-24">
           <div className={`relative group p-12 md:p-20 rounded-[60px] border backdrop-blur-3xl shadow-xl space-y-10 anim-in
             ${dk ? 'dk-card' : 'border-white/70 bg-white/40'}`}>
             <div className="pointer-events-none absolute top-10 right-10 w-28 h-28 rounded-full bg-gradient-to-br from-purple-200/40 to-rose-200/40 blur-2xl group-hover:scale-150 transition-transform duration-1000" />
@@ -782,7 +872,7 @@
           icon: <Sparkles size={24} className="text-indigo-300" />,
           iconBg: dk ? 'dk-icon-indigo' : 'bg-indigo-50',
           title: T.quoteeTitle, sub: T.quoteeSub, desc: T.quoteeDesc,
-          tags: [T.quoteeTag], link: 'project-quotee.html',
+          tags: [T.quoteeTag], link: null, soon: true, image: 'assets/bookshelf.png',
         },
       ];
       const researchCards = [
@@ -799,13 +889,6 @@
           tags: [T.cvsTag], link: 'project-cvs.html',
         },
       ];
-      const experiment = {
-        title: T.dyadTitle,
-        sub: T.dyadSub,
-        desc: T.dyadDesc,
-        tag: T.dyadTag,
-        link: `dyad-lab.html?lang=${lang}`,
-      };
 
       const Card = (card, i) => {
         const Tag = card.link ? 'a' : 'div';
@@ -814,9 +897,20 @@
           <Tag key={i} href={card.link || undefined}
             className={`group rounded-[40px] border backdrop-blur-xl p-9 md:p-10 transition-all duration-500 shadow-sm flex flex-col h-full min-h-[360px] ${clickable ? 'cursor-pointer' : ''} ${card.soon ? 'opacity-90' : ''}
             ${dk ? 'dk-card' : 'border-white/80 bg-white/30'} ${clickable ? (dk ? 'hover:-translate-y-2' : 'hover:bg-white/55 hover:-translate-y-2 hover:shadow-xl') : ''}`}>
-            <div className={`w-14 h-14 rounded-3xl flex items-center justify-center transition-transform ${clickable ? 'group-hover:scale-110' : ''} ${card.iconBg}`}>
-              {card.icon}
-            </div>
+            {card.image ? (
+              <div className={`relative -mx-2 -mt-2 mb-1 h-52 rounded-[32px] overflow-hidden border shadow-sm
+                ${dk ? 'border-white/10 bg-slate-950/40' : 'border-white/80 bg-white/60'}`}>
+                <img
+                  src={card.image}
+                  alt={`${card.title} phone screen`}
+                  className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.035]"
+                />
+              </div>
+            ) : (
+              <div className={`w-14 h-14 rounded-3xl flex items-center justify-center transition-transform ${clickable ? 'group-hover:scale-110' : ''} ${card.iconBg}`}>
+                {card.icon}
+              </div>
+            )}
             <div className="mt-7 flex-grow flex flex-col space-y-3">
               <div>
                 <h3 className={`text-2xl font-semibold ${dk ? 'dk-t1' : 'text-slate-900'}`}>{card.title}</h3>
@@ -857,7 +951,7 @@
       );
 
       return (
-        <section id="work" className="max-w-[1700px] mx-auto px-6 py-16 sm:py-20 lg:py-28 space-y-20">
+        <section id="work" className="max-w-[1700px] mx-auto px-6 py-16 sm:py-20 lg:py-28 space-y-14">
           <div className="flex items-end justify-between px-2">
             <div className="space-y-1">
               <h2 className={`text-4xl font-semibold tracking-tight ${dk ? 'dk-t1' : 'text-slate-900'}`}>{T.title}</h2>
@@ -866,7 +960,7 @@
             <div className={`h-px flex-grow mx-10 hidden md:block ${dk ? 'dk-divider' : 'bg-slate-200/70'}`} />
           </div>
 
-          <div className="space-y-16">
+          <div className="space-y-12">
             <div>
               {groupHeader(T.productGroup)}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -878,29 +972,6 @@
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {researchCards.map(Card)}
               </div>
-            </div>
-            <div>
-              {groupHeader(T.experimentGroup)}
-              <a href={experiment.link}
-                className={`group grid gap-8 md:grid-cols-[minmax(0,1fr)_minmax(280px,0.72fr)] items-center rounded-[28px] border px-8 py-9 md:px-11 md:py-10 transition-all duration-500 shadow-sm
-                  ${dk ? 'dk-card hover:-translate-y-1' : 'border-white/80 bg-white/30 hover:bg-white/55 hover:-translate-y-1 hover:shadow-xl'}`}>
-                <div className="min-w-0">
-                  <div className={`text-xs font-semibold uppercase tracking-[0.18em] ${dk ? 'dk-accent' : 'text-indigo-500'}`}>{experiment.tag}</div>
-                  <h3 className={`mt-3 text-2xl md:text-3xl font-semibold ${dk ? 'dk-t1' : 'text-slate-900'}`}>{experiment.title}</h3>
-                  <p className={`mt-1 text-sm font-medium ${dk ? 'dk-t3' : 'text-slate-400'}`}>{experiment.sub}</p>
-                  <p className={`mt-4 max-w-3xl text-base leading-relaxed font-light ${dk ? 'dk-t2' : 'text-slate-500'}`}>{experiment.desc}</p>
-                  <span className={`mt-6 inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold shadow-sm transition-all group-hover:gap-3 group-hover:shadow-md
-                    ${dk ? 'dk-send-btn' : 'bg-slate-900 text-white group-hover:bg-indigo-600'}`}>
-                    {T.openExperiment}<ArrowUpRight size={16} className="group-hover:rotate-45 transition-transform" />
-                  </span>
-                </div>
-                <div aria-hidden="true" className={`relative h-44 overflow-hidden rounded-[20px] border ${dk ? 'border-purple-900/30 bg-[#0d0a18]' : 'border-white/80 bg-white/50'}`}>
-                  <div className={`absolute left-[18%] top-1/2 h-px w-[64%] ${dk ? 'bg-purple-400/30' : 'bg-indigo-300/60'}`} />
-                  <div className="absolute left-[18%] top-[38%] h-16 w-16 rounded-full border-[5px] border-blue-300/70 bg-blue-100/70 transition-transform duration-700 group-hover:translate-x-3" />
-                  <div className="absolute right-[18%] top-[38%] h-16 w-16 rounded-full border-[5px] border-rose-300/70 bg-rose-100/70 transition-transform duration-700 group-hover:-translate-x-3" />
-                  <div className={`absolute bottom-4 left-5 text-[11px] font-semibold uppercase tracking-[0.16em] ${dk ? 'dk-t3' : 'text-slate-400'}`}>A ↔ B · live model</div>
-                </div>
-              </a>
             </div>
           </div>
         </section>
@@ -917,7 +988,7 @@
       const dk = theme === 'dark';
 
       return (
-        <section id="experience" className="max-w-[1700px] mx-auto px-6 py-16 sm:py-20 lg:py-28 space-y-24">
+        <section id="experience" className="max-w-[1700px] mx-auto px-6 py-16 sm:py-20 lg:py-28 space-y-16">
           <div className="flex items-end justify-between px-2">
             <div className="space-y-1">
               <h2 className={`text-4xl font-semibold tracking-tight ${dk ? 'dk-t1' : 'text-slate-900'}`}>{T.title}</h2>
@@ -972,7 +1043,7 @@
               </div>
               <div className="space-y-3 flex-grow flex flex-col items-start space-y-3">
                 <img
-                  src={dk ? "assets/usc-logo-yellow.png" : "assets/usc-logo-2.png"}
+                  src={dk ? "./usc-logo-yellow.png" : "./usc-logo-2.png"}
                   alt="USC"
                   className={`h-20 w-auto object-contain ${dk ? 'opacity-100' : 'opacity-100'}`}
                 />
@@ -1004,7 +1075,7 @@
       ];
 
       return (
-        <section className="max-w-[1700px] mx-auto px-6 pb-24 sm:pb-32 lg:pb-48">
+        <section className="max-w-[1700px] mx-auto px-6 pb-16 sm:pb-20 lg:pb-28">
           <div className={`rounded-[50px] border backdrop-blur-xl p-12 md:p-16 space-y-10
             ${dk ? 'dk-card' : 'border-white/80 bg-white/30'}`}>
             <h2 className={`text-4xl font-semibold tracking-tight ${dk ? 'dk-t1' : 'text-slate-900'}`}>{T.title}</h2>
@@ -1036,12 +1107,10 @@
       const { lang, theme } = React.useContext(window.AppContext);
       const T = window.TRANSLATIONS[lang].beyond;
       const dk = theme === 'dark';
-      const foodMapUrl = 'https://lilywmh.github.io/food_map/foodmapA.html';
-      const bitesNotesUrl = `bites-notes.html?lang=${lang}`;
 
       const items = [
-        { key: 'item1', href: foodMapUrl, external: true, iconBg: dk ? 'dk-icon-rose' : 'bg-rose-100/60', icon: <MapPin size={18} className="text-rose-400" /> },
-        { key: 'item2', href: bitesNotesUrl, external: false, iconBg: dk ? 'dk-icon-indigo' : 'bg-indigo-100/60', icon: <Utensils size={18} className="text-indigo-400" /> },
+        { key: 'item1', iconBg: dk ? 'dk-icon-rose' : 'bg-rose-100/60', icon: <MapPin size={18} className="text-rose-400" /> },
+        { key: 'item2', iconBg: dk ? 'dk-icon-indigo' : 'bg-indigo-100/60', icon: <Utensils size={18} className="text-indigo-400" /> },
       ];
 
       return (
@@ -1062,27 +1131,24 @@
                 </div>
 
                 <div className="space-y-5">
-                  {items.map(item => {
-                    const ItemTag = item.href ? 'a' : 'div';
-                    return (
-                    <ItemTag key={item.key} href={item.href} target={item.external ? '_blank' : undefined} rel={item.external ? 'noopener noreferrer' : undefined}
-                      className={`flex items-center justify-between p-6 rounded-[30px] border group shadow-sm transition-all
-                        ${item.href ? 'cursor-pointer' : 'cursor-default'} ${dk ? 'dk-social-link' : 'bg-white/55 border-white/80 hover:bg-white/85 hover:shadow-md'}`}>
+                  {items.map(item => (
+                    <div key={item.key}
+                      className={`flex items-center justify-between p-6 rounded-[30px] border cursor-pointer group shadow-sm transition-all
+                        ${dk ? 'dk-social-link' : 'bg-white/55 border-white/80 hover:bg-white/85 hover:shadow-md'}`}>
                       <div className="flex items-center gap-5">
                         <div className={`w-12 h-12 rounded-2xl ${item.iconBg} flex items-center justify-center transition-all group-hover:scale-110`}>
                           {item.icon}
                         </div>
                         <span className={`text-base font-semibold ${dk ? 'dk-t2' : 'text-slate-700'}`}>{T[item.key]}</span>
                       </div>
-                      {item.href && <ArrowUpRight size={16} className="opacity-40 group-hover:opacity-80 transition-all" />}
-                    </ItemTag>
-                  )})}
+                      <ArrowUpRight size={16} className="opacity-0 group-hover:opacity-50 transition-all" />
+                    </div>
+                  ))}
                 </div>
               </div>
 
               <div className="lg:col-span-7 flex flex-col justify-center">
-                <a href={foodMapUrl} target="_blank" rel="noopener noreferrer" aria-label={T.mapBtn}
-                  className={`aspect-square rounded-[60px] border shadow-2xl overflow-hidden relative group block
+                <div className={`aspect-square rounded-[60px] border shadow-2xl overflow-hidden relative group
                   ${dk ? 'dk-card border-purple-900/40' : 'bg-white/40 border-white/60'}`}>
                   <div className={`absolute inset-0 flex flex-col items-center justify-center space-y-6
                     ${dk ? 'bg-gradient-to-br from-purple-950/40 to-slate-950/60' : 'bg-gradient-to-br from-slate-50/50 to-white/50'}`}>
@@ -1097,12 +1163,12 @@
                       <p className={`text-base font-bold uppercase tracking-[0.3em] ${dk ? 'dk-t1' : 'text-slate-800'}`}>{T.mapTitle}</p>
                       <p className={`text-sm uppercase tracking-widest font-medium italic ${dk ? 'dk-t3' : 'text-slate-400'}`}>{T.mapSub}</p>
                     </div>
-                    <span className={`mt-2 px-10 py-4 rounded-full text-sm font-bold uppercase tracking-widest shadow-2xl transition-all active:scale-95
+                    <button className={`mt-2 px-10 py-4 rounded-full text-sm font-bold uppercase tracking-widest shadow-2xl transition-all active:scale-95
                       ${dk ? 'dk-send-btn' : 'bg-slate-900 text-white hover:bg-indigo-600'}`}>
                       {T.mapBtn}
-                    </span>
+                    </button>
                   </div>
-                </a>
+                </div>
               </div>
             </div>
           </div>
@@ -1124,7 +1190,7 @@
       const socials = [
         { Icon: Mail,     label: 'Email',    href: 'mailto:wumeihui.lily@gmail.com' },
         { Icon: Github,   label: 'GitHub',   href: 'https://github.com/lilywmh' },
-        { Icon: Linkedin, label: 'LinkedIn', href: '#' },
+        { Icon: Linkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/in/meihui-lily-wu' },
       ];
 
       const inputCls = dk
@@ -1230,10 +1296,14 @@
       const { lang, theme } = React.useContext(window.AppContext);
       const T = window.TRANSLATIONS[lang].footer;
       const dk = theme === 'dark';
-      const socials = [Linkedin, Github, Mail];
+      const socials = [
+        { Icon: Linkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/in/meihui-lily-wu' },
+        { Icon: Github, label: 'GitHub', href: 'https://github.com/lilywmh' },
+        { Icon: Mail, label: 'Email', href: 'mailto:wumeihui.lily@gmail.com' },
+      ];
 
       return (
-        <footer className={`py-24 border-t backdrop-blur-2xl
+        <footer className={`py-16 border-t backdrop-blur-2xl
           ${dk ? 'border-purple-900/30 bg-black/30' : 'border-white/80 bg-white/20'}`}>
           <div className="max-w-[1700px] mx-auto px-6 flex flex-col md:flex-row justify-between items-end gap-10">
             <div className="space-y-4">
@@ -1245,11 +1315,11 @@
               </p>
             </div>
             <div className="flex items-center gap-4">
-              {socials.map((I, i) => (
-                <a key={i} href="#"
+              {socials.map(({ Icon, label, href }) => (
+                <a key={label} href={href} aria-label={label}
                   className={`w-14 h-14 rounded-2xl border flex items-center justify-center transition-all
                     ${dk ? 'dk-social-link' : 'border-white/80 bg-white/40 text-slate-400 hover:text-indigo-600 hover:bg-white hover:shadow-lg'}`}>
-                  <I size={22} />
+                  <Icon size={22} />
                 </a>
               ))}
             </div>
@@ -1321,24 +1391,11 @@
       const initial = (window.__TWEAKS__ && window.__TWEAKS__.palette) || 'monet';
       const [palette, setPaletteState] = React.useState(PALETTES[initial] ? initial : 'monet');
       const [tweaksOpen, setTweaksOpen] = React.useState(false);
-      const [lang, setLang] = React.useState(() => {
-        const requested = new URLSearchParams(window.location.search).get('lang');
-        if (requested === 'en' || requested === 'zh') return requested;
-        const saved = localStorage.getItem('site-language');
-        return saved === 'zh' || saved === 'en' ? saved : 'en';
-      });
+      const [lang, setLang] = React.useState('en');
       const [theme, setTheme] = React.useState('light');
       const dk = theme === 'dark';
 
       React.useEffect(() => { applyPalette(palette, dk); }, [palette]);
-
-      React.useEffect(() => {
-        document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
-        localStorage.setItem('site-language', lang);
-        const url = new URL(window.location.href);
-        url.searchParams.set('lang', lang);
-        window.history.replaceState(null, '', url);
-      }, [lang]);
 
       React.useEffect(() => {
         const html = document.documentElement;
