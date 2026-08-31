@@ -209,13 +209,45 @@
       <p class="text-lg leading-relaxed font-light dk-t2 text-slate-600 mb-8">Strangers completed two counterbalanced co-viewing sessions. Written reflections separated initial interpretation from the conversation that followed; synchronized transcript, audio, and video then allowed each channel to be evaluated on the same interaction.</p>
 
       <div class="rounded-[28px] p-7 md:p-8 dk-card lt-card mb-6">
-        <p class="text-xs font-bold uppercase tracking-[.2em] dk-t3 text-slate-400 mb-7">Session flow · Piper &amp; Partly Cloudy</p>
+        <p class="text-xs font-bold uppercase tracking-[.2em] dk-t3 text-slate-400 mb-7">Study design · <span class="italic normal-case tracking-normal">Piper</span> &amp; <span class="italic normal-case tracking-normal">Partly Cloudy</span>, order counterbalanced</p>
         <div class="grid sm:grid-cols-4 gap-6 sm:gap-3">
-          <div class="study-step text-center"><div class="mx-auto w-11 h-11 rounded-full bg-indigo-100 dark:bg-indigo-400/15 text-indigo-600 dark:text-indigo-300 flex items-center justify-center font-bold">01</div><p class="text-sm font-semibold dk-t1 text-slate-900 mt-3">Co-view</p><p class="text-xs dk-t3 text-slate-500 mt-1">watch together</p></div>
-          <div class="study-step text-center"><div class="mx-auto w-11 h-11 rounded-full bg-violet-100 dark:bg-violet-400/15 text-violet-600 dark:text-violet-300 flex items-center justify-center font-bold">02</div><p class="text-sm font-semibold dk-t1 text-slate-900 mt-3">Reflect</p><p class="text-xs dk-t3 text-slate-500 mt-1">write separately</p></div>
+          <div class="study-step text-center"><div class="mx-auto w-11 h-11 rounded-full bg-indigo-100 dark:bg-indigo-400/15 text-indigo-600 dark:text-indigo-300 flex items-center justify-center font-bold">01</div><p class="text-sm font-semibold dk-t1 text-slate-900 mt-3">1st view</p><p class="text-xs dk-t3 text-slate-500 mt-1">watch together</p></div>
+          <div class="study-step text-center"><div class="mx-auto w-11 h-11 rounded-full bg-violet-100 dark:bg-violet-400/15 text-violet-600 dark:text-violet-300 flex items-center justify-center font-bold">02</div><p class="text-sm font-semibold dk-t1 text-slate-900 mt-3">Written reflections</p><p class="text-xs dk-t3 text-slate-500 mt-1">before talking</p></div>
           <div class="study-step text-center"><div class="mx-auto w-11 h-11 rounded-full bg-rose-100 dark:bg-rose-400/15 text-rose-600 dark:text-rose-300 flex items-center justify-center font-bold">03</div><p class="text-sm font-semibold dk-t1 text-slate-900 mt-3">Discuss</p><p class="text-xs dk-t3 text-slate-500 mt-1">open conversation</p></div>
-          <div class="study-step text-center"><div class="mx-auto w-11 h-11 rounded-full bg-emerald-100 dark:bg-emerald-400/15 text-emerald-600 dark:text-emerald-300 flex items-center justify-center font-bold">04</div><p class="text-sm font-semibold dk-t1 text-slate-900 mt-3">Evaluate</p><p class="text-xs dk-t3 text-slate-500 mt-1">report connection</p></div>
+          <div class="study-step text-center"><div class="mx-auto w-11 h-11 rounded-full bg-emerald-100 dark:bg-emerald-400/15 text-emerald-600 dark:text-emerald-300 flex items-center justify-center font-bold">04</div><p class="text-sm font-semibold dk-t1 text-slate-900 mt-3">2nd view</p><p class="text-xs dk-t3 text-slate-500 mt-1">+ questionnaire</p></div>
         </div>
+        <p class="text-sm dk-t2 text-slate-600 font-light mt-7 leading-relaxed">Strangers wore fNIRS caps throughout; the neural data are reserved for a later analysis. A final questionnaire captured enjoyment, co-viewing preference, shared reality, and partner evaluation. The primary connection composite is the equal-weight mean of the last three measures (Cronbach's α = .72).</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-5 mb-8">
+        <article class="rounded-[28px] p-7 dk-card lt-card">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-3">Content — what they say</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Semantic similarity (SBERT), sentiment alignment (RoBERTa), and dictionary-based affective alignment were computed from both pre-discussion reflections and discussion transcripts. Reflections capture what partners <span class="italic">independently</span> thought, separated from how they later talked.</p>
+        </article>
+        <article class="rounded-[28px] p-7 dk-card lt-card">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-3">Process — how they interact</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Structural features such as turn-taking and participation balance were combined with ten turn-level interaction dimensions: agreement type, question-asking, epistemic stance, and convergence, among others.</p>
+        </article>
+      </div>
+
+      <div class="mb-8">
+        <p class="text-base font-semibold dk-t1 text-slate-900">Coding conversational dynamics with an LLM</p>
+        <p class="text-sm italic dk-t3 text-slate-400 mt-1 mb-5">Claude Haiku · few-shot · 5,425 turns · 10 interactional dimensions · calibrated against researcher judgment on a held-out dyad</p>
+        <div class="grid md:grid-cols-2 gap-5">
+          <article class="rounded-[28px] p-7 dk-soft lt-soft border border-emerald-100/80 dark:border-emerald-400/10">
+            <p class="text-base font-semibold dk-t1 text-slate-900">Elaborated agreement</p>
+            <p class="text-sm dk-t2 text-slate-600 font-light mt-2">Affirms the partner and adds new content, rather than functioning only as a backchannel.</p>
+            <p class="text-base italic dk-t2 text-slate-700 mt-4">“Right, and that's why the ending hit so hard.”</p>
+            <div class="flex flex-wrap gap-2 mt-4"><span class="text-[11px] px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-400/15 dark:text-emerald-300 font-semibold">agreement</span><span class="text-[11px] px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-400/15 dark:text-emerald-300 font-semibold">elaborated</span></div>
+          </article>
+          <article class="rounded-[28px] p-7 dk-soft lt-soft border border-blue-100/80 dark:border-blue-400/10">
+            <p class="text-base font-semibold dk-t1 text-slate-900">Question asymmetry</p>
+            <p class="text-sm dk-t2 text-slate-600 font-light mt-2">One partner asks more questions, creating complementary asker and answerer roles.</p>
+            <p class="text-base italic dk-t2 text-slate-700 mt-4">“Were you disappointed by it?”</p>
+            <div class="flex flex-wrap gap-2 mt-4"><span class="text-[11px] px-2.5 py-1 rounded-full bg-blue-100 text-blue-700 dark:bg-blue-400/15 dark:text-blue-300 font-semibold">question</span><span class="text-[11px] px-2.5 py-1 rounded-full bg-slate-200 text-slate-600 dark:bg-slate-400/15 dark:text-slate-300 font-semibold">role-taking</span></div>
+          </article>
+        </div>
+        <p class="text-xs leading-relaxed dk-t3 text-slate-400 mt-4">These LLM-derived features are retained as exploratory process measures; the strongest replicated Phase 1 result comes from manually corrected floor-exchange structure.</p>
       </div>
 
       <div class="grid md:grid-cols-3 gap-5">
