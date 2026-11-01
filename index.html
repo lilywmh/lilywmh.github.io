@@ -727,16 +727,23 @@
 
       return (
         <section className="min-h-[88vh] flex flex-col justify-center px-6 max-w-[1700px] mx-auto pt-28">
-          <div className={`relative group p-12 md:p-20 rounded-[60px] border backdrop-blur-3xl shadow-xl space-y-10 anim-in
+          <div className={`relative group p-12 md:p-20 rounded-[60px] border backdrop-blur-3xl shadow-xl anim-in
             ${dk ? 'dk-card' : 'border-white/70 bg-white/40'}`}>
             <div className="pointer-events-none absolute top-10 right-10 w-28 h-28 rounded-full bg-gradient-to-br from-purple-200/40 to-rose-200/40 blur-2xl group-hover:scale-150 transition-transform duration-1000" />
+            <div className="relative grid lg:grid-cols-[minmax(0,1fr)_auto] gap-10 lg:gap-14 xl:gap-20 items-center">
+            <figure className="order-first lg:order-last mx-auto lg:mx-0 w-44 sm:w-56 lg:w-[250px] xl:w-[290px] shrink-0">
+              <div className={`overflow-hidden rounded-[36px] lg:rounded-[44px] border shadow-xl ${dk ? 'border-purple-900/40' : 'border-white/80'}`}>
+                <img src="assets/lily-portrait.jpg" alt={lang === 'zh' ? '吴美慧（Lily）在南加州大学' : 'Meihui (Lily) Wu at USC'} width="800" height="1000" className="block w-full h-auto" loading="eager" />
+              </div>
+            </figure>
+            <div className="space-y-10 min-w-0">
 
             <div className={`flex items-center gap-3 text-base font-bold uppercase tracking-[0.3em] ${dk ? 'dk-accent' : 'text-indigo-400'}`}>
               <Sparkles size={16} className="animate-pulse" />
               {T.badge}
             </div>
 
-            <h1 className={`text-5xl sm:text-6xl md:text-7xl xl:text-[85px] font-semibold tracking-tighter leading-[1.1] ${dk ? 'dk-t1' : 'text-slate-1000'}`}>
+            <h1 className={`text-5xl sm:text-6xl md:text-7xl xl:text-[76px] 2xl:text-[85px] font-semibold tracking-tighter leading-[1.1] ${dk ? 'dk-t1' : 'text-slate-1000'}`}>
               {T.line1}
               <br />
               <span className="inline-block pl-0 pr-[15px] text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-rose-300 to-emerald-300 italic font-light">
@@ -761,6 +768,8 @@
                 </div>
                 
               </a>
+            </div>
+            </div>
             </div>
           </div>
         </section>
