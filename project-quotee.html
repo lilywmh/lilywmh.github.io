@@ -36,7 +36,6 @@
   html.dark .dk-stat { background: rgba(88, 28, 135, 0.16); border: 1px solid rgba(139,92,246,0.22); }
   html.dark .dk-toc-link.active { color: #ecc48d; }
   html.dark .dk-toc-link.active .dk-toc-bar { background: #e3b877; }
-  html.dark .dk-phone { background: linear-gradient(160deg, rgba(30,20,60,0.9), rgba(12,9,26,0.95)); border-color: rgba(139,92,246,0.3); }
 
   /* Light tokens */
   .lt-card { background: rgba(255,255,255,0.62); border: 1px solid rgba(255,255,255,0.85); box-shadow: 0 4px 30px rgba(140,100,40,0.06); }
@@ -102,48 +101,15 @@
     box-shadow: 0 16px 48px rgba(0,0,0,0.24);
   }
 
-  /* ── Quotee phone-screen mockups (warm paper palette, theme-independent) ── */
-  .qp-frame {
-    width: 268px; border-radius: 42px; padding: 12px;
-    border: 1px solid; flex-shrink: 0;
-  }
-  .qp-screen {
-    background: #faf6ef; color: #2b2622; border-radius: 32px; overflow: hidden;
-    font-family: -apple-system, 'PingFang SC', 'Helvetica Neue', sans-serif;
-    font-size: 12px; line-height: 1.45; height: 520px; display: flex; flex-direction: column;
-    box-shadow: inset 0 0 0 1px rgba(60,45,20,0.06);
-  }
-  .qp-statusbar { display: flex; justify-content: space-between; padding: 12px 20px 4px; font-size: 10px; font-weight: 600; color: #7a6f63; }
-  .qp-title { font-family: Georgia, 'Songti SC', serif; font-size: 17px; font-weight: 700; padding: 8px 18px 2px; }
-  .qp-sub { font-size: 10px; color: #a89c8e; padding: 0 18px 10px; }
-  .qp-body { flex: 1; padding: 4px 16px 12px; overflow: hidden; }
-  .qp-tabbar { display: flex; justify-content: space-around; padding: 9px 8px 14px; border-top: 1px solid #e8e0d2; font-size: 9px; color: #a89c8e; }
-  .qp-tab { display: flex; flex-direction: column; align-items: center; gap: 3px; }
-  .qp-tab.on { color: #8a6f4d; font-weight: 600; }
-  .qp-tab svg { width: 17px; height: 17px; }
-  /* shelf */
-  .qp-shelfrow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 6px 2px 2px; }
-  .qp-book { border-radius: 6px 10px 10px 6px; height: 96px; padding: 9px 8px; display: flex; flex-direction: column; justify-content: space-between; color: #fff; box-shadow: 0 3px 8px rgba(60,45,20,0.18); position: relative; }
-  .qp-book::before { content: ''; position: absolute; left: 5px; top: 0; bottom: 0; width: 1.5px; background: rgba(255,255,255,0.28); }
-  .qp-book b { font-family: Georgia, serif; font-size: 9.5px; font-weight: 700; line-height: 1.25; display: block; }
-  .qp-book span { font-size: 8px; opacity: .82; }
-  .qp-plank { height: 5px; border-radius: 3px; background: linear-gradient(#e6d9c2,#d8c8ab); margin: -2px 0 10px; box-shadow: 0 2px 4px rgba(60,45,20,0.12); }
-  /* capture */
-  .qp-photo { background: #f3eee3; border: 1px solid #e8e0d2; border-radius: 12px; padding: 12px 12px; font-family: Georgia, serif; font-size: 10.5px; line-height: 1.75; color: #5c5348; }
-  .qp-line { border-radius: 4px; padding: 0 3px; }
-  .qp-line.hl { background: #f5d98f; color: #3a3020; box-shadow: 0 0 0 1px #eccb72; }
-  .qp-hint { text-align: center; font-size: 9.5px; color: #a89c8e; margin: 10px 0 8px; }
-  .qp-btn { display: block; width: 100%; text-align: center; background: #8a6f4d; color: #fff; border-radius: 12px; padding: 9px 0; font-weight: 600; font-size: 12px; }
-  /* reflect chat */
-  .qp-bubble { max-width: 82%; border-radius: 15px; padding: 8px 11px; margin-bottom: 8px; font-size: 11px; }
-  .qp-bubble.ai { background: #fff; border: 1px solid #e8e0d2; border-bottom-left-radius: 5px; }
-  .qp-bubble.me { background: #8a6f4d; color: #fff; margin-left: auto; border-bottom-right-radius: 5px; }
-  .qp-quotecard { background: #fdf9f0; border-left: 3px solid #c2a476; border-radius: 8px; padding: 7px 9px; font-family: Georgia, serif; font-style: italic; font-size: 10px; color: #5c5348; margin: 6px 0; }
-  .qp-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
-  .qp-chip { background: #f3ecdf; color: #8a6f4d; border-radius: 999px; padding: 4px 9px; font-size: 9.5px; font-weight: 600; }
-  .qp-input { display: flex; gap: 8px; align-items: center; background: #fff; border: 1px solid #e8e0d2; border-radius: 999px; padding: 7px 7px 7px 13px; color: #a89c8e; font-size: 10.5px; margin-top: 10px; }
-  .qp-send { width: 24px; height: 24px; border-radius: 999px; background: #8a6f4d; color: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .qp-caption { text-align: center; font-size: 0.8125rem; margin-top: 14px; }
+  /* real app screenshots */
+  .qs-phone { border-radius: 40px; padding: 7px; background: #1E1B18; box-shadow: 0 26px 50px -18px rgba(90,60,25,0.38), 0 6px 14px rgba(90,60,25,0.10); }
+  .qs-phone img { display: block; width: 100%; height: auto; border-radius: 33px; }
+  html.dark .qs-phone { background: #000; box-shadow: 0 26px 60px -16px rgba(0,0,0,0.7), 0 0 0 1px rgba(139,92,246,0.25); }
+  .qs-fig figcaption { text-align: center; margin-top: 14px; }
+  .qs-fig figcaption b { display: block; font-size: 0.875rem; font-weight: 600; }
+  .qs-fig figcaption span { display: block; font-size: 0.8125rem; line-height: 1.45; margin-top: 2px; }
+  .qs-hero { width: 290px; }
+  @media (max-width: 640px) { .qs-phone { border-radius: 30px; padding: 5px; } .qs-phone img { border-radius: 25px; } .qs-hero { width: 240px; } }
 
   /* flow strip */
   .qt-flowstep { flex: 1; min-width: 150px; }
@@ -177,9 +143,9 @@
     <div class="grid lg:grid-cols-[1fr_0.72fr] gap-10 lg:gap-16 items-center">
       <div class="relative z-10">
         <h1 class="font-semibold dk-t1 text-slate-900 mb-4">Quotee</h1>
-        <p class="text-xl md:text-2xl font-light dk-t2 text-slate-600 mb-8 max-w-xl">Save quotes. Reflect later. A calm iOS reading companion that never interrupts the page you're on.</p>
+        <p class="text-xl md:text-2xl font-light dk-t2 text-slate-600 mb-8 max-w-xl">Save quotes. Reflect later. A calm iOS reading companion that never interrupts the page you're on, with an AI that only answers from what you've saved.</p>
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-[0.25em] bg-amber-600/10 text-amber-700 dk-pill-accent mb-8">
-          Product Design · iOS Development
+          Product Design · iOS · Applied AI
         </div>
 
         <div class="grid sm:grid-cols-2 gap-3 md:gap-4 max-w-3xl">
@@ -197,7 +163,7 @@
           </div>
           <div class="rounded-3xl p-5 qt-hero-meta">
             <p class="text-[11px] font-bold uppercase tracking-[0.2em] dk-t3 text-slate-400 mb-1.5">Stack</p>
-            <p class="text-base font-semibold dk-t1 text-slate-800 leading-snug">SwiftUI · SwiftData · Vision</p>
+            <p class="text-base font-semibold dk-t1 text-slate-800 leading-snug">SwiftUI · SwiftData · Vision · RAG</p>
           </div>
         </div>
 
@@ -207,37 +173,17 @@
             Try the web prototype
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
           </a>
+          <a href="https://github.com/lilywmh/quotee-demo" target="_blank" rel="noopener"
+             class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold dk-toggle bg-white/60 border border-white/70 text-slate-600 hover:text-amber-600 transition-all">
+            Project showcase on GitHub
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+          </a>
         </div>
       </div>
 
       <!-- Hero phone: the shelf -->
       <div class="relative flex justify-center lg:justify-end">
-        <div class="qp-frame dk-phone lt-phone border shadow-[0_28px_60px_rgba(130,95,35,0.18)] rotate-2">
-          <div class="qp-screen">
-            <div class="qp-statusbar"><span>9:41</span><span>⌁ ▮</span></div>
-            <div class="qp-title">Notebook</div>
-            <div class="qp-sub">6 books · 42 quotes saved</div>
-            <div class="qp-body">
-              <div class="qp-shelfrow">
-                <div class="qp-book" style="background:linear-gradient(150deg,#7d5a3c,#5e422b)"><b>The Little Prince</b><span>9 quotes</span></div>
-                <div class="qp-book" style="background:linear-gradient(150deg,#4a6741,#33492d)"><b>Walden</b><span>7 quotes</span></div>
-                <div class="qp-book" style="background:linear-gradient(150deg,#5d5a7a,#413f57)"><b>围城</b><span>8 quotes</span></div>
-              </div>
-              <div class="qp-plank"></div>
-              <div class="qp-shelfrow">
-                <div class="qp-book" style="background:linear-gradient(150deg,#8a4f4f,#623636)"><b>Meditations</b><span>11 quotes</span></div>
-                <div class="qp-book" style="background:linear-gradient(150deg,#3f6470,#2c4750)"><b>Bird by Bird</b><span>4 quotes</span></div>
-                <div class="qp-book" style="background:linear-gradient(150deg,#a0763b,#7a5827)"><b>活着</b><span>3 quotes</span></div>
-              </div>
-              <div class="qp-plank"></div>
-            </div>
-            <div class="qp-tabbar">
-              <div class="qp-tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8"/></svg>Clippings</div>
-              <div class="qp-tab on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>Notebook</div>
-              <div class="qp-tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z"/></svg>Reflect</div>
-            </div>
-          </div>
-        </div>
+        <div class="qs-phone qs-hero rotate-2"><img src="assets/quotee/notebook.webp" alt="Quotee Notebook: a shelf of books with quote counts" width="600" height="1304"></div>
       </div>
     </div>
   </div>
@@ -255,6 +201,8 @@
       <a href="#principles"  class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>Design Principles</a>
       <a href="#flow"        class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>The Flow</a>
       <a href="#details"     class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>Craft & Details</a>
+      <a href="#reflect"     class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>Grounded Reflect</a>
+      <a href="#cards"       class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>Reflection Cards</a>
       <a href="#tech"        class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>Under the Hood</a>
       <a href="#privacy"     class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>Privacy</a>
       <a href="#reflection"  class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>Reflection</a>
@@ -269,7 +217,8 @@
       <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900 mb-6">Overview</h2>
       <div class="space-y-5 text-lg leading-relaxed font-light dk-t2 text-slate-600">
         <p>Quotee is a native iOS app for people who read on paper and want to keep the lines that move them. Snap the page, tap the sentences you want — like running a highlighter over them — and keep reading. The quote rests safely in Clippings until you're ready to file it onto your own bookshelf, and a chat-style Reflect space helps you notice the ideas you keep returning to.</p>
-        <p>I designed and built the entire product solo: interaction design, visual identity, and a full SwiftUI implementation with on-device text recognition in <span class="font-medium dk-accent text-amber-700">English and Chinese</span>. It began as an interactive web prototype to test the core flow, then became a complete native app running on real iPhones. No servers, no accounts, no tracking — everything stays on the device.</p>
+        <p>I designed and built the entire product solo: interaction design, visual identity, and a full SwiftUI implementation with on-device text recognition in <span class="font-medium dk-accent text-amber-700">English and Chinese</span>. It began as an interactive web prototype to test the core flow, then became a complete native app running on real iPhones.</p>
+        <p>The second half of the project was Reflect: a conversation built on <span class="font-medium dk-accent text-amber-700">local retrieval over your own notebook</span>. Answers cite the quotes they draw on, say so when the notebook can't support an answer, and distill a good conversation into a reflection card that only becomes long-term memory once you confirm it in your own words. No accounts, no tracking, and AI stays off until you turn it on.</p>
       </div>
     </section>
 
@@ -310,7 +259,7 @@
         </div>
         <div class="rounded-[28px] p-8 dk-card lt-card">
           <p class="text-base font-semibold dk-t1 text-slate-900 mb-2">3 · Private by default</p>
-          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">No account required, no analytics, no cloud. Text is read from photos on-device. The only data that ever leaves the phone is a quote you explicitly ask the optional AI to reflect on — with your own key.</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">No account required, no analytics, no cloud. Text is read from photos on-device. When you ask the optional AI a question, only the handful of quotes retrieved for that question leave the phone, never the whole notebook.</p>
         </div>
       </div>
     </section>
@@ -340,69 +289,23 @@
         </div>
       </div>
 
-      <div class="flex flex-wrap justify-center gap-10 lg:gap-14">
-        <!-- Capture mockup -->
-        <div class="text-center">
-          <div class="qp-frame dk-phone lt-phone border shadow-[0_22px_50px_rgba(130,95,35,0.14)] mx-auto">
-            <div class="qp-screen">
-              <div class="qp-statusbar"><span>9:41</span><span>⌁ ▮</span></div>
-              <div class="qp-title">Pick your lines</div>
-              <div class="qp-sub">Tap the sentences that belong to the quote</div>
-              <div class="qp-body">
-                <div class="qp-photo">
-                  <span class="qp-line">…and so the days passed, one after another,</span><br>
-                  <span class="qp-line">until the season turned without warning.</span><br>
-                  <span class="qp-line hl">It is only with the heart that one can</span><br>
-                  <span class="qp-line hl">see rightly; what is essential is</span><br>
-                  <span class="qp-line hl">invisible to the eye.</span><br>
-                  <span class="qp-line">He repeated it, so as to remember, and</span><br>
-                  <span class="qp-line">looked once more at the sleeping fox.</span>
-                </div>
-                <p class="qp-hint">3 lines selected</p>
-                <span class="qp-btn">Save to Clippings</span>
-              </div>
-              <div class="qp-tabbar">
-                <div class="qp-tab on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8"/></svg>Clippings</div>
-                <div class="qp-tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>Notebook</div>
-                <div class="qp-tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z"/></svg>Reflect</div>
-              </div>
-            </div>
-          </div>
-          <p class="qp-caption dk-t3 text-slate-400">Highlight-style capture: tap only the lines you want</p>
-        </div>
-
-        <!-- Reflect mockup -->
-        <div class="text-center">
-          <div class="qp-frame dk-phone lt-phone border shadow-[0_22px_50px_rgba(130,95,35,0.14)] mx-auto">
-            <div class="qp-screen">
-              <div class="qp-statusbar"><span>9:41</span><span>⌁ ▮</span></div>
-              <div class="qp-title">Reflect</div>
-              <div class="qp-sub">A quiet conversation with your quotes</div>
-              <div class="qp-body">
-                <div class="qp-bubble ai">You've saved 11 quotes from <i>Meditations</i> this month. One theme keeps surfacing — attention.
-                  <div class="qp-quotecard">"Confine yourself to the present."</div>
-                </div>
-                <div class="qp-bubble me">Why do I keep coming back to that one?</div>
-                <div class="qp-bubble ai">Maybe because it's the shortest — and the hardest. You also saved this in March:
-                  <div class="qp-quotecard">"The impediment to action advances action."</div>
-                </div>
-                <div class="qp-chips">
-                  <span class="qp-chip">Show me a random quote</span>
-                  <span class="qp-chip">What did I read in spring?</span>
-                </div>
-                <div class="qp-input">Ask about your quotes…
-                  <span class="qp-send"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></span>
-                </div>
-              </div>
-              <div class="qp-tabbar">
-                <div class="qp-tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8"/></svg>Clippings</div>
-                <div class="qp-tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>Notebook</div>
-                <div class="qp-tab on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z"/></svg>Reflect</div>
-              </div>
-            </div>
-          </div>
-          <p class="qp-caption dk-t3 text-slate-400">Reflect: chat bubbles, suggestion chips, optional AI</p>
-        </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-x-5 gap-y-10">
+        <figure class="qs-fig">
+          <div class="qs-phone"><img src="assets/quotee/save.webp" alt="Save screen with Scan a Page, Upload Image and Paste Text" loading="lazy" width="600" height="1304"></div>
+          <figcaption><b class="dk-t1 text-slate-800">Save</b><span class="dk-t3 text-slate-400">camera, image or paste</span></figcaption>
+        </figure>
+        <figure class="qs-fig">
+          <div class="qs-phone"><img src="assets/quotee/clippings.webp" alt="Clippings inbox with one unfiled quote" loading="lazy" width="600" height="1304"></div>
+          <figcaption><b class="dk-t1 text-slate-800">Clippings</b><span class="dk-t3 text-slate-400">save first, organize later</span></figcaption>
+        </figure>
+        <figure class="qs-fig">
+          <div class="qs-phone"><img src="assets/quotee/notebook.webp" alt="Notebook shelf of book covers" loading="lazy" width="600" height="1304"></div>
+          <figcaption><b class="dk-t1 text-slate-800">Notebook</b><span class="dk-t3 text-slate-400">a shelf that's yours to style</span></figcaption>
+        </figure>
+        <figure class="qs-fig">
+          <div class="qs-phone"><img src="assets/quotee/reflect-home.webp" alt="Reflect home screen" loading="lazy" width="600" height="1304"></div>
+          <figcaption><b class="dk-t1 text-slate-800">Reflect</b><span class="dk-t3 text-slate-400">a conversation with your collection</span></figcaption>
+        </figure>
       </div>
     </section>
 
@@ -427,14 +330,101 @@
           <p class="text-base font-semibold dk-t1 text-slate-900 mb-2">A calendar without streaks</p>
           <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">A quiet monthly view marks the days you saved quotes. No chains to break, no numbers to keep up. Deliberately: the absence of streaks is a feature, not an omission.</p>
         </div>
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-2">Choose your sources</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Pin the exact quotes a conversation should think with, grouped by book and tagged by theme, or leave it to retrieval. The scope of every answer is something you can see and change.</p>
+        </div>
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-2">Share cards</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Turn a quote into a clean card to send or print. Toggles decide whether the book, your own thought, and themes come along, so sharing never exposes more than you meant to.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-3 mt-12 max-w-[560px] mx-auto gap-x-5 gap-y-10">
+        <figure class="qs-fig">
+          <div class="qs-phone"><img src="assets/quotee/looking-back.webp" alt="Calendar with the quotes saved on July 9" loading="lazy" width="600" height="1304"></div>
+          <figcaption><b class="dk-t1 text-slate-800">Looking Back</b><span class="dk-t3 text-slate-400">a quiet calendar, no streaks</span></figcaption>
+        </figure>
+        <figure class="qs-fig">
+          <div class="qs-phone"><img src="assets/quotee/choose-sources.webp" alt="Add sources sheet with three quotes selected" loading="lazy" width="600" height="1304"></div>
+          <figcaption><b class="dk-t1 text-slate-800">Choose sources</b><span class="dk-t3 text-slate-400">scope a conversation yourself</span></figcaption>
+        </figure>
+        <figure class="qs-fig">
+          <div class="qs-phone"><img src="assets/quotee/share-card.webp" alt="Share Quote sheet with toggles" loading="lazy" width="600" height="1304"></div>
+          <figcaption><b class="dk-t1 text-slate-800">Share card</b><span class="dk-t3 text-slate-400">pick what to include</span></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- GROUNDED REFLECT -->
+    <section id="reflect" class="reveal scroll-mt-32">
+      <p class="text-xs font-bold uppercase tracking-[0.25em] dk-accent text-amber-600 mb-2">Grounded Reflect</p>
+      <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900 mb-6">Answers grounded in what you saved</h2>
+      <p class="text-lg leading-relaxed font-light dk-t2 text-slate-600 mb-8">The risk with an AI that "reflects" is the Barnum effect: fluent, flattering lines that feel personal and could apply to anyone. Reflect is built the other way around. It retrieves first and writes second, so every reply has to stand on quotes you actually kept.</p>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+        <div class="rounded-[28px] p-6 dk-stat lt-stat">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-1.5">Sources, shown</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">The quotes and past reflections behind an answer appear right under it, labelled by book and author.</p>
+        </div>
+        <div class="rounded-[28px] p-6 dk-stat lt-stat">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-1.5">Honest refusal</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">If the notebook has nothing relevant, Reflect says so instead of stretching a loosely related quote to fit.</p>
+        </div>
+        <div class="rounded-[28px] p-6 dk-stat lt-stat">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-1.5">Juxtaposition</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Two ideas from different books, placed side by side when they share a theme. Whether they agree is left to you.</p>
+        </div>
+        <div class="rounded-[28px] p-6 dk-stat lt-stat">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-1.5">Web, labelled</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Optional web search is marked "From the web," so outside context never passes as your own thinking.</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-3 max-w-[560px] mx-auto gap-x-5 gap-y-10">
+        <figure class="qs-fig">
+          <div class="qs-phone"><img src="assets/quotee/grounded-answer.webp" alt="Reflect answer about time and attention drawing on two books" loading="lazy" width="600" height="1304"></div>
+          <figcaption><b class="dk-t1 text-slate-800">Grounded answer</b><span class="dk-t3 text-slate-400">connects your quotes and notes</span></figcaption>
+        </figure>
+        <figure class="qs-fig">
+          <div class="qs-phone"><img src="assets/quotee/sources-and-memory.webp" alt="Source quote cards and a saved reflection under an answer" loading="lazy" width="600" height="1304"></div>
+          <figcaption><b class="dk-t1 text-slate-800">Sources & memory</b><span class="dk-t3 text-slate-400">quotes plus a recalled reflection</span></figcaption>
+        </figure>
+        <figure class="qs-fig">
+          <div class="qs-phone"><img src="assets/quotee/web-separated.webp" alt="Answer that begins From the web about Thoreau" loading="lazy" width="600" height="1304"></div>
+          <figcaption><b class="dk-t1 text-slate-800">Web, labelled</b><span class="dk-t3 text-slate-400">outside context kept apart</span></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- REFLECTION CARDS -->
+    <section id="cards" class="reveal scroll-mt-32">
+      <p class="text-xs font-bold uppercase tracking-[0.25em] dk-accent text-amber-600 mb-2">Reflection Cards</p>
+      <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900 mb-6">Conclusions that stay yours</h2>
+      <p class="text-lg leading-relaxed font-light dk-t2 text-slate-600 mb-8">A long conversation is a bad place to keep an insight. When a discussion reaches a real point, Reflect drafts a card inline: the books and quotes behind it, its themes, a one-line core insight, and a question to return to. The draft is only a suggestion. It becomes <span class="font-medium dk-accent text-amber-700">My Understanding</span> once you edit or confirm it, and only then joins long-term memory, where future conversations can retrieve it and the Knowledge Map can link it to everything else.</p>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-x-5 gap-y-10">
+        <figure class="qs-fig">
+          <div class="qs-phone"><img src="assets/quotee/card-insight.webp" alt="Reflection card with core insight and My Understanding" loading="lazy" width="600" height="1304"></div>
+          <figcaption><b class="dk-t1 text-slate-800">Reflection card</b><span class="dk-t3 text-slate-400">core insight + my understanding</span></figcaption>
+        </figure>
+        <figure class="qs-fig">
+          <div class="qs-phone"><img src="assets/quotee/card-details.webp" alt="Reflection card with themes and A Question to Return To" loading="lazy" width="600" height="1304"></div>
+          <figcaption><b class="dk-t1 text-slate-800">Card details</b><span class="dk-t3 text-slate-400">themes, a question to return to</span></figcaption>
+        </figure>
+        <figure class="qs-fig">
+          <div class="qs-phone"><img src="assets/quotee/reflection-notes.webp" alt="Reflection Notes list" loading="lazy" width="600" height="1304"></div>
+          <figcaption><b class="dk-t1 text-slate-800">Reflection Notes</b><span class="dk-t3 text-slate-400">confirmed cards, searchable</span></figcaption>
+        </figure>
+        <figure class="qs-fig">
+          <div class="qs-phone"><img src="assets/quotee/knowledge-map.webp" alt="Knowledge map linking a reflection to a book, a quote and themes" loading="lazy" width="600" height="1304"></div>
+          <figcaption><b class="dk-t1 text-slate-800">Knowledge Map</b><span class="dk-t3 text-slate-400">how your ideas connect</span></figcaption>
+        </figure>
       </div>
     </section>
 
     <!-- TECH -->
     <section id="tech" class="reveal scroll-mt-32">
       <p class="text-xs font-bold uppercase tracking-[0.25em] dk-accent text-amber-600 mb-2">Under the Hood</p>
-      <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900 mb-6">A fully native build</h2>
-      <p class="text-lg leading-relaxed font-light dk-t2 text-slate-600 mb-8">Quotee started life as a self-contained interactive web prototype — the fastest way to feel the flow in hand — then was rebuilt natively for iPhone. The production app is pure SwiftUI with no third-party dependencies.</p>
+      <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900 mb-6">Native app, local retrieval</h2>
+      <p class="text-lg leading-relaxed font-light dk-t2 text-slate-600 mb-8">Quotee started life as a self-contained interactive web prototype — the fastest way to feel the flow in hand — then was rebuilt natively for iPhone. The app is pure SwiftUI with no third-party dependencies, using standard components so it inherits the system look in light and dark mode.</p>
       <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="rounded-[28px] p-7 dk-stat lt-stat">
           <p class="text-base font-semibold dk-t1 text-slate-900 mb-1.5">SwiftUI + SwiftData</p>
@@ -445,13 +435,22 @@
           <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Apple's Vision framework reads pages on-device in English and Chinese — no photo ever uploaded.</p>
         </div>
         <div class="rounded-[28px] p-7 dk-stat lt-stat">
-          <p class="text-base font-semibold dk-t1 text-slate-900 mb-1.5">Optional Claude</p>
-          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Reflect works fully offline; users can optionally connect Claude with their own API key, stored in the iPhone Keychain.</p>
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-1.5">Local retrieval</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Ranking over quotes, your notes, themes and confirmed cards runs on-device. Retrieval, refusal and juxtaposition all work offline.</p>
         </div>
         <div class="rounded-[28px] p-7 dk-stat lt-stat">
-          <p class="text-base font-semibold dk-t1 text-slate-900 mb-1.5">System-native look</p>
-          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Standard components throughout, so the app inherits the current system design language in light and dark mode.</p>
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-1.5">Bring your own AI</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Anthropic, DeepSeek or any OpenAI-compatible model with a key in the Keychain, or an optional FastAPI proxy for book lookup and web search.</p>
         </div>
+      </div>
+    </section>
+
+    <!-- EVAL (inside tech flow) -->
+    <section id="eval" class="reveal scroll-mt-32 -mt-12">
+      <div class="rounded-[28px] p-8 md:p-10 dk-card lt-card">
+        <p class="text-base font-semibold dk-t1 text-slate-900 mb-3">Testing retrieval like a model, not a screen</p>
+        <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600 mb-4">Retrieval is checked by a standalone diagnostics harness that runs against fixed data without launching the UI. It covers exact-title and theme matching, weighting of personal notes, recall of confirmed cards, correct refusal on questions the notebook can't answer, top-k limits, stable quote IDs, and juxtaposition only when two items share a theme. Any ranking change has to keep every case passing.</p>
+        <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Answer quality is reviewed by hand against a fixed question set: is each claim supported by the quote it cites, are your words, the AI's inferences and web content kept apart, and do cards appear at meaningful moments rather than interrupting?</p>
       </div>
     </section>
 
@@ -460,7 +459,7 @@
       <p class="text-xs font-bold uppercase tracking-[0.25em] dk-accent text-amber-600 mb-2">Privacy</p>
       <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900 mb-6">Nothing leaves the phone unless you ask it to</h2>
       <div class="rounded-[28px] p-8 md:p-10 dk-card lt-card">
-        <p class="text-lg leading-relaxed font-light dk-t2 text-slate-600 mb-5">Quotee ships with no servers, no accounts, and no analytics. Photos are processed on-device and discarded; only the text you highlight is kept. AI reflections are off by default — turning them on means quotes are sent to Anthropic <span class="font-medium dk-accent text-amber-700">only</span> when you explicitly ask a question in Reflect, using a key you provide, stored in the Keychain.</p>
+        <p class="text-lg leading-relaxed font-light dk-t2 text-slate-600 mb-5">Quotee has no accounts and no analytics, and your library lives on the device. Photos are read on-device; only the text you highlight is kept. AI reflections are off by default. Turned on, each question sends <span class="font-medium dk-accent text-amber-700">only</span> the few quotes retrieved for it, never the whole notebook, to the provider you chose, using your own key from the Keychain. Web search is a separate switch, and its results are always labelled.</p>
         <p class="text-sm leading-relaxed font-light dk-t3 text-slate-500">The app also includes a "Privacy, in Plain Words" page — the full policy rewritten so a reader, not a lawyer, can understand it. Writing that page turned out to be a design exercise of its own.</p>
       </div>
     </section>
@@ -469,7 +468,7 @@
     <section id="reflection" class="reveal scroll-mt-32">
       <p class="text-xs font-bold uppercase tracking-[0.25em] dk-accent text-amber-600 mb-2">Reflection</p>
       <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900 mb-6">What building it alone taught me</h2>
-      <div class="grid md:grid-cols-3 gap-4">
+      <div class="grid md:grid-cols-2 gap-4">
         <div class="rounded-[28px] p-8 dk-card lt-card">
           <p class="text-base font-semibold dk-t1 text-slate-900 mb-2">1 · Prototype in the cheapest medium first</p>
           <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">A single-file web prototype let me live with the Save → Clippings → Notebook flow for weeks before writing any Swift. The flow that survived is almost unchanged; everything else got cut.</p>
@@ -479,7 +478,11 @@
           <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">The hardest decisions were subtractions: no streaks, no social feed, no cloud sync in v1. Each removal made the product calmer — and calm was the whole point.</p>
         </div>
         <div class="rounded-[28px] p-8 dk-card lt-card">
-          <p class="text-base font-semibold dk-t1 text-slate-900 mb-2">3 · Next: the App Store</p>
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-2">3 · Grounding over fluency</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">An answer that sounds insightful is easy; one you can check is harder. Making every reply show its sources, admit thin evidence, and leave the final wording to the reader made Reflect quieter and more trustworthy.</p>
+        </div>
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-2">4 · Next: the App Store</p>
           <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Version 1.1 runs on-device today. The path ahead is TestFlight with real readers, then App Store review — with the privacy nutrition label Quotee was designed to earn: "Data Not Collected."</p>
         </div>
       </div>
