@@ -731,12 +731,13 @@
             ${dk ? 'dk-card' : 'border-white/70 bg-white/40'}`}>
             <div className="pointer-events-none absolute top-10 right-10 w-28 h-28 rounded-full bg-gradient-to-br from-purple-200/40 to-rose-200/40 blur-2xl group-hover:scale-150 transition-transform duration-1000" />
             <div className="relative grid lg:grid-cols-[minmax(0,1fr)_auto] gap-10 lg:gap-14 xl:gap-20 items-center">
-            <figure className="order-first lg:order-last mx-auto lg:mx-0 w-44 sm:w-56 lg:w-[250px] xl:w-[290px] shrink-0">
+            <figure className="hidden lg:block lg:order-last w-[250px] xl:w-[290px] shrink-0">
               <div className={`overflow-hidden rounded-[36px] lg:rounded-[44px] border shadow-xl ${dk ? 'border-purple-900/40' : 'border-white/80'}`}>
                 <img src="assets/lily-portrait.jpg" alt={lang === 'zh' ? '吴美慧（Lily）在南加州大学' : 'Meihui (Lily) Wu at USC'} width="800" height="1000" className="block w-full h-auto" loading="eager" />
               </div>
             </figure>
             <div className="space-y-10 min-w-0">
+              <img src="assets/lily-avatar.jpg" alt={lang === 'zh' ? '吴美慧（Lily）' : 'Meihui (Lily) Wu'} width="300" height="300" className={`lg:hidden w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-2 shadow-md ${dk ? 'border-purple-900/50' : 'border-white'}`} />
 
             <div className={`flex items-center gap-3 text-base font-bold uppercase tracking-[0.3em] ${dk ? 'dk-accent' : 'text-indigo-400'}`}>
               <Sparkles size={16} className="animate-pulse" />
