@@ -277,6 +277,10 @@
           quoteeSub: 'Save Quotes. Reflect Later.',
           quoteeDesc: 'A calm iOS reading companion, designed and built solo in SwiftUI. Snap a page, highlight the lines you love, and watch your own quote shelf grow — with on-device OCR in English and Chinese, and no tracking, ever.',
           quoteeTag: 'iOS · Product Design',
+          recTitle: 'Rec Letter Tracker',
+          recSub: 'A Calm Page for Recommenders',
+          recDesc: 'During PhD applications I built a small site for the professors writing my letters: each gets a private page with only their schools, deadlines and what to submit, and can tick a school off when done. Designed for someone doing me a favor with one minute to spare — now a free open-source template.',
+          recTag: 'Web · Product Design',
           dyadTitle: 'Dyad Lab',
           dyadSub: 'What Happens Between Two People',
           dyadDesc: 'A hands-on playground for six ideas from social and relationship science. Adjust the conditions and watch coordination, repair, mimicry, turn-taking, and influence unfold between two people.',
@@ -370,6 +374,10 @@
           quoteeSub: '摘录佳句，静心回味',
           quoteeDesc: '一款安静的 iOS 阅读伴侣，从设计到开发均独立完成。拍下书页，像荧光笔一样选中喜欢的句子，看着自己的书架慢慢生长——中英文离线识别，全程无追踪。',
           quoteeTag: 'iOS · 产品设计',
+          recTitle: '推荐信进度页',
+          recSub: '给推荐人的一页清爽说明',
+          recDesc: '申请 PhD 时，我给帮我写推荐信的教授们做了一个小网站：每位老师都有一个专属页面，只列出他们负责的学校、截止日期和提交方式，写完了点一下就能勾掉。为“抽出一分钟帮我忙”的人而设计——现已开源，作为免费模板供大家使用。',
+          recTag: '网页 · 产品设计',
           dyadTitle: 'Dyad Lab',
           dyadSub: '两个人之间会发生什么',
           dyadDesc: '一个把六个社会与关系科学概念变成可操作模型的小实验室。调整条件，观察两个人之间的协调、修复、模仿、轮流与相互影响如何展开。',
@@ -465,7 +473,9 @@
     const Activity     = (p) => <Icon {...p} d={<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>} />;
     const MessageCircle= (p) => <Icon {...p} d={<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z"/>} />;
 
-    Object.assign(window, { MapPin, Brain, Layers, Github, Linkedin, Mail, Utensils, ArrowUpRight, ArrowLeft, Sparkles, Send, Heart, Activity, MessageCircle });
+    const ClipboardCheck = (p) => <Icon {...p} d={<><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></>} />;
+
+    Object.assign(window, { MapPin, Brain, Layers, Github, Linkedin, Mail, Utensils, ArrowUpRight, ArrowLeft, Sparkles, Send, Heart, Activity, MessageCircle, ClipboardCheck });
   </script>
 
   <!-- Particle background -->
@@ -784,6 +794,12 @@
           iconBg: dk ? 'dk-icon-indigo' : 'bg-indigo-50',
           title: T.quoteeTitle, sub: T.quoteeSub, desc: T.quoteeDesc,
           tags: [T.quoteeTag], link: 'project-quotee.html',
+        },
+        {
+          icon: <ClipboardCheck size={24} className="text-sky-400" />,
+          iconBg: dk ? 'dk-icon-indigo' : 'bg-sky-50',
+          title: T.recTitle, sub: T.recSub, desc: T.recDesc,
+          tags: [T.recTag], link: 'project-rec-letters.html',
         },
       ];
       const researchCards = [

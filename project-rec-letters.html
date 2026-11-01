@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recommendation Letter Tracker — Case Study | Meihui (Lily) Wu</title>
+<meta name="description" content="Recommendation Letter Tracker: a calm, private page for each professor writing my PhD recommendation letters, with only their schools, deadlines and submission steps. Case study by Lily Wu.">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { darkMode: 'class', theme: { extend: { fontFamily: { sans: ['SF Pro Display','-apple-system','BlinkMacSystemFont','Inter','system-ui','sans-serif'] } } } };
+</script>
+<style>
+  html { scroll-behavior: smooth; scroll-padding-top: 120px; }
+  body { font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Inter', system-ui, sans-serif; }
+
+  /* ── Dark Elf base (inherited from index) ────────────── */
+  html.dark body { background: #07050e !important; }
+  html.dark { color-scheme: dark; }
+  html.dark .dk-t1 { color: #ede9ff; }
+  html.dark .dk-t2 { color: #b8acd8; }
+  html.dark .dk-t3 { color: #8a7daa; }
+  html.dark .dk-accent { color: #8ccfe6; }
+  html.dark .dk-card {
+    background: rgba(15, 11, 30, 0.82);
+    border: 1px solid rgba(120, 80, 220, 0.22);
+    box-shadow: 0 4px 40px rgba(0,0,0,0.55), inset 0 1px 0 rgba(200,150,255,0.05);
+  }
+  html.dark .dk-card:hover { border-color: rgba(139, 92, 246, 0.4); }
+  html.dark .dk-divider { background: rgba(120, 80, 220, 0.2) !important; }
+  html.dark .dk-tag { background: rgba(109, 40, 217, 0.14); border: 1px solid rgba(139, 92, 246, 0.25); color: #b8acd8; }
+  html.dark .dk-pill-accent { background: rgba(56, 150, 190, 0.18); color: #a5dbee; }
+  html.dark .dk-nav { background: rgba(10, 7, 22, 0.82) !important; border-color: rgba(120, 80, 220, 0.28) !important; }
+  html.dark .dk-toggle { border: 1px solid rgba(120, 80, 220, 0.32); color: #9880c0; background: rgba(15, 11, 30, 0.6); }
+  html.dark .dk-toggle:hover { border-color: rgba(167,139,250,0.55); color: #c4b5fd; background: rgba(24,18,48,0.85); }
+  html.dark .dk-stat { background: rgba(88, 28, 135, 0.16); border: 1px solid rgba(139,92,246,0.22); }
+  html.dark .dk-toc-link.active { color: #a5dbee; }
+  html.dark .dk-toc-link.active .dk-toc-bar { background: #8ccfe6; }
+  html.dark .dk-primary { background: #e6f4fa; color: #0b2a38; }
+  html.dark .dk-primary:hover { background: #ffffff; }
+  html.dark .dk-shot { border-color: rgba(139,92,246,0.25); background: rgba(15,11,30,0.6); }
+
+  /* Light tokens */
+  .lt-card { background: rgba(255,255,255,0.62); border: 1px solid rgba(255,255,255,0.85); box-shadow: 0 4px 30px rgba(40,100,140,0.06); }
+  .lt-stat { background: rgba(232,244,250,0.65); border: 1px solid rgba(204,228,240,0.9); }
+
+  /* TOC scroll-spy */
+  .dk-toc-link { transition: color .25s; }
+  .dk-toc-bar { transition: all .25s; }
+  .dk-toc-link.active { color: #0e6a8c; }
+  .dk-toc-link.active .dk-toc-bar { width: 22px; background: #2a93b8; }
+  #toc .dk-toc-link { font-size: 0.9375rem; line-height: 1.6; }
+  #toc p { font-size: 0.75rem; }
+
+  /* fade-in on scroll */
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+
+  /* progress bar */
+  #readbar { transform-origin: 0 50%; }
+
+  /* Wider editorial case-study rhythm */
+  .case-wide .text-\[11px\] { font-size: 0.6875rem; line-height: 1.35; }
+  .case-wide .text-xs { font-size: 0.75rem; line-height: 1.45; }
+  .case-wide .text-sm { font-size: 0.875rem; line-height: 1.65; }
+  .case-wide .text-base { font-size: 1rem; line-height: 1.7; }
+  .case-wide .text-lg { font-size: 1.125rem; line-height: 1.75; }
+  .case-wide .text-xl { font-size: 1.25rem; line-height: 1.45; }
+  .case-wide .text-2xl { font-size: 1.5rem; line-height: 1.22; }
+  .case-wide header h1 { font-size: 3.25rem; line-height: 1.06; letter-spacing: -0.045em; }
+  .case-wide main .text-lg { font-size: 1.125rem; line-height: 1.75; }
+  .case-wide main .text-sm { font-size: 0.875rem; line-height: 1.65; }
+  .case-wide main h2 { font-size: 2.75rem; line-height: 1.08; letter-spacing: -0.04em; }
+  .case-shell { width: min(80vw, 92rem) !important; max-width: 92rem; }
+  @media (max-width: 1279px) {
+    .case-shell { width: min(calc(100% - 3rem), 72rem) !important; }
+    .case-wide header h1 { font-size: 2.75rem; }
+    .case-wide main h2 { font-size: 2.25rem; }
+  }
+  @media (max-width: 767px) {
+    .case-shell { width: calc(100% - 1.5rem) !important; }
+    .case-wide header h1 { font-size: 2.25rem; }
+    .case-wide main h2 { font-size: 1.875rem; letter-spacing: -0.035em; }
+  }
+  @media (max-width: 480px) {
+    .case-wide header h1 { font-size: 1.95rem; letter-spacing: -0.035em; }
+    header .case-hero-card { padding: 1.5rem; border-radius: 32px; }
+  }
+  .case-wide header h1 { overflow-wrap: anywhere; hyphens: auto; }
+  .case-hero-card {
+    background:
+      radial-gradient(circle at 82% 18%, rgba(240,250,255,0.95), transparent 34%),
+      linear-gradient(135deg, rgba(246,251,253,0.96), rgba(226,240,247,0.88));
+  }
+  html.dark .case-hero-card {
+    background:
+      radial-gradient(circle at 80% 18%, rgba(60,150,190,0.16), transparent 36%),
+      linear-gradient(135deg, rgba(20,15,32,0.94), rgba(10,7,22,0.92));
+  }
+
+  /* explainer video */
+  .rl-video { position: relative; aspect-ratio: 16 / 9; border-radius: 28px; overflow: hidden;
+    background: linear-gradient(135deg, #e9f3f8, #d7e8f1); box-shadow: 0 28px 70px rgba(30,80,110,0.16); }
+  .rl-video video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; background: transparent; }
+  html.dark .rl-video { background: linear-gradient(135deg, #141026, #0c0918); box-shadow: 0 28px 70px rgba(0,0,0,0.5); border: 1px solid rgba(139,92,246,0.22); }
+  @media (max-width: 767px) { .rl-video { border-radius: 18px; } }
+
+  /* screenshots */
+  .dk-shot { border: 1px solid #dbe9f1; background: #fff; }
+  .rl-shot img { display: block; width: 100%; height: auto; }
+
+  /* timeline */
+  .rl-tl { position: relative; }
+  .rl-tl::before { content: ''; position: absolute; left: 0; right: 0; top: 19px; height: 1px; background: #cfe3ee; }
+  html.dark .rl-tl::before { background: rgba(139,92,246,0.25); }
+  .rl-dot { width: 38px; height: 38px; border-radius: 999px; display: grid; place-items: center; font-size: 0.875rem; font-weight: 700; position: relative;
+    background: #ffffff; color: #0e6a8c; border: 1px solid #bfdcea; }
+  html.dark .rl-dot { background: #120d24; color: #a5dbee; border-color: rgba(140,207,230,0.4); }
+  @media (max-width: 1023px) {
+    .rl-tl::before { left: 19px; right: auto; top: 0; bottom: 0; width: 1px; height: auto; }
+  }
+
+  /* privacy diagram */
+  .dg { --dg-text: #1e293b; --dg-soft: #64748b; --dg-line: #9cc4d6; --dg-box: #ffffff; --dg-stroke: #cfe0ea; --dg-accent: #2a93b8; --dg-store: #f1f8fb; --dg-doc: #ffffff; }
+  html.dark .dg { --dg-text: #ede9ff; --dg-soft: #a99dcc; --dg-line: #6aa9c4; --dg-box: #150f2a; --dg-stroke: rgba(139,92,246,0.35); --dg-accent: #8ccfe6; --dg-store: rgba(56,150,190,0.08); --dg-doc: #1a1333; }
+  .dg svg { width: 100%; height: auto; font-family: inherit; }
+  .dg .dg-wide { display: none; } .dg .dg-narrow { display: block; }
+  @media (min-width: 768px) { .dg .dg-wide { display: block; } .dg .dg-narrow { display: none; } }
+  .dg .t  { fill: var(--dg-text); font-size: 14px; font-weight: 600; }
+  .dg .s  { fill: var(--dg-soft); font-size: 12.5px; }
+  .dg .a  { fill: var(--dg-accent); font-size: 12.5px; font-weight: 600; }
+  .dg .k  { fill: var(--dg-accent); font-size: 11px; font-weight: 700; letter-spacing: .14em; }
+  .dg .box { fill: var(--dg-box); stroke: var(--dg-stroke); stroke-width: 1.2; }
+  .dg .store { fill: var(--dg-store); stroke: var(--dg-accent); stroke-width: 1.2; stroke-dasharray: 5 4; }
+  .dg .doc { fill: var(--dg-doc); stroke: var(--dg-stroke); stroke-width: 1.2; }
+  .dg .ln { stroke: var(--dg-line); stroke-width: 1.6; fill: none; }
+  .dg .ln.d { stroke-dasharray: 4 4; }
+  .dg .ah { fill: var(--dg-line); }
+</style>
+</head>
+<body class="case-wide min-h-screen bg-[#FBFBFD] text-[#1D1D1F] selection:bg-sky-100 overflow-x-hidden">
+
+<!-- reading progress -->
+<div class="fixed top-0 left-0 right-0 h-[3px] z-[60] bg-transparent">
+  <div id="readbar" class="h-full w-full bg-gradient-to-r from-sky-400 via-cyan-300 to-indigo-300 scale-x-0"></div>
+</div>
+
+<!-- Top nav -->
+<nav class="fixed top-4 left-1/2 -translate-x-1/2 w-[94%] case-shell z-50 border rounded-full backdrop-blur-2xl py-3 px-6 flex items-center justify-between dk-nav bg-white/70 border-white/60 shadow-[0_8px_40px_rgba(0,0,0,0.06)]">
+  <a href="index.html#work" class="flex items-center gap-2 text-sm font-medium dk-t2 text-slate-500 hover:text-sky-700 transition-colors group">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:-translate-x-0.5 transition-transform"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    <span class="hidden sm:inline">All projects</span>
+  </a>
+  <div class="flex items-baseline gap-2 select-none">
+    <span class="font-extralight tracking-[0.28em] text-sm dk-t3 text-slate-500 hidden sm:inline">CASE&nbsp;STUDY</span>
+    <span class="font-bold tracking-[0.2em] text-sm dk-t1 text-slate-900">REC&nbsp;LETTERS</span>
+  </div>
+  <button id="themeBtn" class="flex items-center gap-1.5 px-3.5 py-2 rounded-full border text-sm font-medium dk-toggle bg-white/50 border-white/60 text-slate-500 hover:text-slate-800 hover:bg-white/80 transition-all">
+    <span id="themeIcon">☾</span><span id="themeLabel" class="hidden md:inline">Dark</span>
+  </button>
+</nav>
+
+<!-- Hero -->
+<header class="case-shell mx-auto px-6 pt-36 md:pt-44 pb-12 md:pb-16">
+  <div class="reveal in rounded-[40px] md:rounded-[56px] p-7 md:p-12 lg:p-16 dk-card lt-card case-hero-card overflow-hidden">
+    <div class="max-w-4xl">
+      <h1 class="font-semibold dk-t1 text-slate-900 mb-4">Recommendation Letter Tracker</h1>
+      <p class="text-xl md:text-2xl font-light dk-t2 text-slate-600 mb-8 max-w-2xl">A calm page for the people writing my letters.</p>
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-[0.25em] bg-sky-600/10 text-sky-800 dk-pill-accent mb-8">
+        Web · Product Design
+      </div>
+      <p class="text-lg leading-relaxed font-light dk-t2 text-slate-600 max-w-3xl">During PhD applications I built a small website for the professors writing my recommendation letters. Each of them gets a private, calm page with only their schools, deadlines and submission steps, and can tick a school off when they are done. I wanted asking for a letter to feel light for them, and keeping track to stop living in my head.</p>
+
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="https://lilywmh.github.io/rec-letters/?demo" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold bg-slate-900 text-white hover:bg-sky-800 dk-primary shadow-sm transition-all">
+          Try the demo
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+        </a>
+        <a href="https://github.com/lilywmh/rec-letters" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold dk-toggle bg-white/60 border border-white/70 text-slate-600 hover:text-sky-700 transition-all">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9V21c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></svg>
+          View on GitHub
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Explainer video -->
+<section class="case-shell mx-auto px-6 pb-20 md:pb-28 reveal in" aria-label="Explainer video">
+  <div class="rl-video">
+    <video controls playsinline preload="metadata" poster="assets/rec-letters-poster.jpg">
+      <source src="assets/rec-letters-explainer.mp4" type="video/mp4">
+      Your browser can’t play this video. You can <a href="https://lilywmh.github.io/rec-letters/?demo">try the demo</a> instead.
+    </video>
+  </div>
+  <p class="text-xs dk-t3 text-slate-400 text-center mt-3">Illustrative animation · example schools and names</p>
+</section>
+
+<!-- Body: TOC + content -->
+<div class="case-shell mx-auto px-6 pb-32 flex gap-10">
+
+  <!-- Sticky TOC -->
+  <aside class="hidden lg:block w-56 flex-shrink-0">
+    <nav id="toc" class="sticky top-32 space-y-1">
+      <p class="text-[20px] font-bold uppercase tracking-[0.25em] dk-t3 text-slate-400 mb-4">On this page</p>
+      <a href="#overview"   class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>Overview</a>
+      <a href="#problem"    class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>The Problem</a>
+      <a href="#principles" class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>Users &amp; Principles</a>
+      <a href="#evolution"  class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>How It Evolved</a>
+      <a href="#backoffice" class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>The Back Office</a>
+      <a href="#privacy"    class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>Privacy</a>
+      <a href="#template"   class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>As a Template</a>
+      <a href="#learned"    class="dk-toc-link flex items-center gap-3 py-1.5 text-sm dk-t3 text-slate-400"><span class="dk-toc-bar h-px w-3 bg-slate-300 inline-block"></span>What I Learned</a>
+    </nav>
+  </aside>
+
+  <!-- Content -->
+  <main class="flex-1 min-w-0 space-y-24">
+
+    <!-- OVERVIEW -->
+    <section id="overview" class="reveal scroll-mt-32">
+      <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900 mb-6">Overview</h2>
+      <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
+        <div class="rounded-[28px] p-6 dk-stat lt-stat">
+          <p class="text-[11px] font-bold uppercase tracking-[0.2em] dk-t3 text-slate-400 mb-1.5">Role</p>
+          <p class="text-base font-semibold dk-t1 text-slate-800 leading-snug">Product owner and designer; built with an AI coding assistant</p>
+        </div>
+        <div class="rounded-[28px] p-6 dk-stat lt-stat">
+          <p class="text-[11px] font-bold uppercase tracking-[0.2em] dk-t3 text-slate-400 mb-1.5">Users</p>
+          <p class="text-base font-semibold dk-t1 text-slate-800 leading-snug">4 recommenders, 1 applicant (me)</p>
+        </div>
+        <div class="rounded-[28px] p-6 dk-stat lt-stat">
+          <p class="text-[11px] font-bold uppercase tracking-[0.2em] dk-t3 text-slate-400 mb-1.5">Scope</p>
+          <p class="text-base font-semibold dk-t1 text-slate-800 leading-snug">15 PhD programs, each with its own deadline and portal</p>
+        </div>
+        <div class="rounded-[28px] p-6 dk-stat lt-stat">
+          <p class="text-[11px] font-bold uppercase tracking-[0.2em] dk-t3 text-slate-400 mb-1.5">Stack</p>
+          <p class="text-base font-semibold dk-t1 text-slate-800 leading-snug">Plain HTML and JavaScript on GitHub Pages; Firebase (Firestore + Google sign-in)</p>
+        </div>
+        <div class="rounded-[28px] p-6 dk-stat lt-stat">
+          <p class="text-[11px] font-bold uppercase tracking-[0.2em] dk-t3 text-slate-400 mb-1.5">Timeline</p>
+          <p class="text-base font-semibold dk-t1 text-slate-800 leading-snug">Fall 2026, about four rounds of iteration</p>
+        </div>
+        <div class="rounded-[28px] p-6 dk-stat lt-stat">
+          <p class="text-[11px] font-bold uppercase tracking-[0.2em] dk-t3 text-slate-400 mb-1.5">Outcome</p>
+          <p class="text-base font-semibold dk-t1 text-slate-800 leading-snug">Live at <a class="underline decoration-sky-300 underline-offset-2 hover:text-sky-700" href="https://lilywmh.github.io/rec-letters" target="_blank" rel="noopener">lilywmh.github.io/rec-letters</a>; open-sourced as a free <a class="underline decoration-sky-300 underline-offset-2 hover:text-sky-700" href="https://github.com/lilywmh/rec-letters" target="_blank" rel="noopener">template</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM -->
+    <section id="problem" class="reveal scroll-mt-32">
+      <p class="text-xs font-bold uppercase tracking-[0.25em] dk-accent text-sky-700 mb-2">The Problem</p>
+      <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900 mb-6">A real favor, spread across fifteen portals</h2>
+      <div class="space-y-5 text-lg leading-relaxed font-light dk-t2 text-slate-600">
+        <p>Applying to PhD programs means asking people you admire for a favor that takes real time. My four recommenders were each writing for some of my 15 programs, and every program had its own deadline, portal and invitation email. I knew how busy they were, and how many other students were asking the same thing.</p>
+        <p>So my purpose was simple: <span class="font-medium dk-t1 text-slate-800">I wanted my professors to feel comfortable, and to help me with the least effort possible.</span></p>
+      </div>
+      <div class="grid sm:grid-cols-3 gap-4 mt-8">
+        <div class="rounded-[28px] p-7 dk-stat lt-stat">
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">No digging through a long email to find their schools.</p>
+        </div>
+        <div class="rounded-[28px] p-7 dk-stat lt-stat">
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">No shared spreadsheet full of other people’s rows.</p>
+        </div>
+        <div class="rounded-[28px] p-7 dk-stat lt-stat">
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">No wondering whether they had already submitted something.</p>
+        </div>
+      </div>
+      <p class="text-lg leading-relaxed font-light dk-t2 text-slate-600 mt-8">Honestly, I needed it for my own peace of mind too. Without a clear picture I would either nudge too early and feel pushy, or find out too late and panic.</p>
+    </section>
+
+    <!-- PRINCIPLES -->
+    <section id="principles" class="reveal scroll-mt-32">
+      <p class="text-xs font-bold uppercase tracking-[0.25em] dk-accent text-sky-700 mb-2">Users &amp; Design Principles</p>
+      <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900 mb-6">Two users, opposite needs</h2>
+      <p class="text-lg leading-relaxed font-light dk-t2 text-slate-600 mb-8">Recommenders want to open a link, see what is left, and close it in under a minute. I need the full picture: every school against every recommender, plus a fast way to edit and follow up. Five principles came out of the first conversations and held through every later version:</p>
+      <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-xs font-bold tracking-[0.2em] dk-accent text-sky-700 mb-3">01</p>
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-2">One source, many views</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">A single dataset, with a separate view per recommender, instead of copies that drift apart.</p>
+        </div>
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-xs font-bold tracking-[0.2em] dk-accent text-sky-700 mb-3">02</p>
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-2">Show only what is theirs</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Each professor sees only the schools they write for, at their own private link.</p>
+        </div>
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-xs font-bold tracking-[0.2em] dk-accent text-sky-700 mb-3">03</p>
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-2">Readable in ten seconds</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Deadlines and next steps first; background material one click away.</p>
+        </div>
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-xs font-bold tracking-[0.2em] dk-accent text-sky-700 mb-3">04</p>
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-2">Link, don’t upload</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">My CV and statements stay in Google Drive, so updating a file never means resending anything.</p>
+        </div>
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-xs font-bold tracking-[0.2em] dk-accent text-sky-700 mb-3">05</p>
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-2">Make status trustworthy</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Show when each item was last updated, so a checkmark means something.</p>
+        </div>
+        <div class="rounded-[28px] p-8 dk-stat lt-stat flex items-center">
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">I also chose how professors would use it: one link sent once at the start, then opened whenever they want. <span class="font-medium dk-t1 text-slate-800">No accounts, no logins, no notifications.</span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- EVOLUTION -->
+    <section id="evolution" class="reveal scroll-mt-32">
+      <p class="text-xs font-bold uppercase tracking-[0.25em] dk-accent text-sky-700 mb-2">How the Design Evolved</p>
+      <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900 mb-6">Four versions, each from looking at it as they would</h2>
+      <p class="text-lg leading-relaxed font-light dk-t2 text-slate-600 mb-10">The tool went through four versions. Each one was triggered by a specific problem I noticed when I looked at it as a recommender would.</p>
+
+      <ol class="rl-tl grid lg:grid-cols-4 gap-6 lg:gap-5 mb-16">
+        <li class="relative pl-14 lg:pl-0">
+          <span class="rl-dot absolute left-0 top-0 lg:static">1</span>
+          <div class="lg:mt-5">
+            <p class="text-base font-semibold dk-t1 text-slate-900 mb-1">Read-only status page</p>
+            <p class="text-sm font-light dk-t3 text-slate-500 mb-1"><span class="font-medium">Prompted by:</span> I needed something fast</p>
+            <p class="text-sm font-light dk-t2 text-slate-600">A hosted page per professor; I owned all status</p>
+          </div>
+        </li>
+        <li class="relative pl-14 lg:pl-0">
+          <span class="rl-dot absolute left-0 top-0 lg:static">2</span>
+          <div class="lg:mt-5">
+            <p class="text-base font-semibold dk-t1 text-slate-900 mb-1">A real letter packet</p>
+            <p class="text-sm font-light dk-t3 text-slate-500 mb-1"><span class="font-medium">Prompted by:</span> status alone didn’t help them write</p>
+            <p class="text-sm font-light dk-t2 text-slate-600">Checklist content: materials, talking points, submission steps</p>
+          </div>
+        </li>
+        <li class="relative pl-14 lg:pl-0">
+          <span class="rl-dot absolute left-0 top-0 lg:static">3</span>
+          <div class="lg:mt-5">
+            <p class="text-base font-semibold dk-t1 text-slate-900 mb-1">Own domain, own data</p>
+            <p class="text-sm font-light dk-t3 text-slate-500 mb-1"><span class="font-medium">Prompted by:</span> odd link, privacy worries</p>
+            <p class="text-sm font-light dk-t2 text-slate-600">Notion-like layout on GitHub Pages; data moved to Firebase</p>
+          </div>
+        </li>
+        <li class="relative pl-14 lg:pl-0">
+          <span class="rl-dot absolute left-0 top-0 lg:static">4</span>
+          <div class="lg:mt-5">
+            <p class="text-base font-semibold dk-t1 text-slate-900 mb-1">Familiar and warm</p>
+            <p class="text-sm font-light dk-t3 text-slate-500 mb-1"><span class="font-medium">Prompted by:</span> it still didn’t feel intuitive</p>
+            <p class="text-sm font-light dk-t2 text-slate-600">Standard academic layout, photo, welcome card, dark mode</p>
+          </div>
+        </li>
+      </ol>
+
+      <div class="grid md:grid-cols-2 gap-4 mb-12">
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-[11px] font-bold uppercase tracking-[0.2em] dk-accent text-sky-700 mb-2">Version 1</p>
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-2">A read-only status page</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600 mb-3">The first version was a quick hosted page for each professor showing their schools and deadlines. I kept all status myself and professors only read it. It worked, but it made me the bottleneck: I could only mark a letter done after a portal emailed me, and professors had no way to tell me they had finished.</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">So the first real change was letting professors update status themselves. One tap per school, nothing else editable.</p>
+        </div>
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-[11px] font-bold uppercase tracking-[0.2em] dk-accent text-sky-700 mb-2">Version 2</p>
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-2">From tracker to letter packet</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">A status list tells a professor what is due but not what to write. I folded in the contents of a standard recommendation packet: deadlines, submission instructions, CV, a brag sheet with course context, transcript, personal statement and the talking points I hoped each person would cover. Each professor’s talking points are written for them, because each knows a different part of my work.</p>
+        </div>
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-[11px] font-bold uppercase tracking-[0.2em] dk-accent text-sky-700 mb-2">Version 3</p>
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-2">A home of my own</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600 mb-3">Two things bothered me. The page lived on a domain my professors wouldn’t recognize, and an emailed link to an unfamiliar site looks like spam. I moved it to my own GitHub Pages site, next to my personal website.</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600 mb-3">That raised a privacy question: a public repository would expose my school list, my recommenders and my notes. The answer was to keep the repository code-only and put every piece of personal data in a database protected by access rules (see <a href="#privacy" class="underline decoration-sky-300 underline-offset-2">Privacy</a> below).</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">I also redesigned the page in a Notion-like style, separating reference information from the checklist so the two never compete for attention.</p>
+        </div>
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-[11px] font-bold uppercase tracking-[0.2em] dk-accent text-sky-700 mb-2">Version 4</p>
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-2">Familiar beats clever</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600 mb-3">My honest reaction to version 3 was that it did not look updated and was not intuitive. Novel layouts make people think. I rebuilt it on the most common pattern I could find, the academic homepage used by many researchers:</p>
+          <ul class="text-sm leading-relaxed font-light dk-t2 text-slate-600 list-disc pl-5 space-y-1">
+            <li>A top bar with my name, a plain <span class="font-medium">How this page works</span> link, and controls for text size and dark mode</li>
+            <li>A left sidebar with a round photo, my name, major, class year, email and icon links, so they remember who I am at a glance</li>
+            <li>Collapsible sections for my materials, what to highlight, our work together and how to submit</li>
+            <li>The checklist on the right, sorted by deadline, with a progress bar</li>
+            <li>A short welcome card on first visit, signed by me, explaining the page in three lines</li>
+            <li>A <span class="font-medium">Got a question? Send me an email</span> box with a direct mail link</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="text-lg leading-relaxed font-light dk-t2 text-slate-600 mb-8">The rest was detail work: more breathing room in the margins, icons only where a label added nothing, and a tighter photo crop so my face reads clearly at small sizes.</p>
+
+      <div class="grid lg:grid-cols-[1fr_auto] gap-6 items-start">
+        <figure>
+          <div class="rl-shot dk-shot rounded-[22px] overflow-hidden shadow-[0_20px_50px_rgba(30,80,110,0.12)]">
+            <img src="assets/rec-letters/recommender.png" alt="A recommender's page: profile sidebar with materials and submission steps on the left, a deadline-sorted checklist with a progress bar on the right" loading="lazy" width="2400" height="1560">
+          </div>
+          <figcaption class="text-xs dk-t3 text-slate-400 mt-3 text-center">Version 4, the recommender’s page · example data</figcaption>
+        </figure>
+        <figure class="mx-auto w-[220px] sm:w-[240px]">
+          <div class="rl-shot dk-shot rounded-[28px] overflow-hidden shadow-[0_20px_50px_rgba(30,80,110,0.14)]">
+            <img src="assets/rec-letters/recommender-mobile-dark.png" alt="The same page on a phone in dark mode" loading="lazy" width="780" height="1640">
+          </div>
+          <figcaption class="text-xs dk-t3 text-slate-400 mt-3 text-center">On a phone, dark mode</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- BACK OFFICE -->
+    <section id="backoffice" class="reveal scroll-mt-32">
+      <p class="text-xs font-bold uppercase tracking-[0.25em] dk-accent text-sky-700 mb-2">The Back Office</p>
+      <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900 mb-6">The complexity moved where only I see it</h2>
+      <p class="text-lg leading-relaxed font-light dk-t2 text-slate-600 mb-8">The recommender page is simple because the complexity moved to a back office only I can open. I asked for it as soon as I realized that changing a link or dropping a school should not mean editing code.</p>
+      <div class="grid sm:grid-cols-2 gap-4 mb-10">
+        <div class="rounded-[28px] p-7 dk-stat lt-stat">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-1.5">Status table</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Every school against every recommender. Clicking a cell cycles it through to do, invited, submitted and not applicable, and saves at once. Professors’ own checkmarks appear here live.</p>
+        </div>
+        <div class="rounded-[28px] p-7 dk-stat lt-stat">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-1.5">Editors</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Schools and deadlines, materials, each professor’s notes and talking points, and my profile. Edits stay in a draft until I press <span class="font-medium">Publish changes</span>, so a half-finished edit never reaches a professor.</p>
+        </div>
+        <div class="rounded-[28px] p-7 dk-stat lt-stat">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-1.5">Reminder emails</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Ready-to-send templates for a friendly check-in, a deadline within a week, and a thank-you, filled in with each professor’s remaining schools.</p>
+        </div>
+        <div class="rounded-[28px] p-7 dk-stat lt-stat">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-1.5">Two sign-ins</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Both my personal and my university Google accounts can open it.</p>
+        </div>
+      </div>
+      <figure>
+        <div class="rl-shot dk-shot rounded-[22px] overflow-hidden shadow-[0_20px_50px_rgba(30,80,110,0.12)]">
+          <img src="assets/rec-letters/back-office.png" alt="The back office status table: programs as rows, recommenders as columns, each cell a status tag" loading="lazy" width="2400" height="1280">
+        </div>
+        <figcaption class="text-xs dk-t3 text-slate-400 mt-3 text-center">The status table · example schools and recommenders</figcaption>
+      </figure>
+    </section>
+
+    <!-- PRIVACY -->
+    <section id="privacy" class="reveal scroll-mt-32">
+      <p class="text-xs font-bold uppercase tracking-[0.25em] dk-accent text-sky-700 mb-2">Privacy by Architecture</p>
+      <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900 mb-6">Privacy that doesn’t depend on people not looking</h2>
+      <p class="text-lg leading-relaxed font-light dk-t2 text-slate-600 mb-8">I did not want privacy to depend on people not looking. The repository is public, so it holds only code; every school, name and note lives in Firestore behind access rules.</p>
+
+      <figure class="rounded-[28px] p-5 md:p-8 dk-card lt-card dg mb-8">
+        <!-- wide layout -->
+        <svg class="dg-wide" viewBox="0 0 800 380" role="img" aria-labelledby="dgw-t">
+          <title id="dgw-t">Who can read and write what: the public repository holds only code; a recommender's link can read one page and change its checkmarks; my Google account can read and write everything.</title>
+          <defs>
+            <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah" d="M0 0 10 5 0 10z"/></marker>
+          </defs>
+          <!-- repo -->
+          <rect class="box" x="20" y="20" width="230" height="78" rx="14"/>
+          <text class="k" x="40" y="45">PUBLIC REPO</text>
+          <text class="t" x="40" y="67">GitHub · code only</text>
+          <text class="s" x="40" y="86">no names, schools or notes</text>
+          <path class="ln d" d="M135 98 V150" marker-end="url(#arw)"/>
+          <text class="s" x="145" y="129">serves the page code</text>
+          <!-- recommender -->
+          <rect class="box" x="20" y="154" width="230" height="78" rx="14"/>
+          <text class="k" x="40" y="179">RECOMMENDER</text>
+          <text class="t" x="40" y="201">Their private link</text>
+          <text class="s" x="40" y="220">…/rec-letters/#long-random-token</text>
+          <!-- owner -->
+          <rect class="box" x="20" y="282" width="230" height="78" rx="14"/>
+          <text class="k" x="40" y="307">OWNER</text>
+          <text class="t" x="40" y="329">My Google account</text>
+          <text class="s" x="40" y="348">signed in to the back office</text>
+          <!-- firestore -->
+          <rect class="store" x="450" y="20" width="330" height="340" rx="20"/>
+          <text class="k" x="472" y="48">FIRESTORE · BEHIND ACCESS RULES</text>
+          <rect class="doc" x="486" y="80" width="276" height="112" rx="12" opacity=".55"/>
+          <rect class="doc" x="478" y="72" width="276" height="112" rx="12" opacity=".8"/>
+          <rect class="doc" x="470" y="64" width="276" height="112" rx="12"/>
+          <text class="t" x="490" y="92">pages / {token}</text>
+          <text class="s" x="490" y="114">one page per recommender:</text>
+          <text class="s" x="490" y="133">their schools, deadlines, checkmarks</text>
+          <text class="a" x="490" y="160">nobody but me can list them</text>
+          <rect class="doc" x="470" y="236" width="292" height="104" rx="12"/>
+          <text class="t" x="490" y="264">admin / master</text>
+          <text class="s" x="490" y="286">every school and recommender,</text>
+          <text class="s" x="490" y="305">my notes and talking points</text>
+          <text class="a" x="490" y="326">owner only</text>
+          <!-- arrows -->
+          <path class="ln" d="M250 193 C 340 193, 380 128, 466 124" marker-end="url(#arw)"/>
+          <text class="a" x="268" y="226">read 1 page</text>
+          <text class="s" x="268" y="244">+ tick its checkmarks</text>
+          <path class="ln" d="M250 321 H466" marker-end="url(#arw)"/>
+          <path class="ln" d="M410 321 V172 Q410 160 422 160 H466" marker-end="url(#arw)"/>
+          <circle cx="410" cy="321" r="3" class="ah"/>
+          <text class="a" x="268" y="346">read &amp; write everything</text>
+        </svg>
+        <!-- narrow layout -->
+        <svg class="dg-narrow" viewBox="0 0 360 600" role="img" aria-labelledby="dgn-t">
+          <title id="dgn-t">Who can read and write what: the public repository holds only code; a recommender's link can read one page and change its checkmarks; my Google account can read and write everything.</title>
+          <defs>
+            <marker id="arn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah" d="M0 0 10 5 0 10z"/></marker>
+          </defs>
+          <rect class="box" x="10" y="8" width="340" height="62" rx="12"/>
+          <text class="k" x="26" y="30">PUBLIC REPO</text>
+          <text class="t" x="26" y="50">GitHub · code only</text>
+          <text class="s" x="26" y="64" style="font-size:11.5px">no names, schools or notes</text>
+          <path class="ln d" d="M90 70 V102" marker-end="url(#arn)"/>
+          <path class="ln d" d="M270 70 V102" marker-end="url(#arn)"/>
+          <text class="s" x="110" y="91" style="font-size:11.5px">serves the page code</text>
+          <rect class="box" x="10" y="106" width="162" height="70" rx="12"/>
+          <text class="k" x="24" y="128">RECOMMENDER</text>
+          <text class="t" x="24" y="148" style="font-size:13px">Their private link</text>
+          <text class="s" x="24" y="166" style="font-size:11px">…/#long-random-token</text>
+          <rect class="box" x="188" y="106" width="162" height="70" rx="12"/>
+          <text class="k" x="202" y="128">OWNER</text>
+          <text class="t" x="202" y="148" style="font-size:13px">My Google account</text>
+          <text class="s" x="202" y="166" style="font-size:11px">the back office</text>
+          <!-- firestore -->
+          <rect class="store" x="10" y="268" width="340" height="322" rx="18"/>
+          <text class="k" x="26" y="290" style="font-size:10px">FIRESTORE · BEHIND ACCESS RULES</text>
+          <rect class="doc" x="38" y="312" width="248" height="110" rx="12" opacity=".55"/>
+          <rect class="doc" x="32" y="306" width="248" height="110" rx="12" opacity=".8"/>
+          <rect class="doc" x="26" y="300" width="248" height="110" rx="12"/>
+          <text class="t" x="42" y="326">pages / {token}</text>
+          <text class="s" x="42" y="347" style="font-size:12px">one per recommender:</text>
+          <text class="s" x="42" y="365" style="font-size:12px">schools, deadlines, checkmarks</text>
+          <text class="a" x="42" y="392" style="font-size:12px">nobody but me can list them</text>
+          <rect class="doc" x="26" y="448" width="308" height="122" rx="12"/>
+          <text class="t" x="42" y="476">admin / master</text>
+          <text class="s" x="42" y="498" style="font-size:12px">every school and recommender,</text>
+          <text class="s" x="42" y="516" style="font-size:12px">my notes and talking points</text>
+          <text class="a" x="42" y="548" style="font-size:12px">owner only</text>
+          <!-- arrows -->
+          <path class="ln" d="M90 176 V300" marker-end="url(#arn)"/>
+          <text class="a" x="100" y="216" style="font-size:12px">read 1 page</text>
+          <text class="s" x="100" y="233" style="font-size:11.5px">+ tick its</text>
+          <text class="s" x="100" y="249" style="font-size:11.5px">checkmarks</text>
+          <path class="ln" d="M232 176 C 232 240, 200 260, 196 300" marker-end="url(#arn)"/>
+          <path class="ln" d="M318 176 V444" marker-end="url(#arn)"/>
+          <text class="a" x="240" y="216" style="font-size:12px">read &amp; write</text>
+          <text class="a" x="240" y="233" style="font-size:12px">everything</text>
+        </svg>
+        <figcaption class="text-xs dk-t3 text-slate-400 mt-4 text-center">Architecture · who can read and write what</figcaption>
+      </figure>
+
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div class="rounded-[28px] p-7 dk-stat lt-stat">
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Each recommender’s page is addressed by a long random token. Anyone with that exact link can read that one page and change only its checkmarks.</p>
+        </div>
+        <div class="rounded-[28px] p-7 dk-stat lt-stat">
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Nobody but me can list pages or read the master data, which holds every school and recommender.</p>
+        </div>
+        <div class="rounded-[28px] p-7 dk-stat lt-stat">
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">My starter data file stays on my computer and is ignored by Git.</p>
+        </div>
+        <div class="rounded-[28px] p-7 dk-stat lt-stat">
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Materials are Google Drive links, so they are only as visible as their own sharing settings.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TEMPLATE -->
+    <section id="template" class="reveal scroll-mt-32">
+      <p class="text-xs font-bold uppercase tracking-[0.25em] dk-accent text-sky-700 mb-2">Sharing It as a Template</p>
+      <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900 mb-6">Almost every applicant has this problem</h2>
+      <div class="rounded-[28px] p-8 md:p-10 dk-card lt-card">
+        <p class="text-lg leading-relaxed font-light dk-t2 text-slate-600 mb-6">Once it worked for me, I realized almost every applicant has this same problem, so I cleaned it up for anyone to reuse. Every personal detail moved into one config file, and the data is loaded once through the back office, so the code holds nothing about me.</p>
+        <ul class="grid sm:grid-cols-2 gap-x-8 gap-y-3 text-sm leading-relaxed font-light dk-t2 text-slate-600">
+          <li class="flex gap-3"><span class="dk-accent text-sky-700 font-semibold">✓</span><span>Free to run: GitHub Pages and Firebase’s free tier, no build step</span></li>
+          <li class="flex gap-3"><span class="dk-accent text-sky-700 font-semibold">✓</span><span>About fifteen minutes to set up, with a step-by-step guide in English and in Chinese</span></li>
+          <li class="flex gap-3"><span class="dk-accent text-sky-700 font-semibold">✓</span><span>Screenshots made with example schools and recommenders, never real ones</span></li>
+          <li class="flex gap-3"><span class="dk-accent text-sky-700 font-semibold">✓</span><span>MIT licensed at <a class="underline decoration-sky-300 underline-offset-2 hover:text-sky-700" href="https://github.com/lilywmh/rec-letters" target="_blank" rel="noopener">github.com/lilywmh/rec-letters</a></span></li>
+        </ul>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="https://lilywmh.github.io/rec-letters/?demo" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold dk-toggle bg-white/60 border border-white/70 text-slate-600 hover:text-sky-700 transition-all">Try the demo <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></a>
+          <a href="https://github.com/lilywmh/rec-letters" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold dk-toggle bg-white/60 border border-white/70 text-slate-600 hover:text-sky-700 transition-all">Use the template <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEARNED -->
+    <section id="learned" class="reveal scroll-mt-32">
+      <p class="text-xs font-bold uppercase tracking-[0.25em] dk-accent text-sky-700 mb-2">What I Learned</p>
+      <h2 class="text-3xl font-semibold tracking-tight dk-t1 text-slate-900 mb-6">A lesson in caring about someone else’s time</h2>
+      <p class="text-lg leading-relaxed font-light dk-t2 text-slate-600 mb-8">This started as a way to stay organized and turned into a lesson in caring about someone else’s time.</p>
+      <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-2">Kindness is a design decision</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Every feature I cut made the page easier for the person doing me a favor. The welcome card, my photo and the plain “send me an email” box add almost nothing technically, but they make the page feel like it came from a person, not a system.</p>
+        </div>
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-2">Familiar beats clever</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">My most original layout was my least usable one. People already know how an academic homepage works, so borrowing that pattern let them skip learning mine.</p>
+        </div>
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-2">Trust has to be visible</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">A checkmark only helps if people believe it. Showing when things were last updated, and letting professors mark their own submissions, turned the page from my record into a shared one.</p>
+        </div>
+        <div class="rounded-[28px] p-8 dk-card lt-card">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-2">Privacy belongs in the structure</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Keeping the repository code-only and putting the rules on the data meant I never had to rely on a link staying secret by accident.</p>
+        </div>
+        <div class="rounded-[28px] p-8 dk-card lt-card xl:col-span-2">
+          <p class="text-base font-semibold dk-t1 text-slate-900 mb-2">Look at it as they would</p>
+          <p class="text-sm leading-relaxed font-light dk-t2 text-slate-600">Every version improved because I stopped reviewing it as the builder and opened it the way a busy professor would, on a phone, between meetings, with one minute to spare.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- next -->
+    <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-slate-200/70 dark:border-violet-900/30">
+      <a href="index.html#work" class="text-sm font-medium dk-t2 text-slate-500 hover:text-sky-700 transition-colors flex items-center gap-2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Back to all projects
+      </a>
+      <a href="project-quotee.html" class="text-sm font-medium dk-t2 text-slate-500 hover:text-sky-700 transition-colors flex items-center gap-2">
+        Next: Quotee
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+
+  </main>
+</div>
+
+<footer class="border-t border-slate-200/70 dark:border-violet-900/30 py-12 text-center">
+  <p class="text-sm dk-t3 text-slate-400">Meihui (Lily) Wu © 2026 · <span class="italic">Stay Curious.</span></p>
+</footer>
+
+<script>
+  // Theme
+  (function(){
+    var saved = null; try { saved = localStorage.getItem('theme'); } catch (e) {}
+    var prefers = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (saved === 'dark' || (!saved && prefers)) document.documentElement.classList.add('dark');
+    syncThemeBtn();
+  })();
+  function syncThemeBtn(){
+    var dk = document.documentElement.classList.contains('dark');
+    document.getElementById('themeIcon').textContent = dk ? '☀' : '☾';
+    document.getElementById('themeLabel').textContent = dk ? 'Light' : 'Dark';
+  }
+  document.getElementById('themeBtn').addEventListener('click', function(){
+    document.documentElement.classList.toggle('dark');
+    try { localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark':'light'); } catch (e) {}
+    syncThemeBtn();
+  });
+
+  // Reading progress
+  window.addEventListener('scroll', function(){
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    var p = h > 0 ? window.scrollY / h : 0;
+    document.getElementById('readbar').style.transform = 'scaleX(' + p + ')';
+  }, {passive:true});
+
+  // Reveal on scroll
+  var revs = document.querySelectorAll('.reveal');
+  var ro = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); ro.unobserve(e.target); } });
+  }, {threshold: 0.08});
+  revs.forEach(function(el){ ro.observe(el); });
+
+  // TOC scroll-spy
+  var links = Array.from(document.querySelectorAll('.dk-toc-link'));
+  var sections = links.map(function(l){ return document.querySelector(l.getAttribute('href')); });
+  function spy(){
+    var y = window.scrollY + 160;
+    var idx = 0;
+    sections.forEach(function(s, i){ if(s && s.offsetTop <= y) idx = i; });
+    links.forEach(function(l,i){ l.classList.toggle('active', i === idx); });
+  }
+  window.addEventListener('scroll', spy, {passive:true});
+  spy();
+</script>
+</body>
+</html>
